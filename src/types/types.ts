@@ -5,3 +5,8 @@ export type SignupReqType = {
   address: string;
   phoneNumb: number;
 };
+
+export type SigninReqType = {
+  email: string;
+  password: string;
+};
