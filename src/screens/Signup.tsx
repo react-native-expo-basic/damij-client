@@ -1,20 +1,26 @@
 import React, { useState, useRef } from "react";
 import { View, Text, TextInput } from "react-native";
 import { SignupReqType } from "../types/types";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+
 interface SignupProps {
   signup: (reqType: SignupReqType) => void;
 }
-
-const Signup: React.FC<SignupProps> = ({ signup }) => {
+interface SignupFormValues {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  address: string;
+}
+export function Signup() {
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm({
+  }: UseFormReturn<SignupFormValues> = useForm<SignupFormValues>({
     resolver: yupResolver(
       yup.object().shape({
         email: yup.string().email().required(),
@@ -60,6 +66,4 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
       </View>
     </View>
   );
-};
-
-export default Signup;
+}
