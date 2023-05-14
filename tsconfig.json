@@ -2,10 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "allowJs": true,
     "jsx": "react-native",
     "strict": true,
@@ -13,7 +10,9 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["react", "react-native", "styled-components"],
+    "typeRoots": ["node_modules/@types", "src/types"]
   },
   "exclude": [
     "node_modules",
