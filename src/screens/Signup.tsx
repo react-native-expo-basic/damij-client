@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TextInput, Button, TextInputProps } from "react-native";
 import { SignupReqType } from "../types/types";
 import {
@@ -9,8 +9,7 @@ import {
 } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { checkLoggedInUser } from "../services/UserService";
-import styled from "styled-components/native";
+import Postcode from "react-native-daum-postcode";
 
 interface SignupProps {
   signup: (reqType: SignupReqType) => void;
@@ -56,7 +55,7 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
         /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]+$/g,
         "영문, 숫자, 특수문자를 포함해주세요"
       )
-      .required("비밀번호는 필수 입력입니다."),
+      .required(),
     passwordConfirm: yup
       .string()
       .oneOf([yup.ref("password")], "비밀번호가 다릅니다."),
@@ -73,11 +72,16 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
   const onSubmit = (data: SignupFormValues) => {
     signup(data);
   };
-  useEffect(() => {
-    checkLoggedInUser();
-  }, []);
   return (
-    <Wrapper>
+    <View style={{ flex: 1 }}>
+      {/*  <Postcode
+        style={{ flex: 1 }}
+        jsOptions={{ animation: true }}
+        onSelected={(data) => alert(JSON.stringify(data))}
+        onError={function (error: unknown): void {
+          throw new Error("Function not implemented.");
+        }}
+      /> */}
       <View>
         <Text>회원가입</Text>
       </View>
@@ -110,13 +114,8 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
         <Text>{errors.passwordConfirm?.message}</Text>
       </View>
       <Button title="회원가입하기" onPress={handleSubmit(onSubmit)} />
-    </Wrapper>
+    </View>
   );
 };
 
 export default Signup;
-
-const Wrapper = styled.View`
-  flex: 1;
-  background-color: #fff;
-`;
