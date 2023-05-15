@@ -1,6 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, Text, TextInput, Button, TextInputProps } from "react-native";
 import { SignupReqType } from "../types/types";
+import styled from "styled-components/native";
+import { AntDesign } from "@expo/vector-icons";
 import {
   UseFormReturn,
   useForm,
@@ -9,22 +11,23 @@ import {
 } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Postcode from "react-native-daum-postcode";
+import { checkLoggedInUser } from "../services/UserService";
+import AddressInput from "../components/AddressInput";
 
 interface SignupProps {
   signup: (reqType: SignupReqType) => void;
 }
 
-interface SignupFormValues {
+export interface SignupFormValues {
   email: string;
   password: string;
   passwordConfirm: string;
   /*  name: string; */
-  /*   address: string; */
+  address: string;
   /*   phoneNumb: number; */
 }
 //TextInput 컴포넌트의 속성들을 정의한 타입, input에 다른 속성들의 타입을 적용하기 위해 사용
-interface InputProps extends TextInputProps {
+export interface InputProps extends TextInputProps {
   name: keyof SignupFormValues;
   control: Control<SignupFormValues>;
 }
@@ -55,7 +58,7 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
         /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]+$/g,
         "영문, 숫자, 특수문자를 포함해주세요"
       )
-      .required(),
+      .required("비밀번호는 필수 입력입니다."),
     passwordConfirm: yup
       .string()
       .oneOf([yup.ref("password")], "비밀번호가 다릅니다."),
@@ -72,19 +75,18 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
   const onSubmit = (data: SignupFormValues) => {
     signup(data);
   };
+  useEffect(() => {
+    checkLoggedInUser();
+  }, []);
   return (
-    <View style={{ flex: 1 }}>
-      {/*  <Postcode
-        style={{ flex: 1 }}
-        jsOptions={{ animation: true }}
-        onSelected={(data) => alert(JSON.stringify(data))}
-        onError={function (error: unknown): void {
-          throw new Error("Function not implemented.");
-        }}
-      /> */}
-      <View>
-        <Text>회원가입</Text>
-      </View>
+    <Wrapper>
+      <CloseIconContainer>
+        <CloseIcon name="close" size={24} color="black" />
+      </CloseIconContainer>
+
+      <TitleContainer>
+        <TitleText>회원가입</TitleText>
+      </TitleContainer>
       <View>
         <Text>이메일 : </Text>
         <Input
@@ -113,9 +115,41 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
       <View>
         <Text>{errors.passwordConfirm?.message}</Text>
       </View>
+      <AddressInput Input={Input} control={control}></AddressInput>
       <Button title="회원가입하기" onPress={handleSubmit(onSubmit)} />
-    </View>
+    </Wrapper>
   );
 };
 
 export default Signup;
+
+const Wrapper = styled.View`
+  flex: 1;
+`;
+
+const CloseIconContainer = styled.View`
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: red;
+`;
+const CloseIcon = styled(AntDesign)`
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+const TitleContainer = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const TitleText = styled.Text`
+  font-size: 30px;
+  font-family: "Roboto-Bold";
+`;
+const InputContainer = styled.View`
+  display: flex;
+  align-items: center;
+  gap: 0 10px;
+`;
