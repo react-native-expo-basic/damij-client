@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, TextInput, Button, TextInputProps } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TextInputProps,
+  TouchableOpacity,
+} from "react-native";
 import { SignupReqType } from "../types/types";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
@@ -11,8 +18,7 @@ import {
 } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { checkLoggedInUser } from "../services/UserService";
-import AddressInput from "../components/AddressInput";
+import { Fontisto } from "@expo/vector-icons";
 
 interface SignupProps {
   signup: (reqType: SignupReqType) => void;
@@ -75,9 +81,7 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
   const onSubmit = (data: SignupFormValues) => {
     signup(data);
   };
-  useEffect(() => {
-    checkLoggedInUser();
-  }, []);
+
   return (
     <Wrapper>
       <CloseIconContainer>
@@ -87,36 +91,60 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
       <TitleContainer>
         <TitleText>회원가입</TitleText>
       </TitleContainer>
-      <View>
-        <Text>이메일 : </Text>
-        <Input
-          name="email"
-          control={control}
-          keyboardType="email-address"
-        ></Input>
-      </View>
-      <View>
-        <Text>{errors.email?.message}</Text>
-      </View>
-      <View>
-        <Text> 비밀번호 : </Text>
-        <Input name="password" control={control} secureTextEntry={true}></Input>
-      </View>
-      <View>
-        <Text>{errors.password?.message}</Text>
-      </View>
-      <View>
-        <Input
-          name="passwordConfirm"
-          control={control}
-          secureTextEntry={true}
-        ></Input>
-      </View>
-      <View>
-        <Text>{errors.passwordConfirm?.message}</Text>
-      </View>
-      <AddressInput Input={Input} control={control}></AddressInput>
-      <Button title="회원가입하기" onPress={handleSubmit(onSubmit)} />
+      <SignupFormContainer>
+        <InputWrapper>
+          <Fontisto name="email" size={18} color="grey" />
+          <InputContainer>
+            <Input
+              name="email"
+              control={control}
+              keyboardType="email-address"
+              placeholder="Email(필수)"
+            ></Input>
+          </InputContainer>
+        </InputWrapper>
+        <View>
+          <Text>{errors.email?.message}</Text>
+        </View>
+        <InputWrapper>
+          <Fontisto name="locked" size={18} color="grey" />
+          <InputContainer>
+            <Input
+              name="password"
+              control={control}
+              secureTextEntry={true}
+              placeholder="비밀번호 8~15자리 입력(대문자,소문자,특수문자 필수)"
+            ></Input>
+          </InputContainer>
+        </InputWrapper>
+        <View>
+          <Text>{errors.password?.message}</Text>
+        </View>
+        <InputWrapper>
+          <View>
+            <Fontisto name="locked" size={18} color="grey" />
+          </View>
+          <InputContainer>
+            <Input
+              name="passwordConfirm"
+              control={control}
+              secureTextEntry={true}
+              placeholder="비밀번호 확인"
+            ></Input>
+          </InputContainer>
+        </InputWrapper>
+        <View>
+          <Text>{errors.passwordConfirm?.message}</Text>
+        </View>
+        {/*  <AddressInput Input={Input} control={control}></AddressInput> */}
+        <TouchableOpacity>
+          <ButtonContainer>
+            <ButtonField onPress={handleSubmit(onSubmit)}>
+              회원가입 하기
+            </ButtonField>
+          </ButtonContainer>
+        </TouchableOpacity>
+      </SignupFormContainer>
     </Wrapper>
   );
 };
@@ -125,19 +153,20 @@ export default Signup;
 
 const Wrapper = styled.View`
   flex: 1;
+  padding: 0 20px;
 `;
-
+const SignupFormContainer = styled.View`
+  flex: 1;
+`;
 const CloseIconContainer = styled.View`
   width: 100%;
+  padding-top: 20px;
   display: flex;
   align-items: flex-end;
-  background: red;
 `;
 const CloseIcon = styled(AntDesign)`
   width: 30px;
   height: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px;
 `;
 const TitleContainer = styled.View`
   display: flex;
@@ -146,10 +175,29 @@ const TitleContainer = styled.View`
 `;
 const TitleText = styled.Text`
   font-size: 30px;
-  font-family: "Roboto-Bold";
+  font-family: "Noto-Sans-Medium";
 `;
+const InputWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  padding: 10px;
+  border-radius: 10px;
+`;
+
 const InputContainer = styled.View`
+  margin-left: 10px;
+`;
+const ButtonContainer = styled.TouchableOpacity`
+  background-color: #2c2b2b;
+  padding: 15px 20px;
+  width: 100%;
+  border-radius: 3;
   display: flex;
   align-items: center;
-  gap: 0 10px;
+  margin: 0 auto;
+`;
+const ButtonField = styled.Text`
+  font-size: 15px;
+  color: white;
 `;
