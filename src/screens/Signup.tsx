@@ -19,7 +19,6 @@ import {
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Fontisto } from "@expo/vector-icons";
-
 interface SignupProps {
   signup: (reqType: SignupReqType) => void;
 }
@@ -85,7 +84,7 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
   return (
     <Wrapper>
       <CloseIconContainer>
-        <CloseIcon name="close" size={24} color="black" />
+        <AntDesign name="close" size={24} color="black" />
       </CloseIconContainer>
 
       <TitleContainer>
@@ -103,9 +102,10 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
             ></Input>
           </InputContainer>
         </InputWrapper>
-        <View>
-          <Text>{errors.email?.message}</Text>
-        </View>
+
+        {/* <View>
+          <ErrorText>{errors.email?.message}</ErrorText>
+        </View> */}
         <InputWrapper>
           <Fontisto name="locked" size={18} color="grey" />
           <InputContainer>
@@ -117,9 +117,10 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
             ></Input>
           </InputContainer>
         </InputWrapper>
-        <View>
-          <Text>{errors.password?.message}</Text>
-        </View>
+
+        {/*    <View>
+          <ErrorText>{errors.password?.message}</ErrorText>
+        </View> */}
         <InputWrapper>
           <View>
             <Fontisto name="locked" size={18} color="grey" />
@@ -133,15 +134,18 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
             ></Input>
           </InputContainer>
         </InputWrapper>
-        <View>
-          <Text>{errors.passwordConfirm?.message}</Text>
-        </View>
+
         {/*  <AddressInput Input={Input} control={control}></AddressInput> */}
+        <ErrorContainer>
+          <ErrorText>
+            {errors.email?.message ||
+              errors.password?.message ||
+              errors.passwordConfirm?.message}
+          </ErrorText>
+        </ErrorContainer>
         <TouchableOpacity>
-          <ButtonContainer>
-            <ButtonField onPress={handleSubmit(onSubmit)}>
-              회원가입 하기
-            </ButtonField>
+          <ButtonContainer onPress={handleSubmit(onSubmit)}>
+            <ButtonField>회원가입 하기</ButtonField>
           </ButtonContainer>
         </TouchableOpacity>
       </SignupFormContainer>
@@ -153,38 +157,55 @@ export default Signup;
 
 const Wrapper = styled.View`
   flex: 1;
-  padding: 0 20px;
+  background: white;
 `;
 const SignupFormContainer = styled.View`
+  padding: 30px 20px;
   flex: 1;
 `;
 const CloseIconContainer = styled.View`
   width: 100%;
-  padding-top: 20px;
+  padding: 20px 20px 0;
   display: flex;
   align-items: flex-end;
 `;
-const CloseIcon = styled(AntDesign)`
-  width: 30px;
-  height: 30px;
-`;
+
 const TitleContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom-width: 3;
+  border-bottom-color: #f1f1f1;
+  border-bottom-style: solid;
+  box-sizing: border-box;
 `;
 const TitleText = styled.Text`
   font-size: 30px;
-  font-family: "Noto-Sans-Medium";
+  font-family: "Noto-Sans-Bold";
+  margin-bottom: -5px;
+`;
+
+const ErrorText = styled.Text`
+  margin: 2px 0;
+  font-size: 12px;
+  color: #c84040;
+`;
+const ErrorContainer = styled.View`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
 `;
 const InputWrapper = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center; /* 세로 방향 가운데 정렬 */
-  padding: 10px;
-  border-radius: 10px;
+  padding: 10px 15px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
 `;
-
 const InputContainer = styled.View`
   margin-left: 10px;
 `;
@@ -192,7 +213,7 @@ const ButtonContainer = styled.TouchableOpacity`
   background-color: #2c2b2b;
   padding: 15px 20px;
   width: 100%;
-  border-radius: 3;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   margin: 0 auto;
