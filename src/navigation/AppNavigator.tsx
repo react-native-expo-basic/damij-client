@@ -1,26 +1,43 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "../screens/Home";
-import Signup from "../screens/Signup";
+import Login from "../screens/Login";
+
 import SignupContainer from "../container/SignupContainer";
-const MainStack = createNativeStackNavigator();
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const StackNavigator = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Login"
+    >
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignupContainer" component={SignupContainer} />
+    </Stack.Navigator>
+  );
+};
 
 const Main = () => {
   return (
-    <MainStack.Navigator
+    <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
       }}
     >
-      {/*   <MainStack.Screen name="Home" component={Home} /> */}
-      <MainStack.Screen name="Login" component={SignupContainer} />
-    </MainStack.Navigator>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="StackNavigator" component={StackNavigator} />
+    </Tab.Navigator>
   );
 };
 
-export default () => {
+const App = () => {
   return (
     <NavigationContainer>
       <Main />
@@ -28,7 +45,4 @@ export default () => {
   );
 };
 
-// screenOptions 프로퍼티를 이용하여 화면 전환에 대한 옵션을 설정
-// MainStack.Screen: 스택 내비게이션에 추가할 화면을 정의하는 컴포넌트입니다.
-// name 프로퍼티는 해당 화면에 대한 고유한 이름을 정의하고, component 프로퍼티는 해당 화면을 렌더링할 컴포넌트를 지정합니다.
-// createNativeStackNavigator의 옵션 중 하나로 headerShown: false: 스택 내에서 화면 전환 시, 헤더를 숨길지 여부를 결정하는 옵션입니다.
+export default App;
