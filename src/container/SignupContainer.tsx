@@ -8,7 +8,7 @@ import { saveUserToStorage } from "../services/UserService";
 export default function SignupContainer() {
   const signup = useCallback(async ({ email, password }: SignupReqType) => {
     try {
-      const response = await axios.post("http://192.168.35.221:3000/posts", {
+      const response = await axios.post("http://192.168.35.100:3000/posts", {
         email,
         password,
       });

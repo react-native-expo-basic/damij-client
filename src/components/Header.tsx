@@ -12,13 +12,6 @@ export default function Header() {
         <LogoImage source={require("../../assets/image/logo.png")} />
       </View>
       <UtilContainer>
-        <SimpleLineIcons
-          name="menu"
-          size={20}
-          color="black"
-          style={{ marginRight: 25 }}
-        />
-
         <Ionicons
           name="ios-search-sharp"
           size={25}

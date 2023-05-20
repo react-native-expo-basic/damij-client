@@ -174,7 +174,7 @@ const TitleContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom-width: 3;
+  border-bottom-width: 3px;
   border-bottom-color: #f1f1f1;
   border-bottom-style: solid;
   box-sizing: border-box;
@@ -202,8 +202,8 @@ const InputWrapper = styled.View`
   flex-direction: row;
   align-items: center; /* 세로 방향 가운데 정렬 */
   padding: 10px 15px;
-  border-radius: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
   margin-bottom: 15px;
 `;
 const InputContainer = styled.View`
@@ -213,7 +213,7 @@ const ButtonContainer = styled.TouchableOpacity`
   background-color: #2c2b2b;
   padding: 15px 20px;
   width: 100%;
-  border-radius: 2px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   margin: 0 auto;

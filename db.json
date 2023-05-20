@@ -1,0 +1,49 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "email": "Als333@dd.com",
+      "password": "Als6404051!",
+      "id": 2
+    },
+    {
+      "email": "Als333@dd.com",
+      "password": "Als6404051!",
+      "id": 3
+    },
+    {
+      "email": "Als333@dd.com",
+      "password": "Als6404051!",
+      "id": 4
+    },
+    {
+      "email": "Ssd@dd.com",
+      "password": "Als6404051!",
+      "id": 5
+    },
+    {
+      "email": "Dmssk@ss.com",
+      "password": "Als6404051!",
+      "id": 6
+    },
+    {
+      "email": "Sss@sd.com",
+      "password": "Als6404051!",
+      "id": 7
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
