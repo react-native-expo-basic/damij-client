@@ -1,9 +1,11 @@
 import { ThemeProvider } from "react-native-rapi-ui";
 import AppNavigator from "./src/navigation/AppNavigator";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Font from "expo-font";
+import Header from "./src/components/Header";
 
 export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -14,10 +16,16 @@ export default function App() {
     };
 
     loadFonts();
+    setFontsLoaded(true);
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <ThemeProvider>
+      <Header />
       <AppNavigator></AppNavigator>
     </ThemeProvider>
   );
