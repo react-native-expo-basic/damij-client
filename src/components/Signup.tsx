@@ -28,7 +28,7 @@ export interface SignupFormValues {
   password: string;
   passwordConfirm: string;
   /*  name: string; */
-  address: string;
+  /*  address: string; */
   /*   phoneNumb: number; */
 }
 //TextInput 컴포넌트의 속성들을 정의한 타입, input에 다른 속성들의 타입을 적용하기 위해 사용
@@ -135,7 +135,7 @@ const Signup: React.FC<SignupProps> = ({ signup }) => {
           </InputContainer>
         </InputWrapper>
 
-        {/*  <AddressInput Input={Input} control={control}></AddressInput> */}
+        {/* <AddressInput Input={Input} control={control}></AddressInput> */}
         <ErrorContainer>
           <ErrorText>
             {errors.email?.message ||
