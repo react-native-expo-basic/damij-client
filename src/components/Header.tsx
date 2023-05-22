@@ -31,6 +31,7 @@ const Wrapper = styled.View`
   justify-content: space-between;
   padding: 10px 20px;
   box-sizing: border-box;
+  background: white;
 `;
 
 const LogoImage = styled(Image)`
