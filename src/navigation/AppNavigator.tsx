@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Category from "../screens/Category";
@@ -10,7 +9,7 @@ import Likes from "../screens/Likes";
 import Mypage from "../screens/Mypage";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+
 type IoniconsName =
   | "home-outline"
   | "home-sharp"
@@ -44,7 +43,7 @@ const Main = () => {
 
           return <Ionicons name={iconName} size={size} color={iconColor} />;
         },
-        tabBarLabel: ({ focused, color }) => {
+        tabBarLabel: ({ focused }) => {
           const labelColor = focused ? "#ff5a5a" : "grey";
 
           return (
