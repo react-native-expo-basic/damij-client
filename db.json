@@ -1,49 +1,330 @@
 {
-  "posts": [
+  "cloth": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "image": "http://mmin.co.kr/damij/images/TheBest1.gif",
+      "product_name": "나염 스퀘어넥 별룬소매 오프숄더 블라우스",
+      "product_price": 40000,
+      "product_color": ["#f98c8c", "#99adff"],
+      "product_type": "top",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 134,
+      "isNew": false,
+      "review_count": 121
     },
     {
-      "email": "Als333@dd.com",
-      "password": "Als6404051!",
-      "id": 2
+      "image": "http://mmin.co.kr/damij/images/TheBest2.gif",
+      "product_name": "스퀘어넥 단가라 반팔 니트",
+      "product_price": 15800,
+      "product_color": [
+        "#000",
+        "#ed5f5f",
+        "#c1d6f5",
+        "#96ab68",
+        "#f4f076",
+        "#fff"
+      ],
+      "product_type": "top",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 134,
+      "isNew": false,
+      "review_count": 71
     },
     {
-      "email": "Als333@dd.com",
-      "password": "Als6404051!",
-      "id": 3
+      "image": "http://mmin.co.kr/damij/images/TheBest3.gif",
+      "product_name": "마카롱 루즈핏 블라우스",
+      "product_price": 16200,
+      "product_color": ["#d8a0df", "#ede698", "#e7d3ba", "#c1d6f5", "#fff"],
+      "product_type": "top",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 134,
+      "isNew": false,
+      "review_count": 173
     },
     {
-      "email": "Als333@dd.com",
-      "password": "Als6404051!",
-      "id": 4
+      "image": "http://mmin.co.kr/damij/images/TheBest4.gif",
+      "product_name": "레이어드 기모 데일리 트임 티셔츠",
+      "product_price": 17200,
+      "product_color": ["#000", "#a8a8a8", "#fff"],
+      "product_type": "top",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 134,
+      "isNew": false,
+      "review_count": 64
+    },
+
+    {
+      "image": "http://mmin.co.kr/damij/images/theday3.gif",
+      "product_name": "찰랑 쿨 썸머 밴딩 팬츠",
+      "product_price": 17800,
+      "product_color": [
+        "#000",
+        "#132364",
+        "#83826c",
+        "#ebabbd",
+        "#d5bea5",
+        "#fff"
+      ],
+      "product_type": "bottom",
+      "discount_rate": 50,
+      "isOnSale": true,
+      "salesCount": 85,
+      "isNew": true,
+      "review_count": 22
     },
     {
-      "email": "Ssd@dd.com",
-      "password": "Als6404051!",
-      "id": 5
+      "image": "http://mmin.co.kr/damij/images/theday11.gif",
+      "product_name": "뮤트 린넨 반바지",
+      "product_price": 18900,
+      "product_color": ["#000", "#c2c2c2", "#ece3c0", "#fff"],
+      "product_type": "bottom",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 55,
+      "isNew": true,
+      "review_count": 41
     },
     {
-      "email": "Dmssk@ss.com",
-      "password": "Als6404051!",
-      "id": 6
+      "image": "http://mmin.co.kr/damij/images/theday12.gif",
+      "product_name": "플리츠 살랑 쉬폰 미니 스커트",
+      "product_price": 17800,
+      "product_color": ["#000", "#ece3c0", "#94aeeb", "#fff"],
+      "product_type": "bottom",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 71,
+      "isNew": true,
+      "review_count": 17
+    },
+
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest9.gif",
+      "product_name": "글램 꼬임 골지 나시 가디건 세트",
+      "product_price": 15500,
+      "product_color": ["#000", "#deb7de", "#eddfbc", "#fff"],
+      "product_type": "outer",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 191,
+      "isNew": false,
+      "review_count": 86
     },
     {
-      "email": "Sss@sd.com",
-      "password": "Als6404051!",
-      "id": 7
+      "image": "http://mmin.co.kr/damij/images/theday8.gif",
+      "product_name": "청순 스퀘어넥 원피스 가디건 세트",
+      "product_price": 14300,
+      "product_color": ["#010101", "#272b35", "#c2c2c2", "#fff"],
+      "product_type": "outer",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 292,
+      "isNew": true,
+      "review_count": 185
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest10.gif",
+      "product_name": "글램 꼬임 골지 나시 가디건 세트",
+      "product_price": 15300,
+      "product_color": ["#000", "#5ba8ab", "#d5bea5", "#fff"],
+      "product_type": "outer",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 166,
+      "isNew": false,
+      "review_count": 73
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest11.gif",
+      "product_name": "리썸 니트 데일리 브이넥 가디건",
+      "product_price": 20100,
+      "product_color": ["#74715a", "#deb7de", "#d5bea5", "#7789ad", "#fff"],
+      "product_type": "outer",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 126,
+      "isNew": false,
+      "review_count": 59
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest12.gif",
+      "product_name": "배색 크롭 나시+가디건 세트",
+      "product_price": 16600,
+      "product_color": ["#000", "#deb7de", "#8792bc", "#fff"],
+      "product_type": "outer",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 88,
+      "isNew": false,
+      "review_count": 64
+    },
+
+    {
+      "image": "http://mmin.co.kr/damij/images/theday1.gif",
+      "product_name": "LA 반팔 카라 롱 원피스",
+      "product_price": 25200,
+      "product_color": ["#000", "#b9b9b9", "#fff"],
+      "product_type": "dress",
+      "discount_rate": 30,
+      "isOnSale": false,
+      "salesCount": 44,
+      "isNew": true,
+      "review_count": 15
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday2.gif",
+      "product_name": "뮤트 썸머 린넨 자켓 셋업",
+      "product_price": 15300,
+      "product_color": ["#000", "#5ba8ab", "#d5bea5", "#fff"],
+      "product_type": "dress",
+      "discount_rate": 30,
+      "isOnSale": true,
+      "salesCount": 45,
+      "isNew": true,
+      "review_count": 19
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday4.gif",
+      "product_name": "랩 프릴 플라워 패턴 미니원피스",
+      "product_price": 24900,
+      "product_color": ["#da9ef8", "#f68989"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 326,
+      "isNew": true,
+      "review_count": 221
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday5.gif",
+      "product_name": "린넨 플라워 빈티지 리본 롱 원피스",
+      "product_price": 30200,
+      "product_color": ["#679bf5", "#ffbfec"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 18,
+      "isNew": true,
+      "review_count": 5
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday6.gif",
+      "product_name": "어텀 플라워 미니원피스",
+      "product_price": 31200,
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 45,
+      "isNew": true,
+      "review_count": 17
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday7.gif",
+      "product_name": "청순 스퀘어넥 원피스 가디건 세트",
+      "product_price": 20200,
+      "product_color": ["#c2c2c2", "#679bf5", "#e9b79e"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 41,
+      "isNew": true,
+      "review_count": 19
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday9.gif",
+      "product_name": "크롭 린넨 자켓 투피스",
+      "product_price": 14900,
+      "product_color": ["#000", "#fbedd6"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 128,
+      "isNew": true,
+      "review_count": 49
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/theday10.gif",
+      "product_name": "가디건+나시+팬츠 찰랑 가디건 세트",
+      "product_price": 24800,
+      "product_color": ["#cccccc", "#2027f3"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 53,
+      "isNew": true,
+      "review_count": 27
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest15.gif",
+      "product_name": "러블리 캉캉 미니원피스",
+      "product_price": 22200,
+      "product_color": ["#000", "#fff"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 151,
+      "isNew": false,
+      "review_count": 96
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest16.gif",
+      "product_name": "찰랑 여신 랩 롱 브이넥 원피스",
+      "product_price": 23200,
+      "product_color": ["#000", "#efd6ce"],
+      "product_type": "dress",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 73,
+      "isNew": false,
+      "review_count": 13
+    },
+
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest17.gif",
+      "product_name": "극세사 몽실 양털 구름 파자마 세트",
+      "product_price": 22500,
+      "product_type": "homewear",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 126,
+      "isNew": false,
+      "review_count": 65
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest18.gif",
+      "product_name": "러블리 하트패턴 잠옷세트",
+      "product_price": 16900,
+      "product_color": ["#927275", "#fff"],
+      "product_type": "homewear",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 78,
+      "isNew": false,
+      "review_count": 54
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest19.gif",
+      "product_name": "반팔 곰돌이 파자마 세트",
+      "product_price": 25100,
+      "product_type": "homewear",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 53,
+      "isNew": false,
+      "review_count": 32
+    },
+    {
+      "image": "http://mmin.co.kr/damij/images/TheBest20.gif",
+      "product_name": "옐로우 반팔 곰돌이 잠옷",
+      "product_price": 16900,
+      "product_type": "homewear",
+      "discount_rate": 0,
+      "isOnSale": false,
+      "salesCount": 39,
+      "isNew": false,
+      "review_count": 17
     }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
