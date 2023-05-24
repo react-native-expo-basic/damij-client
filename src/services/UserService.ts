@@ -1,4 +1,5 @@
 // 로그인 시 사용자 정보를 로컬 스토리지에 저장하는 함수
+import { LoginReqType } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const saveUserToStorage = async (isLogin: boolean): Promise<void> => {
@@ -21,7 +22,7 @@ export const removeUserFromStorage = async (): Promise<void> => {
 };
 
 // 현재 로그인한 사용자를 확인하는 함수
-export const checkLoggedInUser = async () => {
+export const checkLoggedInUser = async (): Promise<void> => {
   try {
     const user = await AsyncStorage.getItem("user");
     if (user !== null) {
