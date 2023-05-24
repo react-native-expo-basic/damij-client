@@ -2,8 +2,13 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import Swiper from "react-native-swiper";
+import { ProductType } from "../../types/types";
 
-export default function Main() {
+interface MainProps {
+  productInfo: ProductType[];
+}
+
+export default function Main({ productInfo }: MainProps) {
   const renderPagination = (index: number, total: number) => {
     return (
       <PaginationContainer>
@@ -32,9 +37,12 @@ export default function Main() {
           </ImageContainer>
         </Swiper>
       </View>
-      <View>
-        <Text>dd</Text>
-      </View>
+      <Section>
+        <TitleContainer>
+          <Text>당신에게 추천하는 </Text>
+          <Text>BEST ITEM</Text>
+        </TitleContainer>
+      </Section>
     </View>
   );
 }
@@ -67,4 +75,13 @@ const TotalPaginationText = styled.Text`
   color: #b7b7b7;
   font-size: 12px;
   font-weight: 600;
+`;
+
+const Section = styled.View`
+  flex: 1;
+`;
+
+const TitleContainer = styled.View`
+  display: flex;
+  flex-direction: row;
 `;
