@@ -28,3 +28,11 @@ export function filterdIsBest(productInfo: ProductType[]): ProductType[] {
 
   return filteredItems;
 }
+
+export function filteredIsSale(productInfo: ProductType[]): ProductType[] {
+  const filteredItems =
+    productInfo.length > 0
+      ? productInfo.filter((item) => item.isOnSale === true)
+      : [];
+  return filteredItems;
+}
