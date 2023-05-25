@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import Swiper from "react-native-swiper";
 import { ProductType } from "../../types/types";
+import ProductList from "../ProductList";
+import { filterdIsBest } from "../../utils/fetchProductData";
 
 interface MainProps {
   productInfo: ProductType[];
@@ -18,13 +20,15 @@ export default function Main({ productInfo }: MainProps) {
     );
   };
 
+  const popularProducts = filterdIsBest(productInfo);
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 0.4 }}>
+    <ScrollView style={{ flex: 5 }}>
+      <View style={{ flex: 0.1 }}>
         <Swiper
           showsButtons={false}
           loop={true}
           renderPagination={renderPagination}
+          style={{ height: 250 }}
         >
           <ImageContainer>
             <Img source={require("../../../assets/image/m_slide1.png")} />
@@ -39,11 +43,11 @@ export default function Main({ productInfo }: MainProps) {
       </View>
       <Section>
         <TitleContainer>
-          <Text>당신에게 추천하는 </Text>
-          <Text>BEST ITEM</Text>
+          <TitleText>당신을 위한 최고의 아이템</TitleText>
         </TitleContainer>
+        <ProductList props={popularProducts} />
       </Section>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -79,9 +83,16 @@ const TotalPaginationText = styled.Text`
 
 const Section = styled.View`
   flex: 1;
+  padding: 20px 15px;
+  box-sizing: border-box;
 `;
 
 const TitleContainer = styled.View`
   display: flex;
   flex-direction: row;
+`;
+
+const TitleText = styled.Text`
+  font-size: 20px;
+  font-family: "Noto-Sans-Medium";
 `;
