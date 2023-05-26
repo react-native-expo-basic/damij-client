@@ -29,14 +29,14 @@ const Wrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 7px 20px;
   box-sizing: border-box;
   background: white;
 `;
 
 const LogoImage = styled(Image)`
   max-width: 90px;
-  height: 40px;
+  height: 35px;
   object-fit: contain;
 `;
 
