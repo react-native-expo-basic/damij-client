@@ -56,9 +56,11 @@ export default function Home() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <TabView
         renderTabBar={(props) => (
-          <TabBar
+          <Bar
             {...props}
-            style={{ backgroundColor: "unset" }}
+            style={{
+              backgroundColor: "unset",
+            }}
             labelStyle={{ color: "black" }}
             pressColor="transparent"
             indicatorStyle={{ backgroundColor: "black" }}
@@ -77,7 +79,10 @@ export default function Home() {
 }
 const TabText = styled.Text<TabTextProps>`
   color: ${(props) => (props.focused ? "black" : "grey")};
-  margin: 8px;
+  text-align: center;
   font-weight: ${(props) => (props.focused ? "600" : "500")};
   font-size: 16px;
+`;
+const Bar = styled(TabBar)`
+  margin: 0 15px;
 `;
