@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import Swiper from "react-native-swiper";
 import { ProductType } from "../../types/types";
 import ProductList from "../ProductList";
-import { filterdIsBest } from "../../utils/fetchProductData";
+import { filterdIsBest, filterdIsNew } from "../../utils/fetchProductData";
 
 interface MainProps {
   productInfo: ProductType[];
@@ -21,6 +21,7 @@ export default function Main({ productInfo }: MainProps) {
   };
 
   const popularProducts = filterdIsBest(productInfo);
+  const NewProducts = filterdIsNew(productInfo);
   return (
     <ScrollView style={{ flex: 5 }}>
       <View style={{ flex: 0.1 }}>
@@ -42,10 +43,18 @@ export default function Main({ productInfo }: MainProps) {
         </Swiper>
       </View>
       <Section>
-        <TitleContainer>
-          <TitleText>당신을 위한 최고의 아이템</TitleText>
-        </TitleContainer>
-        <ProductList props={popularProducts} />
+        <ProductContainer>
+          <TitleContainer>
+            <TitleText>당신을 위한 최고의 아이템</TitleText>
+          </TitleContainer>
+          <ProductList props={popularProducts} />
+        </ProductContainer>
+        <ProductContainer>
+          <TitleContainer>
+            <TitleText>오늘의 아이템</TitleText>
+          </TitleContainer>
+          <ProductList props={NewProducts}></ProductList>
+        </ProductContainer>
       </Section>
     </ScrollView>
   );
@@ -95,4 +104,8 @@ const TitleContainer = styled.View`
 const TitleText = styled.Text`
   font-size: 20px;
   font-family: "Noto-Sans-Medium";
+`;
+
+const ProductContainer = styled.View`
+  padding-top: 20px;
 `;
