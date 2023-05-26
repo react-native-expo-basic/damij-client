@@ -17,14 +17,23 @@ export default function ProductList({ props }: ProductListProps) {
       {props.map((product) => {
         return (
           <ProductCard key={product.product_name}>
-            <Img source={{ uri: product.image }} />
-            <View>
+            <ImageContainer>
+              <Img source={{ uri: product.image }} />
+            </ImageContainer>
+            <ProductContainer>
               <FlexContainer>
                 {product.product_color?.map((color) => {
                   return <ProductColor key={color} color={color} />;
                 })}
               </FlexContainer>
-            </View>
+
+              <ProductName numberOfLines={1} ellipsizeMode="tail">
+                {product.product_name}
+              </ProductName>
+            </ProductContainer>
+            <ProductPrice>
+              {product.product_price.toLocaleString()}
+            </ProductPrice>
           </ProductCard>
         );
       })}
@@ -43,22 +52,47 @@ const ProductColor = styled.View<ProductColorType>`
   background: ${(props) => props.color};
   border-width: ${(props) => (props.color === "#fff" ? "1px" : 0)};
   border-color: #eaeaea;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   border-radius: 50px;
   margin-right: 3px;
+  margin-bottom: 3px;
+`;
+
+const ImageContainer = styled.View`
+  border-radius: 20px;
+  overflow: hidden;
 `;
 
 const Img = styled.Image`
-  aspect-ratio: 1/1.5;
+  aspect-ratio: 1/1.3;
   border-radius: 40px;
 `;
 
 const FlexContainer = styled.View`
   display: flex;
   flex-direction: row;
+  margin-bottom: -5px;
 `;
 
 const ProductCard = styled.View`
   width: 48%;
+
+  margin: 8px 0;
+`;
+const ProductContainer = styled.View`
+  margin: 15px 0 3px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+`;
+const ProductName = styled.Text`
+  font-size: 12px;
+  font-family: "Noto-Sans-Regular";
+`;
+const ProductPrice = styled.Text`
+  font-size: 16px;
+  font-family: "Montserrat-SemiBold";
+
+  margin-bottom: 2px;
 `;
