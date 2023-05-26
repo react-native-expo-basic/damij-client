@@ -12,6 +12,7 @@ export default function App() {
         "Noto-Sans-Regular": require("./assets/fonts/NotoSansKR-Regular.otf"),
         "Noto-Sans-Medium": require("./assets/fonts/NotoSansKR-Medium.otf"),
         "Noto-Sans-Bold": require("./assets/fonts/NotoSansKR-Bold.otf"),
+        "Montserrat-SemiBold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
       });
     };
 
