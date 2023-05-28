@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { ProductType } from "../types/types";
 import styled from "styled-components/native";
+import { Octicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { likes } from "../redux/modules/likes";
+import { useSelector } from "react-redux";
+import { AuthState } from "../redux/modules/likes";
 
 interface ProductListProps {
   props: ProductType[];
@@ -12,6 +17,15 @@ interface ProductColorType {
 }
 
 export default function ProductList({ props }: ProductListProps) {
+  const [item, setItem] = useState([]);
+  const dispatch = useDispatch();
+  const handleLikeButton = (productName: string, isLiked: boolean) => {
+    const response = dispatch(likes(productName, isLiked));
+  };
+
+  /*   const confirm = useSelector((state: AuthState) => state.likes); */
+
+  useEffect(() => {}, []);
   return (
     <Wrapper>
       {props.map((product) => {
@@ -19,6 +33,14 @@ export default function ProductList({ props }: ProductListProps) {
           <ProductCard key={product.product_name}>
             <ImageContainer>
               <Img source={{ uri: product.image }} />
+              <LikesBtn
+                name="heart"
+                size={24}
+                color="black"
+                onPress={() =>
+                  handleLikeButton(product.product_name, product.isLiked)
+                }
+              />
             </ImageContainer>
             <ProductContainer>
               <FlexContainer>
@@ -60,10 +82,18 @@ const ProductColor = styled.View<ProductColorType>`
 `;
 
 const ImageContainer = styled.View`
-  border-radius: 20px;
+  border-radius: 15px;
   overflow: hidden;
+  position: relative;
 `;
 
+const LikesBtn = styled(Octicons)`
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 18px;
+  color: #f2f2f2;
+`;
 const Img = styled.Image`
   aspect-ratio: 1/1.3;
   border-radius: 40px;
