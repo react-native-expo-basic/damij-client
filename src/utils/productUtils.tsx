@@ -2,16 +2,16 @@ import axios from "axios";
 import { ProductType } from "../types/types";
 
 interface productLikeProps {
-  productName: string;
+  productId: number;
   isLiked: boolean;
 }
 
 export async function updateProductLikedStatus({
-  productName,
+  productId,
   isLiked,
 }: productLikeProps) {
   try {
-    const url = `http://192.168.35.54:3000/cloth/${productName}`;
+    const url = `http://192.168.35.54:3000/cloth/${productId}`;
     const data = { isLiked: !isLiked };
     await axios.patch(url, data);
   } catch (error) {

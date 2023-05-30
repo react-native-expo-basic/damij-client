@@ -19,8 +19,8 @@ interface ProductColorType {
 export default function ProductList({ props }: ProductListProps) {
   const [item, setItem] = useState([]);
   const dispatch = useDispatch();
-  const handleLikeButton = (productName: string, isLiked: boolean) => {
-    const response = dispatch(likes(productName, isLiked));
+  const handleLikeButton = (productId: number, isLiked: boolean) => {
+    const response = dispatch(likes(productId, isLiked));
   };
 
   /*   const confirm = useSelector((state: AuthState) => state.likes); */
@@ -37,9 +37,7 @@ export default function ProductList({ props }: ProductListProps) {
                 name="heart"
                 size={24}
                 color="black"
-                onPress={() =>
-                  handleLikeButton(product.product_name, product.isLiked)
-                }
+                onPress={() => handleLikeButton(product.id, product.isLiked)}
               />
             </ImageContainer>
             <ProductContainer>
