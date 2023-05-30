@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Modal } from "react-native";
 import styled from "styled-components/native";
 import Swiper from "react-native-swiper";
 import { ProductType } from "../../types/types";
 import ProductList from "../ProductList";
-import { filterdIsBest, filterdIsNew } from "../../utils/fetchProductData";
+import { filterdIsBest, filterdIsNew } from "../../utils/productUtils";
+import LikeNotification from "../modal/LikeNotification";
 
 interface MainProps {
   productInfo: ProductType[];
@@ -23,40 +24,46 @@ export default function Main({ productInfo }: MainProps) {
   const popularProducts = filterdIsBest(productInfo);
   const NewProducts = filterdIsNew(productInfo);
   return (
-    <ScrollView style={{ flex: 5 }}>
-      <View style={{ flex: 0.1 }}>
-        <Swiper
-          showsButtons={false}
-          loop={true}
-          renderPagination={renderPagination}
-          style={{ height: 250 }}
-        >
-          <ImageContainer>
-            <Img source={require("../../../assets/image/m_slide1.png")} />
-          </ImageContainer>
-          <ImageContainer>
-            <Img source={require("../../../assets/image/m_slide2.png")} />
-          </ImageContainer>
-          <ImageContainer>
-            <Img source={require("../../../assets/image/m_slide3.png")} />
-          </ImageContainer>
-        </Swiper>
-      </View>
-      <Section>
-        <ProductContainer>
-          <TitleContainer>
-            <TitleText>당신을 위한 최고의 아이템</TitleText>
-          </TitleContainer>
-          <ProductList props={popularProducts} />
-        </ProductContainer>
-        <ProductContainer>
-          <TitleContainer>
-            <TitleText>오늘의 아이템</TitleText>
-          </TitleContainer>
-          <ProductList props={NewProducts}></ProductList>
-        </ProductContainer>
-      </Section>
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1, paddingBottom: 100 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View style={{ flex: 0.1 }}>
+          <Swiper
+            showsButtons={false}
+            loop={true}
+            renderPagination={renderPagination}
+            style={{ height: 250 }}
+          >
+            <ImageContainer>
+              <Img source={require("../../../assets/image/m_slide1.png")} />
+            </ImageContainer>
+            <ImageContainer>
+              <Img source={require("../../../assets/image/m_slide2.png")} />
+            </ImageContainer>
+            <ImageContainer>
+              <Img source={require("../../../assets/image/m_slide3.png")} />
+            </ImageContainer>
+          </Swiper>
+        </View>
+        <Section>
+          <ProductContainer>
+            <TitleContainer>
+              <TitleText>당신을 위한 최고의 아이템</TitleText>
+            </TitleContainer>
+            <ProductList props={popularProducts} />
+          </ProductContainer>
+          <ProductContainer>
+            <TitleContainer>
+              <TitleText>오늘의 아이템</TitleText>
+            </TitleContainer>
+            <ProductList props={NewProducts}></ProductList>
+          </ProductContainer>
+        </Section>
+      </ScrollView>
+      <LikeNotification />
+    </View>
   );
 }
 
