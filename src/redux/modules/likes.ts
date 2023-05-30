@@ -1,6 +1,6 @@
-import { createActions, handleActions, Action } from "redux-actions";
+import { Action } from "redux-actions";
 import { takeEvery, put, call, select } from "redux-saga/effects";
-import { updateProductLikedStatus } from "utils/productUtils";
+import { updateProductLikedStatus } from "../../utils/productUtils";
 
 export interface AuthState {
   token: boolean;
@@ -18,12 +18,12 @@ interface SuccessPayload {
 interface LikesSagaAction {
   type: string;
   payload: {
-    productName: string;
+    productId: number;
     isLiked: boolean;
   };
 }
 
-const prefix = "my-books/auth";
+const prefix = "http://192.168.35.54:3000";
 
 // 액션 타입 정의
 const PENDING = `${prefix}/PENDING`;
@@ -33,14 +33,14 @@ const LIKES = `${prefix}/LIKES`;
 
 // 액션 생성자 함수 정의
 const pending = () => ({ type: PENDING });
-const success = (likes: string[]) => ({
+const success = (likes: number[]) => ({
   type: SUCCESS,
   payload: likes,
 });
 const fail = (error: Error | null) => ({ type: FAIL, payload: error });
-export const likes = (productName: string, isLiked: boolean) => ({
+export const likes = (productId: number, isLiked: boolean) => ({
   type: LIKES,
-  payload: { productName, isLiked },
+  payload: { productId, isLiked },
 });
 
 // 초기 상태 정의
@@ -77,16 +77,16 @@ const reducer = (
 function* likesSaga(action: LikesSagaAction) {
   try {
     yield put(pending());
-    const { productName, isLiked } = action.payload;
+    const { productId, isLiked } = action.payload;
 
-    yield call(updateProductLikedStatus, { productName, isLiked });
+    yield call(updateProductLikedStatus, { productId, isLiked });
 
-    const currentLikes: string[] | null = yield select(
+    const currentLikes: number[] | null = yield select(
       (state: AuthState) => state.likes
     );
-    const newLikes: string[] = currentLikes
-      ? [...currentLikes, productName]
-      : [productName];
+    const newLikes: number[] = currentLikes
+      ? [...currentLikes, productId]
+      : [productId];
     yield put(success(newLikes));
   } catch (error: any) {
     yield put(fail(error.response?.data?.error || new Error("UNKNOWN")));
