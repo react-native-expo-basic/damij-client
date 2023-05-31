@@ -11,20 +11,23 @@ export async function updateProductLikedStatus({
   isLiked,
 }: productLikeProps) {
   try {
-    const url = `http://192.168.35.54:3000/cloth/${productId}`;
+    const url = `http://192.168.35.87:3000/cloth/${productId}`;
     const data = { isLiked: !isLiked };
-    await axios.patch(url, data);
+
+    const response = await axios.patch(url, data);
+    return response.data;
   } catch (error) {
     console.error(
       "상품의 좋아요 상태를 업데이트하는 도중 오류가 발생했습니다.",
       error
     );
+    throw error;
   }
 }
 
 export async function fetchProductData() {
   try {
-    const response = await axios.get("http://192.168.35.54:3000/cloth");
+    const response = await axios.get("http://192.168.35.87:3000/cloth");
 
     return response.data;
   } catch (error) {
