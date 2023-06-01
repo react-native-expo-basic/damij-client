@@ -4,59 +4,74 @@ import { ProductType } from "../types/types";
 import styled from "styled-components/native";
 import { Octicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { likes } from "../redux/modules/likes";
-import { useSelector } from "react-redux";
-import { AuthState } from "../redux/modules/likes";
+import { updateProductLikedStatus } from "../utils/productUtils";
 
 interface ProductListProps {
-  props: ProductType[];
+  products?: ProductType[];
+}
+
+interface LikesBtnProps {
+  isLiked: boolean;
 }
 
 interface ProductColorType {
   color: string;
 }
 
-export default function ProductList({ props }: ProductListProps) {
-  const [item, setItem] = useState([]);
+export default function ProductList({ products }: ProductListProps) {
+  const [productsData, setProductsData] = useState(products);
   const dispatch = useDispatch();
-  const handleLikeButton = (productId: number, isLiked: boolean) => {
-    const response = dispatch(likes(productId, isLiked));
+
+  const handleLikeButton = (productId: number, currentIsLiked: boolean) => {
+    let response = updateProductLikedStatus({
+      productId,
+      isLiked: currentIsLiked,
+    });
+    setProductsData((prevProducts) => {
+      return prevProducts?.map((product) => {
+        if (product.id === productId) {
+          return {
+            ...product,
+            isLiked: !product.isLiked,
+          };
+        }
+        return product;
+      });
+    });
   };
 
-  /*   const confirm = useSelector((state: AuthState) => state.likes); */
-
-  useEffect(() => {}, []);
   return (
     <Wrapper>
-      {props.map((product) => {
-        return (
-          <ProductCard key={product.product_name}>
-            <ImageContainer>
-              <Img source={{ uri: product.image }} />
-              <LikesBtn
-                name="heart"
-                size={24}
-                color="black"
-                onPress={() => handleLikeButton(product.id, product.isLiked)}
-              />
-            </ImageContainer>
-            <ProductContainer>
-              <FlexContainer>
-                {product.product_color?.map((color) => {
-                  return <ProductColor key={color} color={color} />;
-                })}
-              </FlexContainer>
+      {productsData &&
+        productsData.map((product) => {
+          return (
+            <ProductCard key={product.product_name}>
+              <ImageContainer>
+                <Img source={{ uri: product.image }} />
+                <LikesBtn
+                  name={product.isLiked ? "heart-fill" : "heart"}
+                  isLiked={product.isLiked}
+                  size={24}
+                  onPress={() => handleLikeButton(product.id, !product.isLiked)}
+                />
+              </ImageContainer>
+              <ProductContainer>
+                <FlexContainer>
+                  {product.product_color?.map((color) => {
+                    return <ProductColor key={color} color={color} />;
+                  })}
+                </FlexContainer>
 
-              <ProductName numberOfLines={1} ellipsizeMode="tail">
-                {product.product_name}
-              </ProductName>
-            </ProductContainer>
-            <ProductPrice>
-              {product.product_price.toLocaleString()}
-            </ProductPrice>
-          </ProductCard>
-        );
-      })}
+                <ProductName numberOfLines={1} ellipsizeMode="tail">
+                  {product.product_name}
+                </ProductName>
+              </ProductContainer>
+              <ProductPrice>
+                {product.product_price.toLocaleString()}
+              </ProductPrice>
+            </ProductCard>
+          );
+        })}
     </Wrapper>
   );
 }
@@ -85,12 +100,12 @@ const ImageContainer = styled.View`
   position: relative;
 `;
 
-const LikesBtn = styled(Octicons)`
+const LikesBtn = styled(Octicons)<LikesBtnProps>`
   position: absolute;
   bottom: 8px;
   right: 8px;
   font-size: 18px;
-  color: #f2f2f2;
+  color: ${(props) => (props.isLiked ? "#ff5a5a" : "white")};
 `;
 const Img = styled.Image`
   aspect-ratio: 1/1.3;
