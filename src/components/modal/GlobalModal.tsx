@@ -13,12 +13,12 @@ export default function GlobalModal() {
 
   if (!isOpen) return;
 
-  const MODAL_COMPONENTS = {
-    alarm: <AlarmModal />,
+  const MODAL_COMPONENTS: { [key: string]: JSX.Element } = {
+    alarm: <AlarmModal {...props} />,
   };
   return (
     <Modal>
-      <View></View>
+      <View>{MODAL_COMPONENTS[modalType]}</View>
     </Modal>
   );
 }
