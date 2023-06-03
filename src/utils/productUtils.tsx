@@ -12,9 +12,10 @@ export async function updateProductLikedStatus({
 }: productLikeProps) {
   try {
     const url = `http://192.168.35.87:3000/cloth/${productId}`;
-    const data = { isLiked: !isLiked };
+    const data = { isLiked };
 
     const response = await axios.patch(url, data);
+    /*   console.log(response.data, "데이타"); */
     return response.data;
   } catch (error) {
     console.error(
