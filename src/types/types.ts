@@ -13,17 +13,26 @@ export type LoginReqType = {
 
 //product type
 export interface ProductType {
+  id: number;
   image: string;
   product_name: string;
-  product_price: string;
-  product_color?: string;
+  product_price: number;
+  product_color?: Array<string>;
   discount_rate: number;
   isOnSale: boolean;
   salesCount: number;
   isNew: boolean;
+  isLiked: boolean;
   review_count: number;
 }
 
+export interface LikesProductType {
+  productId: number;
+  productImage: string;
+  productName: string;
+  productPrice: number;
+  currentIsLiked: boolean;
+}
 export interface MainProps {
   productInfo: ProductType[];
 }
