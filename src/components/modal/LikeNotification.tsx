@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Animated, Dimensions } from "react-native";
 import styled from "styled-components/native";
+
+interface LikeNotificationProps {
+  likeModalVisible: boolean;
+}
+
 export default function LikeNotification() {
   const [isVisible, setIsVisible] = useState(true);
   const windowWidth = Dimensions.get("window").width;
   const translateY = new Animated.Value(60);
+  console.log(isVisible);
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
@@ -13,7 +19,7 @@ export default function LikeNotification() {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [isVisible]);
   useEffect(() => {
     if (isVisible) {
       Animated.timing(translateY, {
