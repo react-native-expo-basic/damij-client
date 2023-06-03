@@ -93,10 +93,10 @@ export default function ProductList({ products }: ProductListProps) {
               <ProductName numberOfLines={1} ellipsizeMode="tail">
                 {product.product_name}
               </ProductName>
+              <ProductPrice>
+                {product.product_price.toLocaleString()}
+              </ProductPrice>
             </ProductContainer>
-            <ProductPrice>
-              {product.product_price.toLocaleString()}
-            </ProductPrice>
           </ProductCard>
         );
       })}
@@ -152,7 +152,7 @@ const ProductCard = styled.View`
   margin: 8px 0;
 `;
 const ProductContainer = styled.View`
-  margin: 15px 0 3px;
+  margin: 30px 0 15px;
   height: 30px;
   display: flex;
   justify-content: center;
