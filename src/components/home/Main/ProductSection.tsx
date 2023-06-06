@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import ProductList from "../../productList/ProductList";
+import ProductList from "./ProductList";
 import { filterdIsBest, filterdIsNew } from "../../../utils/productUtils";
 import { MainProps } from "types/types";
 import SwiperComponent from "./SwiperComponent";
