@@ -27,11 +27,8 @@ export interface ProductType {
 }
 
 export interface LikesProductType {
-  productId: number;
-  productImage: string;
-  productName: string;
-  productPrice: number;
-  currentIsLiked: boolean;
+  productId: number | null;
+  isLiked: boolean;
 }
 export interface MainProps {
   productInfo: ProductType[];
