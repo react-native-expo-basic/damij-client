@@ -1,21 +1,17 @@
 import axios from "axios";
 import { ProductType } from "../types/types";
-
-interface productLikeProps {
-  productId: number;
-  isLiked: boolean;
-}
+import { LikesProductType } from "../types/types";
 
 export async function updateProductLikedStatus({
   productId,
   isLiked,
-}: productLikeProps) {
+}: LikesProductType) {
   try {
-    const url = `http://192.168.35.87:3000/cloth/${productId}`;
+    const url = `http://192.168.35.88:3000/cloth/${productId}`;
     const data = { isLiked };
 
     const response = await axios.patch(url, data);
-    /*   console.log(response.data, "데이타"); */
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error(
@@ -28,7 +24,7 @@ export async function updateProductLikedStatus({
 
 export async function fetchProductData() {
   try {
-    const response = await axios.get("http://192.168.35.87:3000/cloth");
+    const response = await axios.get("http://192.168.35.88:3000/cloth");
 
     return response.data;
   } catch (error) {
