@@ -1,54 +1,43 @@
 import { Action } from "redux-actions";
 import { takeEvery, put, call, select } from "redux-saga/effects";
+import { LikesProductType } from "types/types";
 import { updateProductLikedStatus } from "../../utils/productUtils";
-import { ProductType } from "types/types";
-import { fetchProductData } from "../../utils/productUtils";
 
 export interface AuthState {
-  token: boolean;
-  likes: number[] | null;
+  likes: LikesProductType;
   loading: boolean;
   error: any;
 }
 
-interface SuccessPayload {
-  token: string;
-  likes: number[];
-  error: Error | null;
-}
-
 interface LikesSagaAction {
   type: string;
-  payload: {
-    productId: number;
-    isLiked: boolean;
-  };
+  payload: LikesProductType;
 }
 
-const prefix = "http://192.168.35.87:3000";
+const prefix = "http://192.168.35.71:3000";
 
 // 액션 타입 정의
 const PENDING = `${prefix}/PENDING`;
 const SUCCESS = `${prefix}/SUCCESS`;
 const FAIL = `${prefix}/FAIL`;
-const LIKES = `${prefix}/LIKES`;
+const TOGGLE_LIKE = `${prefix}/TOGGLE_LIKE`;
 
-// 액션 생성자 함수 정의
+// 액션 생성 함수
 const pending = () => ({ type: PENDING });
-const success = (likes: number[]) => ({
+const success = (likes: LikesProductType) => ({
   type: SUCCESS,
   payload: likes,
 });
 const fail = (error: Error | null) => ({ type: FAIL, payload: error });
-/* export const likes = (productId: number) => ({
-  type: LIKES,
-  payload: productId,
-}); */
+
+export const toggleLike = (product: LikesProductType) => ({
+  type: TOGGLE_LIKE,
+  payload: product,
+});
 
 // 초기 상태 정의
 const initialState: AuthState = {
-  token: false,
-  likes: [],
+  likes: { productId: null, isLiked: false },
   loading: false,
   error: null,
 };
@@ -56,68 +45,41 @@ const initialState: AuthState = {
 // 리듀서 함수 정의
 const reducer = (
   state: AuthState = initialState,
-  action: Action<SuccessPayload>
+  action: Action<LikesProductType>
 ): AuthState => {
   switch (action.type) {
     case PENDING:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true };
     case SUCCESS:
       return {
         ...state,
-        likes: action.payload.likes,
+        likes: action.payload,
         loading: false,
         error: null,
       };
     case FAIL:
       return { ...state, loading: false, error: action.payload };
-
     default:
       return state;
   }
 };
 
 // 사가 함수 정의
-/* function* likesSaga(action: LikesSagaAction) {
-  try {
-    yield put(pending());
-    const { productId, isLiked } = action.payload;
-
-    yield call(updateProductLikedStatus, { productId, isLiked });
-    const updatedLikes: ProductType[] = yield call(fetchProductData);
-
-    const currentLikes: number[] = updatedLikes
-      .filter((product) => product.isLiked)
-      .map((product) => product.id);
-
-    const newLikes: number[] = currentLikes
-      ? [...currentLikes, productId]
-      : [productId];
-    const uniqueLikes: number[] = Array.from(new Set(newLikes));
-    yield put(success(uniqueLikes));
-  } catch (error: any) {
-    yield put(fail(error.response?.data?.error || new Error("UNKNOWN")));
-  }
-} */
-
 function* likesSaga(action: LikesSagaAction) {
   try {
-    const { productId, isLiked } = action.payload;
-
-    yield call(updateProductLikedStatus, { productId, isLiked });
-
-    const currentLikes: number[] | null = yield select((state) => state.likes);
-    const updatedLikes = currentLikes ? [...currentLikes] : [];
-    if (isLiked) {
-      updatedLikes.push(productId);
-    } else {
-      const index = updatedLikes.indexOf(productId);
-      if (index !== -1) {
-        updatedLikes.splice(index, 1);
-      }
-    }
+    yield put(pending());
+    yield call(updateProductLikedStatus, {
+      productId: action.payload.productId,
+      isLiked: !action.payload.isLiked,
+    });
 
     // 성공 액션 디스패치
-    yield put(success(updatedLikes));
+    yield put(
+      success({
+        productId: action.payload.productId,
+        isLiked: !action.payload.isLiked,
+      })
+    );
   } catch (error: any) {
     yield put(fail(error));
   }
@@ -125,7 +87,7 @@ function* likesSaga(action: LikesSagaAction) {
 
 // 루트 사가 함수 정의
 export function* callSaga() {
-  yield takeEvery(LIKES, likesSaga);
+  yield takeEvery(TOGGLE_LIKE, likesSaga);
 }
 
 export default reducer;
