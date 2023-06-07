@@ -16,14 +16,14 @@ interface TabTextProps {
 }
 
 interface LikeState {
-  likes: { likes: LikesProductType };
+  likes: LikesProductType;
 }
 
 export default function Home() {
   const layout = useWindowDimensions(); //TabView 컴포넌트에서 초기 레이아웃 설정을 위해서
   const [index, setIndex] = useState(0);
   const [productInfo, setProductInfo] = useState<ProductType[]>([]);
-  const likes = useSelector((state: LikeState) => state.likes.likes);
+  const likes = useSelector((state: LikeState) => state.likes);
   const [routes] = useState([
     { key: "home", title: "홈" },
     { key: "best", title: "BEST" },
