@@ -1,15 +1,15 @@
 import { useDispatch } from "react-redux";
-import { openModal, closeModal, modalActionType } from "../redux/modules/modal";
+import { openModal, closeModal } from "../redux/modules/modal";
 
 function useModal() {
   const dispatch = useDispatch();
 
-  const handleOpenModal = ({ modalType, props }: modalActionType) => {
+  const handleOpenModal = (modalType: string, props: any) => {
     dispatch(openModal(modalType, props));
   };
 
   const handleCloseModal = (modalType: string) => {
-    dispatch(closeModal());
+    dispatch(closeModal(modalType));
   };
 
   return { openModal: handleOpenModal, closeModal: handleCloseModal };
