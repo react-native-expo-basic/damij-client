@@ -3,9 +3,9 @@ import { ProductType } from "../../../types/types";
 import styled from "styled-components/native";
 import { Octicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { updateProductLikedStatus } from "../../../utils/productUtils";
 import { LikesProductType } from "../../../types/types";
 import { toggleLike } from "../../../redux/modules/likes";
+import useModal from "../../../hooks/useModal";
 
 interface ProductListProps {
   products?: ProductType[];
@@ -21,6 +21,7 @@ interface ProductColorType {
 
 export default function ProductList({ products }: ProductListProps) {
   const [productsData, setProductsData] = useState(products);
+  const { openModal } = useModal();
   const dispatch = useDispatch();
 
   const toggleProductLikedStatus = ({
@@ -28,7 +29,7 @@ export default function ProductList({ products }: ProductListProps) {
     isLiked,
   }: LikesProductType) => {
     dispatch(toggleLike({ productId, isLiked }));
-
+    openModal("alarm", { isLiked, productId });
     setProductsData((prevProducts) => {
       return prevProducts?.map((product) => {
         if (product.id === productId) {
