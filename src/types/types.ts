@@ -1,3 +1,5 @@
+import { ViewStyle } from "react-native";
+
 export type SignupReqType = {
   email: string;
   password: string;
@@ -12,6 +14,7 @@ export type LoginReqType = {
 };
 
 //product type
+
 export interface ProductType {
   id: number;
   image: string;
@@ -32,4 +35,9 @@ export interface LikesProductType {
 }
 export interface MainProps {
   productInfo: ProductType[];
+}
+
+export interface ButtonType<T = any> {
+  texts: string;
+  event: (text: T) => void;
 }
