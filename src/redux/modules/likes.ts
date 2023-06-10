@@ -68,11 +68,6 @@ const reducer = (
 function* likesSaga(action: LikesSagaAction) {
   try {
     yield put(pending());
-    yield call(updateProductLikedStatus, {
-      productId: action.payload.productId,
-      isLiked: !action.payload.isLiked,
-    });
-
     // 성공 액션 디스패치
     yield put(
       success({
@@ -80,6 +75,10 @@ function* likesSaga(action: LikesSagaAction) {
         isLiked: !action.payload.isLiked,
       })
     );
+    yield call(updateProductLikedStatus, {
+      productId: action.payload.productId,
+      isLiked: !action.payload.isLiked,
+    });
   } catch (error: any) {
     yield put(fail(error));
   }
