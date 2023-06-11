@@ -30,21 +30,15 @@ export default function Product({ products }: ProductProps) {
   }: LikesProductType) => {
     dispatch(toggleLike({ productId, isLiked }));
     openModal("alarm", { isLiked, productId });
-    setProductsData((prevProducts) => {
-      return prevProducts?.map((product) => {
-        if (product.id === productId) {
-          const isLiked = !product.isLiked;
-          return {
-            ...product,
-            isLiked: isLiked,
-          };
-        }
-        return product;
-      });
-    });
   };
+
   useEffect(() => {
-    setProductsData(products);
+    setProductsData((prevProducts) => {
+      if (prevProducts === products) {
+        return prevProducts;
+      }
+      return products;
+    });
   }, [products]);
 
   return (
