@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { FilterButton } from "../../Button";
+import { FilterButton } from "./Button";
 import styled from "styled-components/native";
-import { viewDisableColor } from "../../../style";
+import { viewDisableColor } from "../style";
 
 export default function Category() {
   const [selectedButton, setSelectedButton] = useState("전체");
@@ -9,7 +9,7 @@ export default function Category() {
   const handleButtonPress = (item: string) => {
     setSelectedButton(item);
   };
-  console.log(selectedButton);
+
   return (
     <CategoryContainer>
       {category.map((item, idx) => {
@@ -27,7 +27,7 @@ export default function Category() {
   );
 }
 const CategoryContainer = styled.View`
-  height: 50px;
+  height: 48px;
   padding: 2px 10px;
   margin-bottom: 10px;
   border-radius: 5px;
