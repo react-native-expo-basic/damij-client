@@ -1,15 +1,14 @@
 import React from "react";
 import Category from "../../Category";
-import { MainProps } from "../../../types/types";
+import { filteredIsNew } from "../../../utils/productUtils";
+import { MainProps, DataType } from "../../../types/types";
 import Product from "../main/Product";
-import { filteredIsBest } from "../../../utils/productUtils";
 import Section from "../Section";
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
-import { DataType } from "types/types";
 
 export default function Index({ productInfo }: MainProps) {
-  const popularProducts = filteredIsBest(productInfo);
+  const newProducts = filteredIsNew(productInfo);
   const data = [{ id: "category" }, { id: "product" }];
 
   const renderItem = ({ item }: { item: DataType }) => {
@@ -17,11 +16,12 @@ export default function Index({ productInfo }: MainProps) {
       case "category":
         return <Category />;
       case "product":
-        return <Product products={popularProducts} />;
+        return <Product products={newProducts} />;
       default:
         return null;
     }
   };
+
   return (
     <Section>
       <PaddingView>
