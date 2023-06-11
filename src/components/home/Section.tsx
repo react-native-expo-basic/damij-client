@@ -6,11 +6,7 @@ interface MainSectionProps {
 }
 
 const Section: React.FC<MainSectionProps> = ({ children, ...props }) => {
-  return (
-    <View style={{ flex: 1 }}>
-      <ScrollView>{children}</ScrollView>
-    </View>
-  );
+  return <View style={{ flex: 1 }}>{children}</View>;
 };
 
 export default Section;
