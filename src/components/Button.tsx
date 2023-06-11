@@ -24,28 +24,28 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
   isSelected,
 }) => {
   return (
-    <TouchableOpacity
+    <ButtonContainer
       onPress={event}
       accessibilityLabel={texts}
+      isSelected={isSelected}
       style={{ width: width }}
     >
-      <ButtonContainer isSelect={isSelected}>
-        <ButtonText>{texts}</ButtonText>
-      </ButtonContainer>
-    </TouchableOpacity>
+      <ButtonText style={{ color: isSelected ? "#444444" : textDisableColor }}>
+        {texts}
+      </ButtonText>
+    </ButtonContainer>
   );
 };
 
-const ButtonContainer = styled.View<{ isSelect?: boolean }>`
+const ButtonContainer = styled.TouchableOpacity<{ isSelected?: boolean }>`
   border-radius: 5px;
   padding: 10px 15px;
   height: 100%;
   display: flex;
   justify-content: center;
-  background: ${(props) => (props.isSelect ? "#fff" : viewDisableColor)};
+  background: ${(props) => (props.isSelected ? "#fff" : viewDisableColor)};
 `;
-const ButtonText = styled.Text<{ isSelect?: boolean }>`
+const ButtonText = styled.Text<{ isSelected?: boolean }>`
   text-align: center;
   font-weight: 600;
-  color: ${(props) => (props.isSelect ? "#fff" : textDisableColor)};
 `;
