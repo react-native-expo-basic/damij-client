@@ -13,6 +13,9 @@ export type LoginReqType = {
   password: string;
 };
 
+export interface DataType {
+  id: string;
+}
 //product type
 
 export interface ProductType {
