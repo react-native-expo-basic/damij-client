@@ -30,6 +30,7 @@ export interface ProductType {
   isNew: boolean;
   isLiked: boolean;
   review_count: number;
+  registration_date: number;
 }
 
 export interface LikesProductType {
