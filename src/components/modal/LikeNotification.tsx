@@ -22,8 +22,8 @@ export default function LikeNotification({ props }: LikeNotificationProps) {
 
   const modalEventHandler = () => {
     Animated.timing(translateY, {
-      toValue: -5,
-      duration: 500,
+      toValue: -60,
+      duration: 400,
       useNativeDriver: true,
     }).start((finished) => {
       if (finished) {
