@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "src/*"]
+    },
+    "allowSyntheticDefaultImports": true,
     "target": "esnext",
     "module": "esnext",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "allowJs": true,
     "jsx": "react-native",
     "strict": true,

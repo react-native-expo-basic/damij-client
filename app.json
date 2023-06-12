@@ -14,18 +14,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "config": {
-        "useNextNetworking": true
-      }
+      "config": {}
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "config": {
-        "useNextNetworking": true
-      }
+      "config": {}
     },
     "web": {
       "favicon": "./assets/favicon.png"
