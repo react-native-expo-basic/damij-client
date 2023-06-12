@@ -7,34 +7,41 @@ import {
   textSalePriceName,
   textSalePriceFontSize,
 } from "../../../style";
+import DiscountCountdown from "./DiscountCountdown";
 
 interface Props {
-  product?: ProductType[];
+  product: ProductType[];
 }
 
 export default function SaleProduct({ product }: Props) {
   return (
     <Wrapper>
-      {product?.map((product) => {
+      {product?.map((productItem) => {
+        const discountDateObject = new Date(productItem.discountDate);
+        const currentDate = new Date();
+        const timeDifference =
+          discountDateObject.getTime() - currentDate.getTime();
+        console.log(timeDifference);
         return (
-          <ProductCard key={product.product_name}>
+          <ProductCard key={productItem.product_name}>
             <ImageContainer>
-              <Img source={{ uri: product.image }} />
+              <Img source={{ uri: productItem.image }} />
             </ImageContainer>
             <ProductContainer>
               <ProductName numberOfLines={1} ellipsizeMode="tail">
-                {product.product_name}
+                {productItem.product_name}
               </ProductName>
               <OriginalPrice>
-                {product.discount_rate === 0
+                {productItem.discount_rate === 0
                   ? null
-                  : (product.product_price * product.discount_rate) / 100 +
-                    product.product_price}
+                  : (productItem.product_price * productItem.discount_rate) /
+                      100 +
+                    productItem.product_price}
               </OriginalPrice>
               <ProductPrice>
-                {product.product_price.toLocaleString()}
+                {productItem.product_price.toLocaleString()}
               </ProductPrice>
-              <SaleTimer>{product.registration_date}</SaleTimer>
+              <SaleTimer>{DiscountCountdown(timeDifference)}</SaleTimer>
             </ProductContainer>
           </ProductCard>
         );
