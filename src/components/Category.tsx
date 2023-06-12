@@ -29,7 +29,7 @@ export default function Category() {
 const CategoryContainer = styled.View`
   height: 48px;
   padding: 2px 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
