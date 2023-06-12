@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import Product from "./Product";
+import Product from "../../Product";
 import { filteredIsBest, filteredIsNew } from "../../../utils/productUtils";
 import { ProductType } from "types/types";
 
@@ -30,8 +30,7 @@ export default function ProductSection({ productInfo }: MainProps) {
 }
 
 const PaddingView = styled.View`
-  flex: 0.8;
-  padding: 20px 15px;
+  padding: 15px 15px 0;
   box-sizing: border-box;
 `;
 
@@ -46,6 +45,5 @@ const TitleText = styled.Text`
 `;
 
 const ProductContainer = styled.View`
-  flex: 1;
   padding-top: 20px;
 `;

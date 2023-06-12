@@ -1,22 +1,23 @@
 import { useState, useEffect, useMemo } from "react";
-import Main from "../components/home/Main/Index";
+import Main from "../components/home/main/Index";
 import { useSelector } from "react-redux";
 import { View, Text, useWindowDimensions } from "react-native";
 import { TabBar, TabView, SceneMap } from "react-native-tab-view";
 import { LikesProductType } from "../types/types";
-import BestItems from "../components/home/BestItems";
-import NewItems from "../components/home/NewItems";
-import SaleItems from "../components/home/SaleItems";
+import BestItems from "../components/home/best/Index";
+import NewItems from "../components/home/new/Index";
+import SaleItems from "../components/home/sale/Index";
 import styled from "styled-components/native";
 import { fetchProductData } from "../utils/productUtils";
 import { ProductType } from "../types/types";
+import { viewDisableColor } from "../style";
 
 interface TabTextProps {
   focused: boolean;
 }
 
 interface LikeState {
-  likes: LikesProductType;
+  likes: { likes: LikesProductType };
 }
 
 export default function Home() {
@@ -78,34 +79,38 @@ export default function Home() {
 
   useEffect(() => {
     setProductInfo((prevProductInfo) => {
-      return prevProductInfo.map((product) => {
-        if (product.id === likes.productId) {
-          return {
-            ...product,
-            isLiked: !likes.isLiked,
-          };
-        }
-        return product;
-      });
+      const updatedProductInfo = [...prevProductInfo];
+      const productIndex = updatedProductInfo.findIndex(
+        (product) => product.id === likes.likes.productId
+      );
+      if (productIndex !== -1) {
+        updatedProductInfo[productIndex] = {
+          ...updatedProductInfo[productIndex],
+          isLiked: likes.likes.isLiked,
+        };
+      }
+      return updatedProductInfo;
     });
-  }, []);
+  }, [likes]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <TabView
         renderTabBar={(props) => (
-          <Bar
-            {...props}
-            style={{
-              backgroundColor: "unset",
-            }}
-            labelStyle={{ color: "black" }}
-            pressColor="transparent"
-            indicatorStyle={{ backgroundColor: "black" }}
-            renderLabel={({ route, focused }) => (
-              <TabText focused={focused}>{route.title}</TabText>
-            )}
-          />
+          <View style={{ borderBottomWidth: 1, borderColor: viewDisableColor }}>
+            <Bar
+              {...props}
+              style={{
+                backgroundColor: "unset",
+              }}
+              labelStyle={{ color: "black" }}
+              pressColor="transparent"
+              indicatorStyle={{ backgroundColor: "black" }}
+              renderLabel={({ route, focused }) => (
+                <TabText focused={focused}>{route.title}</TabText>
+              )}
+            />
+          </View>
         )}
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -122,5 +127,6 @@ const TabText = styled.Text<TabTextProps>`
   font-size: 16px;
 `;
 const Bar = styled(TabBar)`
-  margin: 0 15px;
+  elevation: 0;
+  margin: 0 20px;
 `;

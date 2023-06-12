@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Alert } from "react-native";
-import Signup from "../screens/Signup";
+import Signup from "../components/Signup";
 import { SignupReqType } from "../types/types";
 import axios from "axios";
 import { saveUserToStorage } from "../services/UserService";
@@ -8,7 +8,7 @@ import { saveUserToStorage } from "../services/UserService";
 export default function SignupContainer() {
   const signup = useCallback(async ({ email, password }: SignupReqType) => {
     try {
-      const response = await axios.post("http://192.168.35.100:3000/posts", {
+      const response = await axios.post("http://192.168.35.225:3000/posts", {
         email,
         password,
       });

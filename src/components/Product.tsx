@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ProductType } from "../types/types";
 import styled from "styled-components/native";
-import { Octicons } from "@expo/vector-icons";
+import { Text } from "react-native";
+import { textPriceFontSize, textPriceName } from "../style";
 import LikeButton from "./LikeButton";
 
 interface ProductProps {
   products?: ProductType[];
-}
-
-interface LikesBtnProps {
-  isLiked: boolean;
 }
 
 interface ProductColorType {
@@ -99,17 +96,18 @@ const ProductCard = styled.View`
   margin: 8px 0;
 `;
 const ProductContainer = styled.View`
-  margin: 30px 0 15px;
-  height: 30px;
+  margin: 10px 0 10px;
+  height: 60px;
   display: flex;
   justify-content: center;
 `;
 const ProductName = styled.Text`
-  font-size: 12px;
+  font-size: ${textPriceName};
   font-family: "Noto-Sans-Regular";
+  height: 25px;
 `;
 const ProductPrice = styled.Text`
-  font-size: 16px;
+  font-size: ${textPriceFontSize};
   font-family: "Montserrat-SemiBold";
   margin-bottom: 2px;
 `;
