@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Modal, View } from "react-native";
-import modalState from "../../redux/modules/modal";
 import { ModalActionType } from "redux/modules/modal";
 import LikeNotification from "./LikeNotification";
 

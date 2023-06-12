@@ -2,7 +2,7 @@ import React from "react";
 import SwiperComponent from "./SwiperComponent";
 import ProductList from "./ProductList";
 import { MainProps, DataType } from "../../../types/types";
-import Section from "../Section";
+import { View } from "react-native";
 import { FlatList } from "react-native";
 
 export default function Index({ productInfo }: MainProps) {
@@ -20,8 +20,10 @@ export default function Index({ productInfo }: MainProps) {
   };
 
   return (
-    <Section>
-      <FlatList data={data} renderItem={renderItem} />
-    </Section>
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+    />
   );
 }

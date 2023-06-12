@@ -1,9 +1,8 @@
 import React from "react";
 import Category from "../../Category";
 import { MainProps } from "../../../types/types";
-import Product from "../main/Product";
+import Product from "../../Product";
 import { filteredIsBest } from "../../../utils/productUtils";
-import Section from "../Section";
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { DataType } from "types/types";
@@ -23,19 +22,16 @@ export default function Index({ productInfo }: MainProps) {
     }
   };
   return (
-    <Section>
-      <PaddingView>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-      </PaddingView>
-    </Section>
+    <PaddingView>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+    </PaddingView>
   );
 }
 const PaddingView = styled.View`
-  flex: 1;
-  padding: 6px 15px;
+  padding: 7px 15px 0;
   box-sizing: border-box;
 `;
