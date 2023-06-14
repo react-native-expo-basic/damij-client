@@ -8,6 +8,7 @@ import {
   textSalePriceFontSize,
 } from "../../../style";
 import DiscountCountdown from "./DiscountCountdown";
+import { tabViewSelectColor } from "../../../style";
 
 interface Props {
   product: ProductType[];
@@ -21,7 +22,7 @@ export default function SaleProduct({ product }: Props) {
         const currentDate = new Date();
         const timeDifference =
           discountDateObject.getTime() - currentDate.getTime();
-        console.log(timeDifference);
+
         return (
           <ProductCard key={productItem.product_name}>
             <ImageContainer>
@@ -32,15 +33,15 @@ export default function SaleProduct({ product }: Props) {
                 {productItem.product_name}
               </ProductName>
               <OriginalPrice>
-                {productItem.discount_rate === 0
-                  ? null
-                  : (productItem.product_price * productItem.discount_rate) /
-                      100 +
-                    productItem.product_price}
+                {(productItem.product_price * productItem.discount_rate) / 100 +
+                  productItem.product_price}
               </OriginalPrice>
-              <ProductPrice>
-                {productItem.product_price.toLocaleString()}
-              </ProductPrice>
+              <FlexContainer>
+                <DiscountRate>{`${productItem.discount_rate}%`}</DiscountRate>
+                <ProductPrice>
+                  {productItem.product_price.toLocaleString()}
+                </ProductPrice>
+              </FlexContainer>
               <SaleTimer>{DiscountCountdown(timeDifference)}</SaleTimer>
             </ProductContainer>
           </ProductCard>
@@ -67,7 +68,7 @@ const ImageContainer = styled.View`
 const Img = styled.Image`
   width: 100%;
   height: 100%;
-  border-radius: 40px;
+  border-radius: 10px;
 `;
 
 const ProductCard = styled.View`
@@ -78,26 +79,35 @@ const ProductCard = styled.View`
 `;
 const ProductContainer = styled.View`
   display: flex;
-  justify-content: center;
-  margin-left: 10px;
+  margin-left: 12px;
 `;
 const ProductName = styled.Text`
   font-size: ${textSalePriceName};
   font-family: "Noto-Sans-Regular";
+  margin-bottom: -6px;
 `;
 const ProductPrice = styled.Text`
   font-size: ${textSalePriceFontSize};
   font-family: "Montserrat-SemiBold";
-  margin-bottom: 7px;
 `;
 
 const OriginalPrice = styled.Text`
   font-size: ${textOriginalPriceFontSize};
-  font-family: "Montserrat-Regular";
   color: ${textOriginalPriceColor};
   text-decoration: line-through;
 `;
 const SaleTimer = styled.Text`
   font-size: 15px;
-  font-family: "Noto-Sans-Medium";
+`;
+
+const FlexContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
+const DiscountRate = styled.Text`
+  font-size: ${textSalePriceFontSize};
+  font-family: "Montserrat-SemiBold";
+  color: ${tabViewSelectColor};
+  font-weight: 600;
+  margin-right: 7px;
 `;
