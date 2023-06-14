@@ -2,16 +2,70 @@ import axios from "axios";
 import { ProductType } from "../types/types";
 import { LikesProductType } from "../types/types";
 
+export async function fetchProductLikeData() {
+  try {
+    const response = await axios.get(
+      `http://192.168.35.187:3000/likes?category=기본 폴더`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("좋아요 상태의 상품을 가져오는 도중 오류가 발생했습니다.");
+  }
+}
+
+export async function uploadProductLikeData(
+  productInfo: ProductType,
+  isLiked: boolean,
+  folderName: string
+) {
+  try {
+    if (isLiked) {
+      const response = await axios.post(
+        `http://192.168.35.187:3000/likes?category/:${folderName}`,
+        {
+          folderName,
+          productInfo,
+        }
+      );
+
+      return response.data;
+    } else {
+      const likesResponse = await axios.get(`http://192.168.35.187:3000/likes`);
+      const likes = likesResponse.data;
+
+      const productId = productInfo.id;
+
+      const productToDelete = likes.find(
+        (like: any) => like.productInfo.id === productId
+      );
+
+      if (productToDelete) {
+        const deleteResponse = await axios.delete(
+          `http://192.168.35.187:3000/likes/${productToDelete.id}`
+        );
+      } else {
+        console.log(`상품을 찾을 수 없습니다: ${productId}`);
+      }
+    }
+  } catch (error) {
+    console.error(
+      "좋아요 상태의 상품을 업로드하는 도중 오류가 발생했습니다.",
+      error
+    );
+  }
+}
+
 export async function updateProductLikedStatus({
   productId,
   isLiked,
 }: LikesProductType) {
   try {
-    const url = `http://192.168.35.88:3000/cloth/${productId}`;
+    const url = `http://192.168.35.187:3000/cloth/${productId}`;
     const data = { isLiked };
 
     const response = await axios.patch(url, data);
-    console.log(response);
+
     return response.data;
   } catch (error) {
     console.error(
@@ -24,7 +78,7 @@ export async function updateProductLikedStatus({
 
 export async function fetchProductData() {
   try {
-    const response = await axios.get("http://192.168.35.88:3000/cloth");
+    const response = await axios.get("http://192.168.35.187:3000/cloth");
 
     return response.data;
   } catch (error) {
@@ -32,7 +86,7 @@ export async function fetchProductData() {
   }
 }
 
-export function filterdIsNew(productInfo: ProductType[]): ProductType[] {
+export function filteredIsNew(productInfo: ProductType[]): ProductType[] {
   const filteredItems =
     productInfo && productInfo.length > 0
       ? productInfo.filter((item) => item.isNew === true)
@@ -41,7 +95,7 @@ export function filterdIsNew(productInfo: ProductType[]): ProductType[] {
   return filteredItems;
 }
 
-export function filterdIsBest(productInfo: ProductType[]): ProductType[] {
+export function filteredIsBest(productInfo: ProductType[]): ProductType[] {
   if (!productInfo) {
     return [];
   }
