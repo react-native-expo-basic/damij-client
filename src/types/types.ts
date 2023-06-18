@@ -19,6 +19,7 @@ export interface DataType {
 //product type
 
 export interface ProductType {
+  [x: string]: any;
   id: number;
   image: string;
   product_name: string;
@@ -29,8 +30,9 @@ export interface ProductType {
   salesCount: number;
   isNew: boolean;
   isLiked: boolean;
-  review_count: number;
-  registration_date: number;
+  review_count: string;
+  discountDate: string;
+  registration_date: string;
 }
 
 export interface LikesProductType {

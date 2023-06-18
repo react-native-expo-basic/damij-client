@@ -7,34 +7,42 @@ import {
   textSalePriceName,
   textSalePriceFontSize,
 } from "../../../style";
+import DiscountCountdown from "./DiscountCountdown";
+import { tabViewSelectColor } from "../../../style";
 
 interface Props {
-  product?: ProductType[];
+  product: ProductType[];
 }
 
 export default function SaleProduct({ product }: Props) {
   return (
     <Wrapper>
-      {product?.map((product) => {
+      {product?.map((productItem) => {
+        const discountDateObject = new Date(productItem.discountDate);
+        const currentDate = new Date();
+        const timeDifference =
+          discountDateObject.getTime() - currentDate.getTime();
+
         return (
-          <ProductCard key={product.product_name}>
+          <ProductCard key={productItem.product_name}>
             <ImageContainer>
-              <Img source={{ uri: product.image }} />
+              <Img source={{ uri: productItem.image }} />
             </ImageContainer>
             <ProductContainer>
               <ProductName numberOfLines={1} ellipsizeMode="tail">
-                {product.product_name}
+                {productItem.product_name}
               </ProductName>
               <OriginalPrice>
-                {product.discount_rate === 0
-                  ? null
-                  : (product.product_price * product.discount_rate) / 100 +
-                    product.product_price}
+                {(productItem.product_price * productItem.discount_rate) / 100 +
+                  productItem.product_price}
               </OriginalPrice>
-              <ProductPrice>
-                {product.product_price.toLocaleString()}
-              </ProductPrice>
-              <SaleTimer>{product.registration_date}</SaleTimer>
+              <FlexContainer>
+                <DiscountRate>{`${productItem.discount_rate}%`}</DiscountRate>
+                <ProductPrice>
+                  {productItem.product_price.toLocaleString()}
+                </ProductPrice>
+              </FlexContainer>
+              <SaleTimer>{DiscountCountdown(timeDifference)}</SaleTimer>
             </ProductContainer>
           </ProductCard>
         );
@@ -60,7 +68,7 @@ const ImageContainer = styled.View`
 const Img = styled.Image`
   width: 100%;
   height: 100%;
-  border-radius: 40px;
+  border-radius: 10px;
 `;
 
 const ProductCard = styled.View`
@@ -71,26 +79,35 @@ const ProductCard = styled.View`
 `;
 const ProductContainer = styled.View`
   display: flex;
-  justify-content: center;
-  margin-left: 10px;
+  margin-left: 12px;
 `;
 const ProductName = styled.Text`
   font-size: ${textSalePriceName};
   font-family: "Noto-Sans-Regular";
+  margin-bottom: -6px;
 `;
 const ProductPrice = styled.Text`
   font-size: ${textSalePriceFontSize};
   font-family: "Montserrat-SemiBold";
-  margin-bottom: 7px;
 `;
 
 const OriginalPrice = styled.Text`
   font-size: ${textOriginalPriceFontSize};
-  font-family: "Montserrat-Regular";
   color: ${textOriginalPriceColor};
   text-decoration: line-through;
 `;
 const SaleTimer = styled.Text`
   font-size: 15px;
-  font-family: "Noto-Sans-Medium";
+`;
+
+const FlexContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
+const DiscountRate = styled.Text`
+  font-size: ${textSalePriceFontSize};
+  font-family: "Montserrat-SemiBold";
+  color: ${tabViewSelectColor};
+  font-weight: 600;
+  margin-right: 7px;
 `;
