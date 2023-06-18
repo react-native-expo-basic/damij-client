@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import Main from "../components/home/main/Index";
+import Main from "../components/home/Main/Index";
 import { useSelector } from "react-redux";
 import { View, Text, useWindowDimensions } from "react-native";
 import { TabBar, TabView, SceneMap } from "react-native-tab-view";

@@ -1,4 +1,25 @@
 {
+  "category": [
+    {
+      "categoryName": "topWear",
+      "subCategoryList": ["반팔", "긴팔", "니트", "맨투맨", "셔츠"]
+    },
+    {
+      "categoryName": "bottomWear",
+      "subCategoryList": [
+        "반바지",
+        "청바지",
+        "스커트",
+        "미니스커트",
+        "숏팬츠",
+        "면바지"
+      ]
+    },
+    {
+      "categoryName": "dress",
+      "subCategoryList": ["꽃무늬", "프릴", "원피스"]
+    }
+  ],
   "cloth": [
     {
       "id": 1,
@@ -129,7 +150,7 @@
       "salesCount": 191,
       "isNew": false,
       "review_count": 86,
-      "isLiked": true
+      "isLiked": false
     },
     {
       "id": 9,
@@ -232,7 +253,7 @@
       "salesCount": 326,
       "isNew": true,
       "review_count": 221,
-      "isLiked": true,
+      "isLiked": false,
       "registration_date": "2023-06-10"
     },
     {
@@ -291,7 +312,7 @@
       "salesCount": 128,
       "isNew": true,
       "review_count": 49,
-      "isLiked": true,
+      "isLiked": false,
       "registration_date": "2023-06-12"
     },
     {

@@ -7,7 +7,7 @@ export async function updateProductLikedStatus({
   isLiked,
 }: LikesProductType) {
   try {
-    const url = `http://192.168.35.88:3000/cloth/${productId}`;
+    const url = `http://192.168.35.187:3000/cloth/${productId}`;
     const data = { isLiked };
 
     const response = await axios.patch(url, data);
@@ -24,7 +24,7 @@ export async function updateProductLikedStatus({
 
 export async function fetchProductData() {
   try {
-    const response = await axios.get("http://192.168.35.88:3000/cloth");
+    const response = await axios.get("http://192.168.35.187:3000/cloth");
 
     return response.data;
   } catch (error) {
@@ -32,7 +32,7 @@ export async function fetchProductData() {
   }
 }
 
-export function filterdIsNew(productInfo: ProductType[]): ProductType[] {
+export function filteredIsNew(productInfo: ProductType[]): ProductType[] {
   const filteredItems =
     productInfo && productInfo.length > 0
       ? productInfo.filter((item) => item.isNew === true)
@@ -41,7 +41,7 @@ export function filterdIsNew(productInfo: ProductType[]): ProductType[] {
   return filteredItems;
 }
 
-export function filterdIsBest(productInfo: ProductType[]): ProductType[] {
+export function filteredIsBest(productInfo: ProductType[]): ProductType[] {
   if (!productInfo) {
     return [];
   }
