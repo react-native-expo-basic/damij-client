@@ -16,12 +16,16 @@ interface LikesState {
 export default function Likes() {
   const navigation = useNavigation();
   const [cartItems, setCartItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchProductData = async () => {
-    const response = await fetchProductLikeData();
-    setCartItems(response);
-    setIsLoading(false);
+    try {
+      const response = await fetchProductLikeData();
+      setCartItems(response);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -31,16 +35,16 @@ export default function Likes() {
     });
 
     return unsubscribe;
-  }, []);
+  }, [navigation]);
 
   const data = [{ id: "button" }, { id: "productList" }];
 
   const renderItem = ({ item }: { item: DataType }) => {
     switch (item.id) {
-      case "swiper":
+      case "button":
         return <EditButtonContainer />;
       case "productList":
-        return <LikeFolder productInfo={cartItems} />;
+        return <LikeFolder cartItem={cartItems} />;
       default:
         return null;
     }
@@ -54,7 +58,7 @@ export default function Likes() {
         <FlatList
           data={data}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item: DataType) => item.id.toString()}
         />
       )}
     </PaddingView>
