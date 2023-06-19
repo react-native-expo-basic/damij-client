@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Modal, View } from "react-native";
 import { ModalActionType } from "redux/modules/modal";
 import LikeNotification from "./LikeNotification";
+import EditFolderModal from "./EditFolderModal";
 
 interface ModalState {
   modal: ModalActionType;
@@ -18,7 +19,8 @@ export default function GlobalModal(): JSX.Element {
   }
 
   const MODAL_COMPONENTS: { [key: string]: JSX.Element } = {
-    alarm: <LikeNotification props={props} />,
+    alarm: <LikeNotification {...props} />,
+    editFolder: <EditFolderModal {...props} />,
   };
   return <View>{MODAL_COMPONENTS[modalType]}</View>;
 }
