@@ -1,24 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  View,
-  Text,
   TextInput,
   TouchableOpacity,
   Modal,
   Dimensions,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
 } from "react-native";
+import axios from "axios";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
 
-export default function EditFolderModal() {
+interface EditFolderPropsType {
+  title: string;
+  placeholder: string;
+  value: string;
+}
+export default function EditFolderModal(props: EditFolderPropsType) {
   const [isModalVisible, setIsModalVisible] = useState(true);
   const { openModal, closeModal } = useModal();
   const inputRef = useRef<TextInput>(null);
+  const windowWidth = Dimensions.get("window").width;
+
+  const { title, placeholder, value } = props;
 
   const handleInputContainerPress = () => {
     inputRef?.current?.focus();
@@ -26,8 +30,23 @@ export default function EditFolderModal() {
   const closeEventHandler = () => {
     closeModal("editFolder");
   };
+  const onChange = () => {};
+  const completeEventHandler = async () => {
+    try {
+      const inputValue = inputRef.current?.props.value;
+      console.log(inputValue);
+      let response = await axios.post("http://192.168.35.190:3000/likes", {
+        inputValue,
+      });
 
-  const completeEventHandler = () => {};
+      if (response.data !== 201) {
+        closeModal("editFolder");
+        openModal("confirm", { value: "중복된 폴더명이 존재합니다." });
+      }
+    } catch (error) {
+      console.log("폴더명을 입력하는 과정에서 오류가 발생했습니다.", error);
+    }
+  };
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -44,16 +63,21 @@ export default function EditFolderModal() {
           <ModalContainer
             style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
           >
-            <View>
-              <AntDesign name="close" size={20} color="black" />
-              <Title>{}</Title>
-            </View>
+            <TitleContainer>
+              <Close name="close" size={20} color="black" />
+              <Title>{title}</Title>
+            </TitleContainer>
 
             <InputField>
               <InputContainer onPress={handleInputContainerPress}>
-                <Input ref={inputRef} />
+                <Input
+                  ref={inputRef}
+                  placeholder={placeholder}
+                  defaultValue={value}
+                  onChangeText={onChange}
+                />
               </InputContainer>
-              <TouchableOpacity onPress={completeEventHandler}>
+              <TouchableOpacity onPress={() => completeEventHandler()}>
                 <ConfirmText>확인</ConfirmText>
               </TouchableOpacity>
             </InputField>
@@ -69,9 +93,24 @@ const ModalBackground = styled.View`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
+const Close = styled(AntDesign)`
+  position: absolute;
+  left: 0px;
+`;
+
+const TitleContainer = styled.View`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
 const Title = styled.Text`
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 20px;
 `;
 const InputField = styled.View`
   display: flex;
