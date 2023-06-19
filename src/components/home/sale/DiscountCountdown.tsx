@@ -23,7 +23,7 @@ const DiscountCountdown = (discountTime: number) => {
           )}분 ${padZero(remainingSeconds)}초가 남았습니다.`
         );
       } else {
-        setRemainingTime("");
+        setRemainingTime("할인 시간이 종료되었습니다.");
       }
     };
 
