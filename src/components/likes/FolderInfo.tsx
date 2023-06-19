@@ -24,13 +24,18 @@ export default function FolderInfo({ product }: FolderInfoProps) {
   return (
     <FlexContainer>
       <View>
-        <FolderTitle>{product[0].folderName}</FolderTitle>
+        <FolderTitle>{product[0]?.folderName}</FolderTitle>
         <CountList>{`${product.length}개`}</CountList>
       </View>
       <EditContainer onPress={clickEditModalHandler}>
         <Feather name="more-vertical" size={22} color="grey" />
       </EditContainer>
-      {isModalOpen && <EditFavoritFolderModal onClose={closeModal} />}
+      {isModalOpen && (
+        <EditFavoritFolderModal
+          onClose={closeModal}
+          folderName={product[0]?.folderName}
+        />
+      )}
     </FlexContainer>
   );
 }
