@@ -5,11 +5,13 @@ import {
   Modal,
   Dimensions,
   TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import axios from "axios";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
+import Input from "../Input";
 
 interface EditFolderPropsType {
   title: string;
@@ -17,47 +19,48 @@ interface EditFolderPropsType {
   value: string;
 }
 export default function EditFolderModal(props: EditFolderPropsType) {
-  const [isModalVisible, setIsModalVisible] = useState(true);
   const { openModal, closeModal } = useModal();
+  const [inputValue, setInputValue] = useState(props.value);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const inputRef = useRef<TextInput>(null);
-  const windowWidth = Dimensions.get("window").width;
-
   const { title, placeholder, value } = props;
 
-  const handleInputContainerPress = () => {
-    inputRef?.current?.focus();
-  };
   const closeEventHandler = () => {
     closeModal("editFolder");
   };
-  const onChange = () => {};
+  const onChange = (text: string) => {
+    setInputValue(text);
+    setIsButtonEnabled(text.trim().length > 0);
+  };
   const completeEventHandler = async () => {
-    try {
-      const inputValue = inputRef.current?.props.value;
-      console.log(inputValue);
-      let response = await axios.post("http://192.168.35.190:3000/likes", {
-        inputValue,
-      });
+    if (isButtonEnabled) {
+      try {
+        let response = await axios.post("http://172.30.1.4:3000/likes", {
+          value: inputValue,
+        });
 
-      if (response.data !== 201) {
-        closeModal("editFolder");
-        openModal("confirm", { value: "중복된 폴더명이 존재합니다." });
+        if (response.data !== 201) {
+          closeModal("editFolder");
+          openModal("confirm", { value: "중복된 폴더명이 존재합니다." });
+        }
+      } catch (error) {
+        console.log("폴더명을 입력하는 과정에서 오류가 발생했습니다.", error);
       }
-    } catch (error) {
-      console.log("폴더명을 입력하는 과정에서 오류가 발생했습니다.", error);
     }
   };
 
   useEffect(() => {
-    inputRef?.current?.focus();
+    Keyboard.dismiss();
+    const timeout = setTimeout(() => {
+      inputRef?.current?.focus();
+    }, 100);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
-    <Modal
-      visible={isModalVisible}
-      onRequestClose={closeEventHandler}
-      transparent
-    >
+    <Modal onRequestClose={closeEventHandler} transparent>
       <TouchableWithoutFeedback onPress={closeEventHandler}>
         <ModalBackground>
           <ModalContainer
@@ -69,16 +72,22 @@ export default function EditFolderModal(props: EditFolderPropsType) {
             </TitleContainer>
 
             <InputField>
-              <InputContainer onPress={handleInputContainerPress}>
+              <InputContainer>
                 <Input
                   ref={inputRef}
                   placeholder={placeholder}
-                  defaultValue={value}
-                  onChangeText={onChange}
+                  value={inputValue}
+                  fontSize={18}
+                  onChange={onChange}
                 />
               </InputContainer>
-              <TouchableOpacity onPress={() => completeEventHandler()}>
-                <ConfirmText>확인</ConfirmText>
+              <TouchableOpacity
+                onPress={() => completeEventHandler()}
+                disabled={isButtonEnabled}
+              >
+                <ConfirmText isButtonEnabled={isButtonEnabled}>
+                  확인
+                </ConfirmText>
               </TouchableOpacity>
             </InputField>
           </ModalContainer>
@@ -126,7 +135,7 @@ const InputContainer = styled.TouchableOpacity`
   justify-content: center;
   flex: 1;
 `;
-const ConfirmText = styled.Text`
+const ConfirmText = styled.Text<{ isButtonEnabled: boolean }>`
   padding: 13px 22px;
   color: #fff;
   font-size: 17px;
@@ -134,7 +143,7 @@ const ConfirmText = styled.Text`
   letter-spacing: 1px;
   margin-left: 10px;
   border-radius: 8px;
-  background: #171616;
+  background: ${(props) => (props.isButtonEnabled ? "#171616" : "grey")};
 `;
 const ModalContainer = styled.View`
   width: 100%;
@@ -142,8 +151,4 @@ const ModalContainer = styled.View`
   bottom: 0;
   background: #fff;
   padding: 20px 10px;
-`;
-
-const Input = styled.TextInput<any>`
-  font-size: 18px;
 `;
