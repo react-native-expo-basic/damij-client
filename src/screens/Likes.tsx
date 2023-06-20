@@ -3,7 +3,7 @@ import { Image, View, Text, ActivityIndicator, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import EditButtonContainer from "../components/likes/EditButtonContainer";
-import LikeFolder from "../components/likes/LikeFolder";
+import LikeFolder from "../components/likes/index";
 import { DataType, ProductType } from "../types/types";
 import { fetchProductLikeData } from "../utils/productUtils";
 import { useSelector } from "react-redux";
