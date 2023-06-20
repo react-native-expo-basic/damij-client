@@ -5,7 +5,7 @@ import Product from "../../Product";
 import { filteredIsBest } from "../../../utils/productUtils";
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
-import { DataType } from "types/types";
+import { DataType } from "../../../types/types";
 
 export default function Index({ productInfo }: MainProps) {
   const popularProducts = filteredIsBest(productInfo);
