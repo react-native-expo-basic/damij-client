@@ -2,10 +2,18 @@ import React from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import { editButtonColor, editTextColor } from "../../style";
+import useModal from "../../hooks/useModal";
 
 export default function EditButtonContainer() {
+  const { openModal } = useModal();
+  const handleNewFolderModal = () => {
+    openModal("editFolder", {
+      title: "새로운 폴더 만들기",
+      placeholder: "폴더 이름은 최소 한글자 이상 입력해주세요.",
+    });
+  };
   return (
-    <Container>
+    <Container onPress={handleNewFolderModal}>
       <EditText>새폴더</EditText>
     </Container>
   );
