@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  Animated,
-  Modal,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
+import axios from "axios";
+
 interface FlexContainerProps {
   isFirst?: boolean;
 }
@@ -38,7 +34,12 @@ export default function EditFavoritFolderModal({
     };
   }, [onClose, TranslateX]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    try {
+      await axios.delete("http://172.30.1.4:3000/likes", { data: folderName });
+    } catch (error) {
+      console.log("폴더를 삭제하는 도중 오류가 발생했습니다.", error);
+    }
     onClose();
   };
 
@@ -50,14 +51,7 @@ export default function EditFavoritFolderModal({
     });
     onClose();
   };
-  const [isModalVisible, setIsModalVisible] = useState(true);
-  const closeEventHandler = () => {
-    openModal("editFolder", {
-      title: "새로운 폴더 만들기",
-      placeholder: "폴더 이름을 입력해주세요.",
-      value: folderName,
-    });
-  };
+
   return (
     <Wrapper
       style={{
