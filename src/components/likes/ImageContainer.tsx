@@ -3,35 +3,33 @@ import { View, Image } from "react-native";
 import styled from "styled-components/native";
 import { ProductType } from "../../types/types";
 
-interface ProductProps {
-  products?: ProductType[];
+interface ImageContainerProps {
+  images: Array<string>;
 }
-
 interface ProductCountProps {
   count: number;
 }
-
-export default function ImageContainer({ products }: ProductProps) {
+export default function ImageContainer({ images }: ImageContainerProps) {
   return (
     <Container>
-      {products && products.length >= 1 ? (
+      {images && images.length >= 1 ? (
         <GridContainer>
-          {products.length >= 4 ? (
-            products.slice(0, 4).map((product) => (
-              <ImageWrapper count={products.length} key={product.id}>
+          {images.length >= 4 ? (
+            images.slice(0, 4).map((item) => (
+              <ImageWrapper count={images.length} key={item}>
                 <ImgFile
                   source={{
-                    uri: product.productInfo.image,
+                    uri: item,
                   }}
                   resizeMode="cover"
                 />
               </ImageWrapper>
             ))
           ) : (
-            <ImageWrapper count={products.length}>
+            <ImageWrapper count={images.length}>
               <ImgFile
                 source={{
-                  uri: products[0].productInfo.image,
+                  uri: images[0],
                 }}
                 resizeMode="cover"
               />
