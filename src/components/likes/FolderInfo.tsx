@@ -8,10 +8,15 @@ import EditFavoritFolderModal from "./EditFavoritFolderModal";
 import { ProductType } from "types/types";
 
 interface FolderInfoProps {
-  product: ProductType[];
+  folderName: string;
+  length: number;
 }
 
-export default function FolderInfo({ product }: FolderInfoProps) {
+export default function FolderInfo({
+  productInfo,
+}: {
+  productInfo: FolderInfoProps;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const clickEditModalHandler = () => {
     setIsModalOpen(true);
@@ -24,8 +29,8 @@ export default function FolderInfo({ product }: FolderInfoProps) {
   return (
     <FlexContainer>
       <View>
-        <FolderTitle>{product[0]?.folderName}</FolderTitle>
-        <CountList>{`${product.length}개`}</CountList>
+        <FolderTitle>{productInfo.folderName}</FolderTitle>
+        <CountList>{`${productInfo.length}개`}</CountList>
       </View>
       <EditContainer onPress={clickEditModalHandler}>
         <Feather name="more-vertical" size={22} color="grey" />
@@ -33,7 +38,7 @@ export default function FolderInfo({ product }: FolderInfoProps) {
       {isModalOpen && (
         <EditFavoritFolderModal
           onClose={closeModal}
-          folderName={product[0]?.folderName}
+          folderName={productInfo.folderName}
         />
       )}
     </FlexContainer>
@@ -46,7 +51,7 @@ const FlexContainer = styled.View`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 5px;
 `;
 const FolderTitle = styled.Text`
   font-weight: 600;
