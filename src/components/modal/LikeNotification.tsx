@@ -4,13 +4,11 @@ import styled from "styled-components/native";
 import useModal from "../../hooks/useModal";
 
 interface LikeNotificationProps {
-  props: {
-    isLiked: boolean;
-    productId: boolean;
-  };
+  isLiked: boolean;
+  productId: boolean;
 }
 
-export default function LikeNotification({ props }: LikeNotificationProps) {
+export default function LikeNotification(props: LikeNotificationProps) {
   const { isLiked, productId } = props;
   const [isVisible, setIsVisible] = useState(true);
   const windowWidth = Dimensions.get("window").width;
