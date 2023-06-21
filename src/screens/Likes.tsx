@@ -9,13 +9,17 @@ import { fetchProductLikeData } from "../utils/productUtils";
 import { useSelector } from "react-redux";
 import { LikesProductType } from "../types/types";
 
-interface LikesState {
-  likes: LikesProductType;
+export interface LikesFolderType {
+  image: Array<string>;
+  productInfo: {
+    folderName: string;
+    length: number;
+  };
 }
 
 export default function Likes() {
   const navigation = useNavigation();
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<LikesFolderType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchProductData = async () => {
@@ -27,7 +31,7 @@ export default function Likes() {
       console.error(error);
     }
   };
-
+  /*   cartItems.length > 0 && cartItems.map((item) => console.log(item.folderName)); */
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setIsLoading(true);
@@ -37,28 +41,17 @@ export default function Likes() {
     return unsubscribe;
   }, [navigation]);
 
-  const data = [{ id: "button" }, { id: "productList" }];
-
-  const renderItem = ({ item }: { item: DataType }) => {
-    switch (item.id) {
-      case "button":
-        return <EditButtonContainer />;
-      case "productList":
-        return <LikeFolder cartItem={cartItems} />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <PaddingView>
       {isLoading ? (
         <LoadingSpinner size="large" color="#0000ff" />
       ) : (
         <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item: DataType) => item.id.toString()}
+          data={cartItems}
+          keyExtractor={(item) => item.productInfo.folderName}
+          renderItem={({ item }) => <LikeFolder cartItem={[item]} />}
+          ListHeaderComponent={<EditButtonContainer />}
+          numColumns={2}
         />
       )}
     </PaddingView>
