@@ -5,7 +5,9 @@ export interface ModalActionType<P = any> {
   isOpen: boolean;
   props: P;
 }
-
+export interface ModalState {
+  modals: ModalActionType[];
+}
 const prefix = "http://192.168.35.71:3000";
 
 // 액션 타입 정의
@@ -22,22 +24,42 @@ export const closeModal = (modalType: string) => ({
   payload: { isOpen: false },
 });
 // 초기 상태 정의
-const initialState: ModalActionType<{}> = {
-  modalType: "",
+/*  modalType: "",
   isOpen: false,
-  props: {},
+  props: {}, */
+const initialState: ModalState = {
+  modals: [],
 };
 
 // 리듀서 함수 정의
 const modalState = (state = initialState, action: Action<ModalActionType>) => {
   switch (action.type) {
-    case MODAL:
-      return {
-        ...state,
-        modalType: action.payload.modalType,
-        isOpen: action.payload.isOpen,
-        props: action.payload.props,
-      };
+    case MODAL: {
+      const { modalType, isOpen, props } = action.payload;
+      console.log(modalType, isOpen, props, "리덕스 상태");
+      if (isOpen) {
+        // 모달 열기
+        return {
+          modals: [
+            ...state.modals,
+            {
+              modalType,
+              isOpen,
+              props,
+            },
+          ],
+        };
+      } else {
+        // 모달 닫기
+        const updatedModals = state.modals.filter(
+          (modal) => modal.modalType !== modalType
+        );
+        return {
+          modals: updatedModals,
+        };
+      }
+    }
+
     default:
       return state;
   }
