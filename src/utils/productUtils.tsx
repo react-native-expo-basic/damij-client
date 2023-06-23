@@ -2,18 +2,30 @@ import axios from "axios";
 import { ProductType } from "../types/types";
 import { LikesProductType } from "../types/types";
 
-export async function fetchProductLikeData() {
+// 찜 카테고리 폴더에 저장된 상품 데이터 가져오는 Api
+export async function fetchLikeProductData(folderName: string) {
   try {
-    const response = await axios.get(
-      `http://192.168.35.187:3000/likes?category=기본 폴더`
-    );
-
+    const response = await axios.get("http://192.168.35.55:3000/likes");
     return response.data;
   } catch (error) {
-    console.error("좋아요 상태의 상품을 가져오는 도중 오류가 발생했습니다.");
+    console.error(
+      "상품 폴더의 데이터를 서버에서 받아오는 도중에 오류가 발생했습니다."
+    );
   }
 }
 
+// 찜 카테고리에 저장된 폴더 데이터 가져오는 Api
+export async function fetchLikeFolderData() {
+  try {
+    const response = await axios.get(`http://192.168.35.55:3000/folder`);
+
+    return response.data;
+  } catch (error) {
+    console.error("좋아요 폴더의 상품을 가져오는 도중 오류가 발생했습니다.");
+  }
+}
+
+// 상품 좋아요 찜 카테고리에 업로드하는 Api
 export async function uploadProductLikeData(
   productInfo: ProductType,
   isLiked: boolean,
@@ -22,7 +34,7 @@ export async function uploadProductLikeData(
   try {
     if (isLiked) {
       const response = await axios.post(
-        `http://192.168.35.187:3000/likes?category/:${folderName}`,
+        `http://192.168.35.55:3000/likes?category/:${folderName}`,
         {
           folderName,
           productInfo,
@@ -31,7 +43,7 @@ export async function uploadProductLikeData(
 
       return response.data;
     } else {
-      const likesResponse = await axios.get(`http://192.168.35.187:3000/likes`);
+      const likesResponse = await axios.get(`http://192.168.35.55:3000/likes`);
       const likes = likesResponse.data;
 
       const productId = productInfo.id;
@@ -42,7 +54,7 @@ export async function uploadProductLikeData(
 
       if (productToDelete) {
         const deleteResponse = await axios.delete(
-          `http://192.168.35.187:3000/likes/${productToDelete.id}`
+          `http://192.168.35.55:3000/likes/${productToDelete.id}`
         );
       } else {
         console.log(`상품을 찾을 수 없습니다: ${productId}`);
@@ -61,7 +73,7 @@ export async function updateProductLikedStatus({
   isLiked,
 }: LikesProductType) {
   try {
-    const url = `http://192.168.35.187:3000/cloth/${productId}`;
+    const url = `http://192.168.35.55:3000/cloth/${productId}`;
     const data = { isLiked };
 
     const response = await axios.patch(url, data);
@@ -78,7 +90,7 @@ export async function updateProductLikedStatus({
 
 export async function fetchProductData() {
   try {
-    const response = await axios.get("http://192.168.35.187:3000/cloth");
+    const response = await axios.get("http://192.168.35.55:3000/cloth");
 
     return response.data;
   } catch (error) {
