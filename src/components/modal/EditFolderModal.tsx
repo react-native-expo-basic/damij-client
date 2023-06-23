@@ -35,13 +35,13 @@ export default function EditFolderModal(props: EditFolderPropsType) {
   const completeEventHandler = async () => {
     if (isButtonEnabled) {
       try {
-        let response = await axios.post("http://172.30.1.4:3000/likes", {
+        let response = await axios.post("http://192.168.35.55:3000/likes", {
           value: inputValue,
         });
 
         if (response.data !== 201) {
           closeModal("editFolder");
-          openModal("confirm", { value: "중복된 폴더명이 존재합니다." });
+          openModal("alert", { message: "중복된 폴더명이 존재합니다." });
         }
       } catch (error) {
         console.log("폴더명을 입력하는 과정에서 오류가 발생했습니다.", error);
@@ -61,43 +61,39 @@ export default function EditFolderModal(props: EditFolderPropsType) {
 
   return (
     <Modal onRequestClose={closeEventHandler} transparent>
-      <TouchableWithoutFeedback onPress={closeEventHandler}>
-        <ModalBackground>
-          <ModalContainer
-            style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
-          >
-            <TitleContainer>
-              <Close name="close" size={20} color="black" />
-              <Title>{title}</Title>
-            </TitleContainer>
+      <ModalBackground onPress={closeEventHandler}>
+        <ModalContainer
+          style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+        >
+          <TitleContainer>
+            <Close name="close" size={20} color="black" />
+            <Title>{title}</Title>
+          </TitleContainer>
 
-            <InputField>
-              <InputContainer>
-                <Input
-                  ref={inputRef}
-                  placeholder={placeholder}
-                  value={inputValue}
-                  fontSize={18}
-                  onChange={onChange}
-                />
-              </InputContainer>
-              <TouchableOpacity
-                onPress={() => completeEventHandler()}
-                disabled={isButtonEnabled}
-              >
-                <ConfirmText isButtonEnabled={isButtonEnabled}>
-                  확인
-                </ConfirmText>
-              </TouchableOpacity>
-            </InputField>
-          </ModalContainer>
-        </ModalBackground>
-      </TouchableWithoutFeedback>
+          <InputField>
+            <InputContainer>
+              <Input
+                ref={inputRef}
+                placeholder={placeholder}
+                value={inputValue}
+                fontSize={18}
+                onChange={onChange}
+              />
+            </InputContainer>
+            <TouchableOpacity
+              onPress={() => completeEventHandler()}
+              disabled={isButtonEnabled}
+            >
+              <ConfirmText isButtonEnabled={isButtonEnabled}>확인</ConfirmText>
+            </TouchableOpacity>
+          </InputField>
+        </ModalContainer>
+      </ModalBackground>
     </Modal>
   );
 }
 
-const ModalBackground = styled.View`
+const ModalBackground = styled.TouchableWithoutFeedback`
   flex: 1;
   background-color: rgba(0, 0, 0, 0.2);
 `;
