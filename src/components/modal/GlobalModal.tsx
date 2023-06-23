@@ -1,28 +1,32 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Modal, View } from "react-native";
-import { ModalActionType } from "redux/modules/modal";
-import LikeNotification from "./LikeNotification";
-import EditFolderModal from "./EditFolderModal";
-import LikeProductListModal from "./LikeProductListModal";
+import ModalComponent from "./ModalComponent";
+import { ModalState } from "redux/modules/modal";
 
-interface ModalState {
-  modal: ModalActionType;
+interface GlobalModalProps {
+  modal: ModalState;
 }
 
 export default function GlobalModal(): JSX.Element {
-  const { modalType, isOpen, props } = useSelector(
-    (state: ModalState) => state.modal
-  );
+  const modals = useSelector((state: GlobalModalProps) => state.modal.modals);
 
-  if (!isOpen) {
+  console.log("모달 콘솔로그", modals);
+
+  if (modals === undefined) {
     return <></>;
   }
 
-  const MODAL_COMPONENTS: { [key: string]: JSX.Element } = {
-    alarm: <LikeNotification {...props} />,
-    editFolder: <EditFolderModal {...props} />,
-    LikeDetail: <LikeProductListModal {...props} />,
-  };
-  return <View>{MODAL_COMPONENTS[modalType]}</View>;
+  return (
+    <>
+      {modals.length > 0
+        ? modals.map((modal: any) => (
+            <ModalComponent
+              key={modal.modalType}
+              modalType={modal.modalType}
+              props={modal.props}
+            />
+          ))
+        : ""}
+    </>
+  );
 }
