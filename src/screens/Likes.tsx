@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Image, View, Text, ActivityIndicator, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import EditButtonContainer from "../components/likes/EditButtonContainer";
 import LikeFolder from "../components/likes/index";
-import { DataType, ProductType } from "../types/types";
-import { fetchProductLikeData } from "../utils/productUtils";
-import { useSelector } from "react-redux";
-import { LikesProductType } from "../types/types";
+import { fetchLikeFolderData } from "../utils/productUtils";
+import { loadingSpinnerColor } from "../style";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export interface LikesFolderType {
   image: Array<string>;
@@ -24,7 +23,7 @@ export default function Likes() {
 
   const fetchProductData = async () => {
     try {
-      const response = await fetchProductLikeData();
+      const response = await fetchLikeFolderData();
       setCartItems(response);
       setIsLoading(false);
     } catch (error) {
@@ -44,7 +43,7 @@ export default function Likes() {
   return (
     <PaddingView>
       {isLoading ? (
-        <LoadingSpinner size="large" color="#0000ff" />
+        <LoadingSpinner size={30} color={loadingSpinnerColor} />
       ) : (
         <FlatList
           data={cartItems}
@@ -62,9 +61,4 @@ const PaddingView = styled.View`
   padding: 20px 15px 0;
   background-color: white;
   flex: 1;
-`;
-
-const LoadingSpinner = styled.ActivityIndicator`
-  position: absolute;
-  left: 50%;
 `;
