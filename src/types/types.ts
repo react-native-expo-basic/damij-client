@@ -44,6 +44,6 @@ export interface MainProps {
 }
 
 export interface ButtonType<T = any> {
-  texts: string;
-  event: (text: T) => void;
+  children: string;
+  onPress: (text: T) => void;
 }
