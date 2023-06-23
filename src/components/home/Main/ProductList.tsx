@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import Product from "../../Product";
 import { filteredIsBest, filteredIsNew } from "../../../utils/productUtils";
-import { ProductType } from "types/types";
+import { ProductType } from "../../../types/types";
 
 export interface MainProps {
   productInfo: ProductType[];
