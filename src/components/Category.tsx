@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FilterButton } from "./Button";
+import { FilterButton as Button } from "./Button";
 import styled from "styled-components/native";
 import { viewDisableColor } from "../style";
 
@@ -15,12 +15,13 @@ export default function Category() {
       {category.map((item, idx) => {
         let isSelected = selectedButton === item;
         return (
-          <FilterButton
-            texts={item}
-            event={() => handleButtonPress(item)}
+          <Button
+            onPress={() => handleButtonPress(item)}
             isSelected={isSelected}
             key={idx}
-          />
+          >
+            {item}
+          </Button>
         );
       })}
     </CategoryContainer>
