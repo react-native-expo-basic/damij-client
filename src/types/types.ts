@@ -45,5 +45,7 @@ export interface MainProps {
 
 export interface ButtonType<T = any> {
   children: string;
+  background?: string;
+  color?: string;
   onPress: (text: T) => void;
 }
