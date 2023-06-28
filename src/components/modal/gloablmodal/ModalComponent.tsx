@@ -1,14 +1,16 @@
 import React from "react";
 import { Modal, View } from "react-native";
+import LikeNotification from "../LikeNotification";
+import EditFolderModal from "../EditFolderModal";
+import LikeProductListModal from "../LikeProductListModal";
+import ConfirmModal from "../ConfirmModal";
+import FolderSelectionModal from "../selectionModal/FolderSelectionModal";
 
-import LikeNotification from "./LikeNotification";
-import EditFolderModal from "./EditFolderModal";
-import LikeProductListModal from "./LikeProductListModal";
-import ConfirmModal from "./ConfirmModal";
 interface ModalComponentProps {
   modalType: string;
   props: any;
 }
+
 const ModalComponent: React.FC<ModalComponentProps> = ({
   modalType,
   props,
@@ -18,6 +20,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
     editFolder: <EditFolderModal {...props} />,
     likeDetail: <LikeProductListModal {...props} />,
     confirm: <ConfirmModal {...props} />,
+    handleFolder: <FolderSelectionModal {...props} />,
   };
 
   return <View>{MODAL_COMPONENTS[modalType]}</View>;

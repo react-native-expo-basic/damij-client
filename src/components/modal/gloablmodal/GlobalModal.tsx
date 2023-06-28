@@ -10,8 +10,6 @@ interface GlobalModalProps {
 export default function GlobalModal(): JSX.Element {
   const modals = useSelector((state: GlobalModalProps) => state.modal.modals);
 
-  console.log("모달 콘솔로그", modals);
-
   if (modals === undefined) {
     return <></>;
   }
