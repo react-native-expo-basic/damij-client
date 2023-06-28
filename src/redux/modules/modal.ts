@@ -21,7 +21,7 @@ export const openModal = (modalType: string, props: {}) => ({
 });
 export const closeModal = (modalType: string) => ({
   type: MODAL,
-  payload: { isOpen: false },
+  payload: { modalType, isOpen: false },
 });
 // 초기 상태 정의
 /*  modalType: "",
@@ -36,7 +36,6 @@ const modalState = (state = initialState, action: Action<ModalActionType>) => {
   switch (action.type) {
     case MODAL: {
       const { modalType, isOpen, props } = action.payload;
-      console.log(modalType, isOpen, props, "리덕스 상태");
       if (isOpen) {
         // 모달 열기
         return {
