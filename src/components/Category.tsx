@@ -18,6 +18,7 @@ export default function Category() {
           <Button
             onPress={() => handleButtonPress(item)}
             isSelected={isSelected}
+            background={viewDisableColor}
             key={idx}
           >
             {item}
