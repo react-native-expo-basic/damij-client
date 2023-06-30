@@ -1,29 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import Product from "../../Product";
-import { filteredIsBest, filteredIsNew } from "../../../utils/productUtils";
 import { ProductType } from "../../../types/types";
-
+import { fetchProductData } from "../../../api/productApi";
 export interface MainProps {
-  productInfo: ProductType[];
+  newProduct: ProductType[];
+  bestProduct: ProductType[];
 }
 
-export default function ProductSection({ productInfo }: MainProps) {
-  const popularProducts = filteredIsBest(productInfo);
-  const newProducts = filteredIsNew(productInfo);
+export default function ProductList() {
+  const [fetchData, setFetchData] = useState({
+    new: { NewProduct: [] },
+    best: { BestProduct: [] },
+  });
+  const fetchItems = async () => {
+    try {
+      const [newProducts, popularProducts] = await Promise.all([
+        fetchProductData("NewProduct"),
+        fetchProductData("BestProduct"),
+      ]);
+      setFetchData({ new: newProducts, best: popularProducts });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
   return (
     <PaddingView>
       <ProductContainer>
         <TitleContainer>
           <TitleText>당신을 위한 최고의 아이템</TitleText>
         </TitleContainer>
-        <Product products={popularProducts} />
+        <Product products={fetchData.best.BestProduct} />
       </ProductContainer>
       <ProductContainer>
         <TitleContainer>
           <TitleText>오늘의 아이템</TitleText>
         </TitleContainer>
-        <Product products={newProducts} />
+        <Product products={fetchData.new.NewProduct} />
       </ProductContainer>
     </PaddingView>
   );
