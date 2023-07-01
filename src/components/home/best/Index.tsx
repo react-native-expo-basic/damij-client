@@ -1,37 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Category from "../../Category";
-import { MainProps } from "../../../types/types";
+import { fetchProductData } from "../../../api/productApi";
+import { MainProps, ProductType } from "../../../types/types";
 import Product from "../../Product";
-import { filteredIsBest } from "../../../utils/productUtils";
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { DataType } from "../../../types/types";
 
-export default function Index({ productInfo }: MainProps) {
-  const popularProducts = filteredIsBest(productInfo);
+export default function Index() {
   const data = [{ id: "category" }, { id: "product" }];
 
-  const renderItem = ({ item }: { item: DataType }) => {
-    switch (item.id) {
-      case "category":
-        return <Category />;
-      case "product":
-        return <Product products={popularProducts} />;
-      default:
-        return null;
+  const [bestItems, setBestItems] = useState<ProductType[]>([]);
+  console.log(bestItems);
+  const fetchItems = async () => {
+    try {
+      const popularProducts = await fetchProductData("BestProduct");
+      setBestItems(popularProducts.BestProduct);
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const renderItem = ({ item }: { item: ProductType }) => {
+    return <Product products={[item]} />;
   };
   return (
     <PaddingView>
       <FlatList
-        data={data}
+        data={bestItems}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={<Category />}
+        numColumns={2}
       />
     </PaddingView>
   );
 }
 const PaddingView = styled.View`
   padding: 7px 15px 0;
-  box-sizing: border-box;
 `;
