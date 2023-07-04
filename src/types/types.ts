@@ -19,20 +19,20 @@ export interface DataType {
 //product type
 
 export interface ProductType {
-  [x: string]: any;
   id: number;
-  image: string;
-  product_name: string;
-  product_price: number;
-  product_color?: Array<string>;
-  discount_rate: number;
-  isOnSale: boolean;
+  img: string;
+  name: string;
+  price: number;
+  colorList?: Array<string>;
+  discountRate: number;
   salesCount: number;
-  isNew: boolean;
-  isLiked: boolean;
+  newProduct: boolean;
+  picked: boolean;
   review_count: string;
-  discountDate: string;
-  registration_date: string;
+  discountDateStart: string;
+  discountDateEnd: string;
+  registrationDate: string;
+  type: string;
 }
 
 export interface LikesProductType {
