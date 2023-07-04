@@ -1,6 +1,6 @@
 import { TextInput, TextInputProps } from "react-native";
 import { useController, Control } from "react-hook-form";
-import { SignupFormValues } from "./Signup";
+import { SignupFormValues } from "./SignupForm";
 
 interface InputProps extends TextInputProps {
   name: keyof SignupFormValues;
@@ -13,6 +13,7 @@ const SignupInput: React.FC<InputProps> = ({
   ...textInputProps
 }) => {
   const { field } = useController({ control, defaultValue: "", name });
+
   return (
     <TextInput
       value={field.value?.toString()}
