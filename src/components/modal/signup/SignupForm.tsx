@@ -1,26 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  TextInputProps,
-  TouchableOpacity,
-  Modal,
-} from "react-native";
+import React from "react";
+import { Modal } from "react-native";
 import { SignupReqType } from "../../../types/types";
 import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
-import {
-  UseFormReturn,
-  useForm,
-  useController,
-  Control,
-} from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Fontisto } from "@expo/vector-icons";
-import instance from "../../../api/api";
 import useModal from "../../../hooks/useModal";
 import SignupInput from "./SignupInput";
 
@@ -29,12 +15,14 @@ export interface SignupFormValues {
   password: string;
   passwordConfirm: string;
 }
-
+interface SignupFormProps {
+  handleSignup: (data: SignupReqType) => void;
+  errorMessage: string;
+}
 export default function SignupForm({
   handleSignup,
-}: {
-  handleSignup: (data: SignupReqType) => void;
-}) {
+  errorMessage,
+}: SignupFormProps) {
   const { closeModal } = useModal();
   const schema = yup.object().shape({
     email: yup
@@ -45,10 +33,7 @@ export default function SignupForm({
       .string()
       .min(8, "최소 8자리 이상 가능합니다")
       .max(15, "최대 15자리 까지 가능합니다")
-      .matches(
-        /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]+$/g,
-        "영문, 숫자, 특수문자를 포함해주세요"
-      )
+      .matches(/^[a-zA-Z0-9]+$/, "영문과 숫자만 입력 가능합니다")
       .required("비밀번호는 필수 입력입니다."),
     passwordConfirm: yup
       .string()
@@ -64,66 +49,45 @@ export default function SignupForm({
   });
 
   return (
-    <Modal animationType="slide" onRequestClose={() => ""}>
+    <Modal animationType="slide" onRequestClose={() => closeModal("signUp")}>
       <Wrapper>
         <CloseIconContainer onPress={() => closeModal("signUp")}>
-          <AntDesign name="close" size={24} color="black" />
+          <AntDesign name="close" size={24} color="#a0a0a0" />
         </CloseIconContainer>
-
         <TitleContainer>
           <TitleText>회원가입</TitleText>
         </TitleContainer>
         <SignupFormContainer>
-          <InputWrapper>
-            <Fontisto name="email" size={18} color="grey" />
-            <InputContainer>
-              <SignupInput
-                name="email"
-                control={control}
-                keyboardType="email-address"
-                placeholder="Email(필수)"
-              />
-            </InputContainer>
-          </InputWrapper>
-
-          <InputWrapper>
+          <SignupInput
+            name="email"
+            control={control}
+            keyboardType="email-address"
+            placeholder="abc@email.com"
+            errors={errors}
+          >
+            <Fontisto name="email" size={18} color="#a0a0a0" />
+          </SignupInput>
+          <SignupInput
+            name="password"
+            control={control}
+            secureTextEntry={true}
+            placeholder="영문,숫자 포함 8자 이상"
+            errors={errors}
+          >
             <Fontisto name="locked" size={18} color="grey" />
-            <InputContainer>
-              <SignupInput
-                name="password"
-                control={control}
-                secureTextEntry={true}
-                placeholder="비밀번호 8~15자리 입력(대문자,소문자,특수문자 필수)"
-              />
-            </InputContainer>
-          </InputWrapper>
-
-          <InputWrapper>
-            <View>
-              <Fontisto name="locked" size={18} color="grey" />
-            </View>
-            <InputContainer>
-              <SignupInput
-                name="passwordConfirm"
-                control={control}
-                secureTextEntry={true}
-                placeholder="비밀번호 확인"
-              />
-            </InputContainer>
-          </InputWrapper>
-
-          <ErrorContainer>
-            <ErrorText>
-              {errors.email?.message ||
-                errors.password?.message ||
-                errors.passwordConfirm?.message}
-            </ErrorText>
-          </ErrorContainer>
-          <TouchableOpacity>
-            <ButtonContainer onPress={handleSubmit(handleSignup)}>
-              <ButtonField>회원가입 하기</ButtonField>
-            </ButtonContainer>
-          </TouchableOpacity>
+          </SignupInput>
+          <SignupInput
+            name="passwordConfirm"
+            control={control}
+            secureTextEntry={true}
+            placeholder="비밀번호 확인"
+            errors={errors}
+          >
+            <Fontisto name="locked" size={18} color="grey" />
+          </SignupInput>
+          <ButtonContainer onPress={handleSubmit(handleSignup)}>
+            <ButtonField>회원가입 하기</ButtonField>
+          </ButtonContainer>
         </SignupFormContainer>
       </Wrapper>
     </Modal>
@@ -160,38 +124,15 @@ const TitleText = styled.Text`
   margin-bottom: -5px;
 `;
 
-const ErrorText = styled.Text`
-  margin: 2px 0;
-  font-size: 12px;
-  color: #c84040;
-`;
-const ErrorContainer = styled.View`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 20px;
-`;
-const InputWrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center; /* 세로 방향 가운데 정렬 */
-  padding: 10px 15px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  margin-bottom: 15px;
-`;
-const InputContainer = styled.View`
-  margin-left: 10px;
-`;
 const ButtonContainer = styled.TouchableOpacity`
   background-color: #2c2b2b;
+
   padding: 15px 20px;
   width: 100%;
   border-radius: 3px;
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  margin-top: 20px;
 `;
 const ButtonField = styled.Text`
   font-size: 15px;
