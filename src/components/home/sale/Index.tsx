@@ -1,31 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, Text } from "react-native";
-import { MainProps, DataType } from "../../../types/types";
+import { MainProps, DataType, ProductType } from "../../../types/types";
+import { fetchProductData } from "../../../api/productApi";
 import SaleProduct from "./SaleProduct";
-import { filteredIsSale } from "../../../utils/productUtils";
 import styled from "styled-components/native";
 
-export default function Index({ productInfo }: MainProps) {
-  const saleProducts = filteredIsSale(productInfo);
+export default function Index() {
+  const [saleItem, setSaleItem] = useState<ProductType[]>([]);
 
-  const data = [{ id: "text" }, { id: "productList" }];
-
-  const renderItem = ({ item }: { item: DataType }) => {
-    switch (item.id) {
-      case "text":
-        return <TitleText>단 5일만 할인특가!</TitleText>;
-      case "productList":
-        return <SaleProduct product={saleProducts} />;
-      default:
-        return null;
+  const fetchItems = async () => {
+    try {
+      const saleProducts = await fetchProductData("NowSale");
+      setSaleItem(saleProducts.NowSale);
+    } catch (error) {
+      console.log(error);
     }
   };
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const renderItem = ({ item }: { item: ProductType }) => {
+    return <SaleProduct product={[item]} />;
+  };
+  /*  */
   return (
     <PaddingView>
       <FlatList
-        data={data}
+        data={saleItem}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={<TitleText>단 5일만 할인특가!</TitleText>}
       />
     </PaddingView>
   );
