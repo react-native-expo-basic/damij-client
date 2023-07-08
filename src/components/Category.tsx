@@ -3,25 +3,45 @@ import { FilterButton as Button } from "./Button";
 import styled from "styled-components/native";
 import { viewDisableColor } from "../style";
 
-export default function Category() {
+interface CategoryProps {
+  filteredItems: (value: string) => void;
+  fetchItems: () => void;
+}
+export default function Category({ filteredItems, fetchItems }: CategoryProps) {
   const [selectedButton, setSelectedButton] = useState("전체");
-  const category = ["전체", "상의", "하의", "아우터", "홈웨어"];
-  const handleButtonPress = (item: string) => {
-    setSelectedButton(item);
+
+  const categorys = [
+    { 전체: "ALL" },
+    { 상의: "TOP" },
+    { 하의: "BOTTOM" },
+    { 아우터: "OUTER" },
+    { 홈웨어: "HOME_WEAR" },
+  ];
+
+  const handleButtonPress = (key: string, value: string) => {
+    if (key === "전체") {
+      setSelectedButton(key);
+      fetchItems();
+      return;
+    }
+    setSelectedButton(key);
+    filteredItems(value);
   };
 
   return (
     <CategoryContainer>
-      {category.map((item, idx) => {
-        let isSelected = selectedButton === item;
+      {categorys.map((category, idx) => {
+        const categoryKey = Object.keys(category)[0];
+        const categoryValue = Object.values(category)[0];
+        let isSelected = selectedButton === categoryKey;
         return (
           <Button
-            onPress={() => handleButtonPress(item)}
+            onPress={() => handleButtonPress(categoryKey, categoryValue)}
             isSelected={isSelected}
             background={viewDisableColor}
             key={idx}
           >
-            {item}
+            {categoryKey}
           </Button>
         );
       })}
