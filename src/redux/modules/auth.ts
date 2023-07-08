@@ -2,17 +2,7 @@ import { Action } from "redux-actions";
 import { put, call, takeEvery } from "redux-saga/effects";
 import jwtDecode from "jwt-decode";
 import TokenService from "../../services/TokenSerivce";
-
-interface LoginPayload {
-  token: string;
-  nickname: string;
-  email: string;
-}
-export interface AuthStateType extends LoginPayload {
-  isLogin: boolean;
-  error?: Error | null;
-}
-
+import { AuthStateType, LoginPayload } from "../../types/types";
 const prefix = "http://192.168.35.71:3000";
 
 // 액션 타입 정의

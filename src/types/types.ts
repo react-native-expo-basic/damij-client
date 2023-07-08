@@ -3,12 +3,10 @@ import { ViewStyle } from "react-native";
 export type SignupReqType = {
   email: string;
   password: string;
-  /*   name: string; */
-  /*   address: string;
-  phoneNumb: number; */
+  passwordConfirm: string;
 };
 
-export type LoginReqType = {
+export type SigninReqType = {
   email: string;
   password: string;
 };
@@ -25,10 +23,10 @@ export interface ProductType {
   price: number;
   colorList?: Array<string>;
   discountRate: number;
-  salesCount: number;
+  saleCount: number;
   newProduct: boolean;
   picked: boolean;
-  review_count: string;
+  reviewCount: string;
   discountDateStart: string;
   discountDateEnd: string;
   registrationDate: string;
@@ -37,7 +35,7 @@ export interface ProductType {
 
 export interface LikesProductType {
   productId: number | null;
-  isLiked: boolean;
+  isLiked?: boolean;
 }
 export interface MainProps {
   productInfo: ProductType[];
@@ -48,4 +46,25 @@ export interface ButtonType<T = any> {
   background?: string;
   color?: string;
   onPress: (text: T) => void;
+}
+
+//auth
+export interface LikesState {
+  likes: { likes: LikesProductType };
+}
+
+export interface LoginPayload {
+  token: string;
+  nickname: string;
+  email: string;
+}
+export interface AuthStateType extends LoginPayload {
+  isLogin: boolean;
+  error?: Error | null;
+}
+export interface MainLikesState {
+  likes: { likes: LikesProductType };
+}
+export interface MainAuthState {
+  auth: { auth: AuthStateType };
 }
