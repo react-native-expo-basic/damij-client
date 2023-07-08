@@ -7,9 +7,11 @@ import LikeFolder from "../components/likes/index";
 import { fetchLikeFolderData } from "../utils/productUtils";
 import { loadingSpinnerColor } from "../style";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useSelector } from "react-redux";
+import { ProductState } from "../components/modal/LikeProductListModal";
 
 export interface LikesFolderType {
-  image: Array<string>;
+  image: string[];
   productInfo: {
     folderName: string;
     length: number;
@@ -20,8 +22,10 @@ export default function Likes() {
   const navigation = useNavigation();
   const [cartItems, setCartItems] = useState<LikesFolderType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const fetchProductData = async () => {
+  const products = useSelector(
+    (state: ProductState) => state.folder.filteredProducts
+  );
+  const fetchFolderData = async () => {
     try {
       const response = await fetchLikeFolderData();
       setCartItems(response);
@@ -30,15 +34,15 @@ export default function Likes() {
       console.error(error);
     }
   };
-  /*   cartItems.length > 0 && cartItems.map((item) => console.log(item.folderName)); */
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setIsLoading(true);
-      fetchProductData();
+      fetchFolderData();
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, products]);
 
   return (
     <PaddingView>
