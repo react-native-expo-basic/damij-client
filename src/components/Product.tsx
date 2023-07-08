@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ProductType } from "../types/types";
 import styled from "styled-components/native";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { textPriceFontSize, textPriceName } from "../style";
 import LikeButton from "./LikeButton";
-
+import { Dimensions } from "react-native";
 interface ProductProps {
-  products?: ProductType[];
+  products: ProductType[];
 }
 
 interface ProductColorType {
@@ -14,39 +14,28 @@ interface ProductColorType {
 }
 
 export default function Product({ products }: ProductProps) {
-  const [productsData, setProductsData] = useState(products);
-
-  useEffect(() => {
-    setProductsData((prevProducts) => {
-      if (prevProducts === products) {
-        return prevProducts;
-      }
-      return products;
-    });
-  }, [products]);
+  const width = Dimensions.get("window").width / 2 - 20;
 
   return (
     <Wrapper>
-      {productsData?.map((product) => {
+      {products?.map((product) => {
         return (
-          <ProductCard key={product.product_name}>
+          <ProductCard key={product.id} width={width}>
             <ImageContainer>
-              <Img source={{ uri: product.image }} />
-              <LikeButton isLiked={product.isLiked} productId={product.id} />
+              <Img source={{ uri: product.img }} />
+              <LikeButton isSelected={product.picked} productId={product.id} />
             </ImageContainer>
             <ProductContainer>
               <FlexContainer>
-                {product.product_color?.map((color) => {
+                {product?.colorList?.map((color) => {
                   return <ProductColor key={color} color={color} />;
                 })}
               </FlexContainer>
 
               <ProductName numberOfLines={1} ellipsizeMode="tail">
-                {product.product_name}
+                {product.name}
               </ProductName>
-              <ProductPrice>
-                {product.product_price.toLocaleString()}
-              </ProductPrice>
+              <ProductPrice>{product.price}</ProductPrice>
             </ProductContainer>
           </ProductCard>
         );
@@ -60,10 +49,11 @@ const Wrapper = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  min-width: 51%;
 `;
 
 const ProductColor = styled.View<ProductColorType>`
-  background: ${(props) => props.color};
+  background-color: ${(props) => props.color};
   border-width: ${(props) => (props.color === "#fff" ? "1px" : 0)};
   border-color: #eaeaea;
   width: 10px;
@@ -81,7 +71,7 @@ const ImageContainer = styled.View`
 
 const Img = styled.Image`
   aspect-ratio: 1/1.3;
-  border-radius: 40px;
+  border-radius: 10px;
 `;
 
 const FlexContainer = styled.View`
@@ -90,8 +80,9 @@ const FlexContainer = styled.View`
   margin-bottom: -5px;
 `;
 
-const ProductCard = styled.View`
-  width: 48%;
+const ProductCard = styled.View<{ width: number }>`
+  max-width: ${(props) => props.width}px;
+  min-width: 49%;
 
   margin: 8px 0;
 `;
