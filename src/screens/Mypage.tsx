@@ -18,8 +18,8 @@ export default function Mypage() {
   useEffect(() => {
     const getToken = async () => {
       const isToken = await TokenService.get();
-      console.log("마이페이지 토큰", isToken);
-      if (isToken === null || isToken === undefined) {
+
+      if (isToken === null) {
         setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
