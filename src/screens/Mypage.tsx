@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
 import useModal from "../hooks/useModal";
-import { AuthStateType, logout } from "../redux/modules/auth";
+import { logout } from "../redux/modules/auth";
+import { AuthStateType } from "../types/types";
 import { useDispatch, useSelector } from "react-redux";
+import TokenService from "../services/TokenSerivce";
 
 interface authState {
   auth: AuthStateType;
@@ -13,9 +15,17 @@ export default function Mypage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const auth = useSelector((state: authState) => state.auth);
   const dispatch = useDispatch();
-
   useEffect(() => {
-    setIsLoggedIn(auth.isLogin);
+    const getToken = async () => {
+      const isToken = await TokenService.get();
+      console.log("마이페이지 토큰", isToken);
+      if (isToken === null || isToken === undefined) {
+        setIsLoggedIn(false);
+      } else {
+        setIsLoggedIn(true);
+      }
+    };
+    getToken();
   }, [auth]);
 
   const handleLogout = async () => {
