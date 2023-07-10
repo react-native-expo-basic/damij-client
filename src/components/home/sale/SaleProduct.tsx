@@ -17,29 +17,29 @@ interface Props {
 export default function SaleProduct({ product }: Props) {
   return (
     <Wrapper>
-      {product?.map((productItem) => {
-        const discountDateObject = new Date(productItem.discountDate);
+      {product.map((productItem) => {
+        const discountDateObject = new Date(productItem.discountDateEnd);
         const currentDate = new Date();
         const timeDifference =
           discountDateObject.getTime() - currentDate.getTime();
 
         return (
-          <ProductCard key={productItem.product_name}>
+          <ProductCard key={productItem.id}>
             <ImageContainer>
-              <Img source={{ uri: productItem.image }} />
+              <Img source={{ uri: productItem.img }} />
             </ImageContainer>
             <ProductContainer>
               <ProductName numberOfLines={1} ellipsizeMode="tail">
-                {productItem.product_name}
+                {productItem.name}
               </ProductName>
               <OriginalPrice>
-                {(productItem.product_price * productItem.discount_rate) / 100 +
-                  productItem.product_price}
+                {(productItem.price * productItem.discountRate) / 100 +
+                  productItem.price}
               </OriginalPrice>
               <FlexContainer>
-                <DiscountRate>{`${productItem.discount_rate}%`}</DiscountRate>
+                <DiscountRate>{`${productItem.discountRate}%`}</DiscountRate>
                 <ProductPrice>
-                  {productItem.product_price.toLocaleString()}
+                  {productItem.price.toLocaleString()}
                 </ProductPrice>
               </FlexContainer>
               <SaleTimer>{DiscountCountdown(timeDifference)}</SaleTimer>
