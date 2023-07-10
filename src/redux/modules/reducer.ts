@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
 import likes from "./likes";
-import modalState from "./modal";
+import modal from "./modal";
 import folder from "./folder";
+import auth from "./auth";
 const reducer = combineReducers({
   likes,
-  modal: modalState,
+  modal,
   folder,
+  auth,
 });
 
 export default reducer;
