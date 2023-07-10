@@ -1,12 +1,14 @@
 import React from "react";
 import { Modal, View } from "react-native";
 import LikeNotification from "../LikeNotification";
-import EditFolderModal from "../EditFolderModal";
 import LikeProductListModal from "../LikeProductListModal";
 import ConfirmModal from "../ConfirmModal";
 import FolderSelectionModal from "../selectionModal/FolderSelectionModal";
 import AlertModal from "../AlertModal";
-
+import Signup from "../signup/Signup";
+import SignIn from "../signin/SignIn";
+import FolderOptionsModal from "../FolderOptionsModal";
+import EditFolderModal from "../EditFolderModal";
 interface ModalComponentProps {
   modalType: string;
   props: any;
@@ -17,12 +19,15 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
   props,
 }) => {
   const MODAL_COMPONENTS: { [key: string]: JSX.Element } = {
-    alarm: <LikeNotification {...props} />,
+    alarm: <LikeNotification key={`${modalType}-${Date.now()}`} {...props} />,
     editFolder: <EditFolderModal {...props} />,
+    FolderOption: <FolderOptionsModal {...props} />,
     likeDetail: <LikeProductListModal {...props} />,
     confirm: <ConfirmModal {...props} />,
     handleFolder: <FolderSelectionModal {...props} />,
     alert: <AlertModal {...props} />,
+    signUp: <Signup {...props} />,
+    signIn: <SignIn {...props} />,
   };
 
   return <View>{MODAL_COMPONENTS[modalType]}</View>;
