@@ -8,33 +8,45 @@ import { uploadProductLikeData } from "../utils/productUtils";
 import { ProductType } from "../types/types";
 import { LikesProductType } from "../types/types";
 import TokenService from "../services/TokenSerivce";
+import { MainLikesState } from "../types/types";
 
 interface LikesBtnProps {
   isSelected: boolean;
   productId: number;
 }
 
+interface LikesStateType {
+  likes: { likes: { isLiked: boolean; productId: number | null } };
+}
 const LikeButton: React.FC<LikesBtnProps> = ({ isSelected, productId }) => {
   const { openModal } = useModal();
   const dispatch = useDispatch();
-  const [isLiked, setIsSelected] = useState(isSelected);
+  const likesState = useSelector((state: LikesStateType) => state.likes.likes);
+  const [isLiked, setIsLiked] = useState(isSelected);
+
   const toggleProductLikedStatus = async () => {
     const isToken = await TokenService.get();
 
-    if (isToken !== null) {
-      dispatch(toggleLike({ productId, isLiked }));
-      openModal("alarm", { isLiked, productId });
+    if (isToken === null) {
+      openModal("alert", {
+        message: "좋아요 버튼은 로그인을 하셔야 사용가능합니다.",
+      });
       return;
     }
-
-    openModal("alert", {
-      message: "좋아요 버튼은 로그인을 하셔야 사용가능합니다.",
-    });
+    dispatch(toggleLike({ productId, isLiked }));
+    openModal("alarm", { isLiked, productId });
   };
+
+  useEffect(() => {
+    if (productId === likesState.productId) {
+      setIsLiked(likesState.isLiked);
+      console.log(likesState.isLiked);
+    }
+  }, [likesState]);
 
   return (
     <LikesBtn
-      name={isSelected ? "heart-fill" : "heart"}
+      name={isLiked ? "heart-fill" : "heart"}
       isSelected={isLiked}
       size={24}
       onPress={toggleProductLikedStatus}
