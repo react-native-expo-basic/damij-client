@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { TouchableWithoutFeedback, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { textCountListColor } from "../../style";
 import useModal from "../../hooks/useModal";
-import EditFavoritFolderModal from "./EditFavoritFolderModal";
-import { ProductType } from "types/types";
 
 interface FolderInfoProps {
-  folderName: string;
-  length: number;
+  name: string;
+  folderCount: number;
+}
+
+interface IconOffsetType {
+  left: number;
+  top: number;
 }
 
 export default function FolderInfo({
@@ -17,30 +20,50 @@ export default function FolderInfo({
 }: {
   productInfo: FolderInfoProps;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const clickEditModalHandler = () => {
-    setIsModalOpen(true);
+  const [iconOffset, setIconOffset] = useState<IconOffsetType>({
+    left: 0,
+    top: 0,
+  });
+  const iconOffsetRef = useRef<View>(null);
+  const { openModal } = useModal();
+  const { name, folderCount } = productInfo;
+
+  const handleIconOffset = async () => {
+    if (iconOffsetRef.current) {
+      const { current } = iconOffsetRef;
+      current.measure((x, y, width, height, pageX, pageY) => {
+        // 아이콘의 offsetX와 Y 값을 계산하여 ref에 할당합니다
+        const offsetX = pageX + width / 2;
+        const offsetY = pageY + height / 2;
+        setIconOffset({ left: offsetX, top: offsetY });
+      });
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    if (iconOffset.left !== 0 || iconOffset.top !== 0) {
+      console.log(iconOffset);
+      openModal("FolderOption", {
+        folderName: name,
+        offsetX: iconOffset.left,
+        offsetY: iconOffset.top,
+      });
+    }
+  }, [iconOffset]);
 
   return (
     <FlexContainer>
       <View>
-        <FolderTitle>{productInfo.folderName}</FolderTitle>
-        <CountList>{`${productInfo.length}개`}</CountList>
+        <FolderTitle>{name}</FolderTitle>
+        <CountList>{`${folderCount}개`}</CountList>
       </View>
-      <EditContainer onPress={clickEditModalHandler}>
-        <Feather name="more-vertical" size={22} color="grey" />
-      </EditContainer>
-      {isModalOpen && (
-        <EditFavoritFolderModal
-          onClose={closeModal}
-          folderName={productInfo.folderName}
-        />
-      )}
+      {/*  {name !== "기본폴더" && ( */}
+      <TouchableWithoutFeedback onPress={handleIconOffset}>
+        <View ref={iconOffsetRef}>
+          <Feather name="more-vertical" size={22} color="grey" />
+        </View>
+      </TouchableWithoutFeedback>
+      {/*   )} */}
     </FlexContainer>
   );
 }
@@ -59,8 +82,4 @@ const FolderTitle = styled.Text`
 `;
 const CountList = styled.Text`
   color: ${textCountListColor};
-`;
-
-const EditContainer = styled.TouchableOpacity`
-  position: relative;
 `;
