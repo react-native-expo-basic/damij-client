@@ -13,6 +13,7 @@ export default function ImageContainer({ images }: ImageContainerProps) {
   return (
     <Container>
       {images && images.length >= 1 ? (
+        // 저장된 상품이 하나 일때 혹은 4개 이상일때 분류하여 ui적용
         <GridContainer>
           {images.length >= 4 ? (
             images.slice(0, 4).map((item) => (
@@ -54,14 +55,14 @@ const GridContainer = styled.View`
 `;
 
 const ImageWrapper = styled.View<ProductCountProps>`
-  flex-basis: ${(props) => (props.count === 4 ? "50%" : "100%")};
+  flex: ${(props) => (props.count === 4 ? "48%" : "100%")};
   aspect-ratio: 1;
+  margin: 0.5%;
 `;
 
 const ImgFile = styled.Image`
   flex-basis: 100%;
   flex: 1;
-  border-radius: 20px;
 `;
 
 const Container = styled.View`
