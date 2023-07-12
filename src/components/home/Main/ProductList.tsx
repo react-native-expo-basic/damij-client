@@ -6,6 +6,7 @@ import { fetchProductData } from "../../../api/productApi";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { useSelector } from "react-redux";
 import { MainLikesState, MainAuthState } from "../../../types/types";
+import { ProductFolderState } from "screens/Likes";
 
 export default function ProductList() {
   const [fetchData, setFetchData] = useState({
@@ -15,8 +16,9 @@ export default function ProductList() {
 
   const [loading, setLoading] = useState(true);
 
-  const likesState = useSelector((state: MainLikesState) => state.likes.likes);
-
+  const products = useSelector(
+    (state: ProductFolderState) => state.folder.products
+  );
   const authState = useSelector((state: MainAuthState) => state.auth);
 
   const fetchItems = useCallback(async () => {
@@ -29,13 +31,11 @@ export default function ProductList() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [products]);
 
   useEffect(() => {
     fetchItems();
-  }, [authState]);
-  // 좋아요 버튼을 눌렀을 떄 좋아요 상태 최신화
-  // 로그인 했을때 토큰 값이 존재할때 상품 좋아요 상태 최신화
+  }, [authState, products, fetchItems]);
 
   if (loading) {
     // 로딩 중일 때 표시할 내용
