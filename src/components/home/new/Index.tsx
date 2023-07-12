@@ -1,32 +1,52 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Category from "../../Category";
-import { filteredIsNew } from "../../../utils/productUtils";
-import { MainProps, DataType } from "../../../types/types";
+import { fetchProductData } from "../../../api/productApi";
+import { MainProps, ProductType } from "../../../types/types";
 import Product from "../../Product";
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
+import { ProductFolderState } from "../../../screens/Likes";
+import { useSelector } from "react-redux";
+import { LikesState } from "../../../types/types";
+import { filtetedProductData } from "../../../api/productApi";
 
 export default function Index({ productInfo }: MainProps) {
-  const newProducts = filteredIsNew(productInfo);
-  const data = [{ id: "category" }, { id: "product" }];
+  const [newItems, setNewItems] = useState<ProductType[]>([]);
+  const likesState = useSelector((state: LikesState) => state.likes);
 
-  const renderItem = ({ item }: { item: DataType }) => {
-    switch (item.id) {
-      case "category":
-        return <Category />;
-      case "product":
-        return <Product products={newProducts} />;
-      default:
-        return null;
+  const fetchItems = useCallback(async () => {
+    try {
+      const NewProducts = await fetchProductData("NewProduct");
+
+      setNewItems(NewProducts.NewProduct);
+    } catch (error) {
+      console.log(error);
     }
+  }, []);
+
+  const filteredItems = useCallback(async (category: string) => {
+    try {
+      const filteredItem = await filtetedProductData(category);
+      setNewItems(filteredItem[category]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const renderItem = ({ item }: { item: ProductType }) => {
+    return <Product products={[item]} />;
   };
 
   return (
     <PaddingView>
       <FlatList
-        data={data}
+        data={newItems}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={
+          <Category filteredItems={filteredItems} fetchItems={fetchItems} />
+        }
+        numColumns={2}
       />
     </PaddingView>
   );
