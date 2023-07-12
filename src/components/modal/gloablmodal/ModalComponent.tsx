@@ -8,7 +8,9 @@ import AlertModal from "../AlertModal";
 import Signup from "../signup/Signup";
 import SignIn from "../signin/SignIn";
 import FolderOptionsModal from "../FolderOptionsModal";
-import EditFolderModal from "../EditFolderModal";
+import EditFolderNameModal from "../EditFolderNameModal";
+import EditProfileModal from "../EditProfileModal";
+
 interface ModalComponentProps {
   modalType: string;
   props: any;
@@ -20,7 +22,8 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
 }) => {
   const MODAL_COMPONENTS: { [key: string]: JSX.Element } = {
     alarm: <LikeNotification key={`${modalType}-${Date.now()}`} {...props} />,
-    editFolder: <EditFolderModal {...props} />,
+    editFolder: <EditFolderNameModal {...props} />,
+    editProfile: <EditProfileModal {...props} />,
     FolderOption: <FolderOptionsModal {...props} />,
     likeDetail: <LikeProductListModal {...props} />,
     confirm: <ConfirmModal {...props} />,
