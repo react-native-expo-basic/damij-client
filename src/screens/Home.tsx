@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import Main from "../components/home/Main/Index";
+import Main from "../components/home/main/Index";
 import { useSelector } from "react-redux";
 import { View, Text, useWindowDimensions } from "react-native";
 import { TabBar, TabView, SceneMap } from "react-native-tab-view";
-import { LikesProductType } from "../types/types";
+
 import BestItems from "../components/home/best/Index";
 import NewItems from "../components/home/new/Index";
 import SaleItems from "../components/home/sale/Index";
@@ -16,15 +16,11 @@ interface TabTextProps {
   focused: boolean;
 }
 
-interface LikeState {
-  likes: { likes: LikesProductType };
-}
-
 export default function Home() {
   const layout = useWindowDimensions(); //TabView 컴포넌트에서 초기 레이아웃 설정을 위해서
   const [index, setIndex] = useState(0);
   const [productInfo, setProductInfo] = useState<ProductType[]>([]);
-  const likes = useSelector((state: LikeState) => state.likes);
+
   const [routes] = useState([
     { key: "home", title: "홈" },
     { key: "best", title: "BEST" },
@@ -32,22 +28,10 @@ export default function Home() {
     { key: "sale", title: "SALE" },
   ]);
 
-  const HomeCategory = useMemo(
-    () => <Main productInfo={productInfo} />,
-    [productInfo]
-  );
-  const BestItemsCategory = useMemo(
-    () => <BestItems productInfo={productInfo} />,
-    [productInfo]
-  );
-  const NewItemsCategory = useMemo(
-    () => <NewItems productInfo={productInfo} />,
-    [productInfo]
-  );
-  const SalesCategory = useMemo(
-    () => <SaleItems productInfo={productInfo} />,
-    [productInfo]
-  );
+  const HomeCategory = <Main />;
+  const BestItemsCategory = <BestItems />;
+  const NewItemsCategory = <NewItems productInfo={productInfo} />;
+  const SalesCategory = <SaleItems />;
 
   const renderScene = ({ route }: { route: { key: string } }) => {
     switch (route.key) {
@@ -63,35 +47,6 @@ export default function Home() {
         return null;
     }
   };
-
-  const fetchDataFromServer = async () => {
-    try {
-      const response = await fetchProductData();
-      setProductInfo(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchDataFromServer();
-  }, []);
-
-  useEffect(() => {
-    setProductInfo((prevProductInfo) => {
-      const updatedProductInfo = [...prevProductInfo];
-      const productIndex = updatedProductInfo.findIndex(
-        (product) => product.id === likes.likes.productId
-      );
-      if (productIndex !== -1) {
-        updatedProductInfo[productIndex] = {
-          ...updatedProductInfo[productIndex],
-          isLiked: likes.likes.isLiked,
-        };
-      }
-      return updatedProductInfo;
-    });
-  }, [likes]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
