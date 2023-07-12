@@ -16,15 +16,14 @@ export default function GlobalModal(): JSX.Element {
 
   return (
     <>
-      {modals.length > 0
-        ? modals.map((modal: any) => (
-            <ModalComponent
-              key={modal.modalType}
-              modalType={modal.modalType}
-              props={modal.props}
-            />
-          ))
-        : ""}
+      {modals.length > 0 &&
+        modals.map((modal: any, idx) => (
+          <ModalComponent
+            key={idx}
+            modalType={modal.modalType}
+            props={modal.props}
+          />
+        ))}
     </>
   );
 }
