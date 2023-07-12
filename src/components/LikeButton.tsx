@@ -9,20 +9,29 @@ import { ProductType } from "../types/types";
 import { LikesProductType } from "../types/types";
 import TokenService from "../services/TokenSerivce";
 import { MainLikesState } from "../types/types";
+import { ProductFolderState } from "../screens/Likes";
 
 interface LikesBtnProps {
   isSelected: boolean;
   productId: number;
 }
-
+interface LikesProductsList {
+  folder: { likesProducts: number[] };
+}
 interface LikesStateType {
   likes: { likes: { isLiked: boolean; productId: number | null } };
 }
 const LikeButton: React.FC<LikesBtnProps> = ({ isSelected, productId }) => {
   const { openModal } = useModal();
   const dispatch = useDispatch();
-  const likesState = useSelector((state: LikesStateType) => state.likes.likes);
+  const likeButtonState = useSelector(
+    (state: LikesStateType) => state.likes.likes
+  );
+
   const [isLiked, setIsLiked] = useState(isSelected);
+  const likedProducts = useSelector(
+    (state: LikesProductsList) => state.folder.likesProducts // 변경: products를 likesProducts로 변경
+  );
 
   const toggleProductLikedStatus = async () => {
     const isToken = await TokenService.get();
@@ -37,13 +46,19 @@ const LikeButton: React.FC<LikesBtnProps> = ({ isSelected, productId }) => {
     openModal("alarm", { isLiked, productId });
   };
 
+  // 좋아요 버튼을 눌렀을 때 로컬 버튼 상태변경
   useEffect(() => {
-    if (productId === likesState.productId) {
-      setIsLiked(likesState.isLiked);
-      console.log(likesState.isLiked);
+    if (productId === likeButtonState.productId) {
+      setIsLiked(likeButtonState.isLiked);
     }
-  }, [likesState]);
+  }, [likeButtonState]);
 
+  //찜 카테고리에서 삭제된 상품리스트들을 참고하여 로컬 좋아요 버튼 상태 변경
+  useEffect(() => {
+    if (likedProducts.includes(productId)) {
+      setIsLiked(false);
+    }
+  }, [likedProducts]);
   return (
     <LikesBtn
       name={isLiked ? "heart-fill" : "heart"}
