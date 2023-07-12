@@ -1,7 +1,7 @@
 import { Action } from "redux-actions";
 import { takeEvery, put, call, select } from "redux-saga/effects";
 import { LikesProductType } from "types/types";
-import { updateProductLikedStatus } from "../../utils/productUtils";
+import { updateProductLikedStatus } from "../../api/productApi";
 
 export interface AuthState {
   likes: LikesProductType;
@@ -69,16 +69,16 @@ function* likesSaga(action: LikesSagaAction) {
   try {
     yield put(pending());
     // 성공 액션 디스패치
+    yield call(updateProductLikedStatus, {
+      productId: action.payload.productId,
+      isLiked: !action.payload.isLiked,
+    });
     yield put(
       success({
         productId: action.payload.productId,
         isLiked: !action.payload.isLiked,
       })
     );
-    yield call(updateProductLikedStatus, {
-      productId: action.payload.productId,
-      isLiked: !action.payload.isLiked,
-    });
   } catch (error: any) {
     yield put(fail(error));
   }
