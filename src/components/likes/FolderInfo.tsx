@@ -24,11 +24,12 @@ export default function FolderInfo({
     left: 0,
     top: 0,
   });
+
   const iconOffsetRef = useRef<View>(null);
   const { openModal } = useModal();
   const { name, folderCount } = productInfo;
 
-  const handleIconOffset = async () => {
+  const handleIconOffset = useCallback(() => {
     if (iconOffsetRef.current) {
       const { current } = iconOffsetRef;
       current.measure((x, y, width, height, pageX, pageY) => {
@@ -38,11 +39,10 @@ export default function FolderInfo({
         setIconOffset({ left: offsetX, top: offsetY });
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (iconOffset.left !== 0 || iconOffset.top !== 0) {
-      console.log(iconOffset);
       openModal("FolderOption", {
         folderName: name,
         offsetX: iconOffset.left,
@@ -57,13 +57,13 @@ export default function FolderInfo({
         <FolderTitle>{name}</FolderTitle>
         <CountList>{`${folderCount}개`}</CountList>
       </View>
-      {/*  {name !== "기본폴더" && ( */}
-      <TouchableWithoutFeedback onPress={handleIconOffset}>
-        <View ref={iconOffsetRef}>
-          <Feather name="more-vertical" size={22} color="grey" />
-        </View>
-      </TouchableWithoutFeedback>
-      {/*   )} */}
+      {name !== "기본폴더" && (
+        <TouchableWithoutFeedback onPress={handleIconOffset}>
+          <View ref={iconOffsetRef}>
+            <Feather name="more-vertical" size={24} color="grey" />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
     </FlexContainer>
   );
 }
