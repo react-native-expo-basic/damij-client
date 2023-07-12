@@ -60,11 +60,18 @@ export interface LoginPayload {
 }
 export interface AuthStateType extends LoginPayload {
   isLogin: boolean;
-  error?: Error | null;
 }
 export interface MainLikesState {
   likes: { likes: LikesProductType };
 }
 export interface MainAuthState {
   auth: { auth: AuthStateType };
+}
+export interface AddFolderState {
+  folder: { originFolder: string };
+}
+
+//like
+export interface LikeModalProps {
+  folderName: string;
 }
