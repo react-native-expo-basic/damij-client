@@ -8,7 +8,8 @@ import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
 import { openFolder } from "../../redux/modules/folder";
 import { fetchLikeProductData } from "../../utils/productUtils";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import { deleteProductList } from "../../redux/modules/folder";
 import {
   textEditFolderColor,
   textEditFolderFontSize,
@@ -19,19 +20,24 @@ import {
 } from "../../style";
 import LoadingSpinner from "../LoadingSpinner";
 import { useDispatch } from "react-redux";
-
-interface LikeModalProps {
-  folderName: string;
-}
+import { LikeModalProps } from "../../types/types";
 
 export interface ProductItem {
-  product_name: string;
-  product_price: number;
-  image: string;
-  discount_rate: number;
+  name: string;
+  price: number;
+  img: string;
+  discountRate: number;
   id: number;
 }
+
+export interface ProductState {
+  folder: {
+    products: ProductItem[];
+  };
+}
+
 export default function LikeProductListModal({ folderName }: LikeModalProps) {
+  const products = useSelector((state: ProductState) => state.folder.products);
   const [isEditable, setIsEditable] = useState(false); // 편집 혹은 완료 버튼의 알림
   const [selectedItems, setSelectedItems] = useState<number[]>([]); // 클릭한 좋아요 상품 아이디를 저장
   const [productList, setProductList] = useState<ProductItem[]>([]); // 폴더 내에 있는 상품데이터들을 저장
@@ -44,6 +50,7 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
   const handlerFolderData = async () => {
     try {
       const response = await fetchLikeProductData(folderName);
+
       setIsLoading(false);
       setProductList(response);
     } catch (error) {
@@ -67,6 +74,7 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
   const handleLikeProducts = () => {
     if (!isEditable) {
       setSelectedItems([]);
+      dispatch(openFolder(productList));
       return setIsEditable(!isEditable);
     }
 
@@ -79,16 +87,13 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
       message: "선택하신 상품을 삭제하시겠습니까?",
       handler: async () => {
         try {
-          setIsEditable(!isEditable);
-          await axios.post("http://192.168.35.153:3000/edit", {
-            selectedItems,
-          });
-          handlerFolderData();
+          dispatch(deleteProductList(folderName, selectedItems));
         } catch (error) {
           console.log("선택하신 상품을 삭제하는 과정에서 오류가 발생했습니다.");
         }
       },
     });
+    setIsEditable(!isEditable);
   };
   //폴더 이동 버튼을 클릭했을 때
   const handleFolderButton = () => {
@@ -99,9 +104,12 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
   };
   useEffect(() => {
     handlerFolderData();
-    dispatch(openFolder(folderName));
     setIsLoading(true);
   }, []);
+
+  useEffect(() => {
+    setProductList(products);
+  }, [products]);
 
   const renderItem = ({ item }: { item: ProductItem }) => {
     return (
@@ -129,9 +137,13 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
           />
           <Title>{folderName}</Title>
         </FlexContainer>
-        <TouchableOpacity onPress={handleLikeProducts}>
-          <EditButtonText>{isEditable ? "완료" : "편집"}</EditButtonText>
-        </TouchableOpacity>
+        {isLoading ? (
+          <></>
+        ) : (
+          <TouchableOpacity onPress={handleLikeProducts}>
+            <EditButtonText>{isEditable ? "완료" : "편집"}</EditButtonText>
+          </TouchableOpacity>
+        )}
       </Header>
       <ProductContainer>
         {isLoading ? (
