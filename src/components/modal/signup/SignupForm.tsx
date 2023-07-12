@@ -8,7 +8,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Fontisto } from "@expo/vector-icons";
 import useModal from "../../../hooks/useModal";
-import SignupInput from "./SignupInput";
+import AuthFormInput from "../../AuthFormInput";
 
 export interface SignupFormValues {
   email: string;
@@ -54,11 +54,12 @@ export default function SignupForm({
         <CloseIconContainer onPress={() => closeModal("signUp")}>
           <AntDesign name="close" size={24} color="#a0a0a0" />
         </CloseIconContainer>
-        <TitleContainer>
-          <TitleText>회원가입</TitleText>
-        </TitleContainer>
+
         <SignupFormContainer>
-          <SignupInput
+          <TitleContainer>
+            <TitleText>회원가입</TitleText>
+          </TitleContainer>
+          <AuthFormInput
             name="email"
             control={control}
             keyboardType="email-address"
@@ -66,8 +67,8 @@ export default function SignupForm({
             errors={errors}
           >
             <Fontisto name="email" size={18} color="#a0a0a0" />
-          </SignupInput>
-          <SignupInput
+          </AuthFormInput>
+          <AuthFormInput
             name="password"
             control={control}
             secureTextEntry={true}
@@ -75,8 +76,8 @@ export default function SignupForm({
             errors={errors}
           >
             <Fontisto name="locked" size={18} color="grey" />
-          </SignupInput>
-          <SignupInput
+          </AuthFormInput>
+          <AuthFormInput
             name="passwordConfirm"
             control={control}
             secureTextEntry={true}
@@ -84,7 +85,10 @@ export default function SignupForm({
             errors={errors}
           >
             <Fontisto name="locked" size={18} color="grey" />
-          </SignupInput>
+          </AuthFormInput>
+          <ErrorContainer>
+            <ErrorMessage>{errorMessage}</ErrorMessage>
+          </ErrorContainer>
           <ButtonContainer onPress={handleSubmit(handleSignup)}>
             <ButtonField>회원가입 하기</ButtonField>
           </ButtonContainer>
@@ -96,15 +100,13 @@ export default function SignupForm({
 
 const Wrapper = styled.View`
   flex: 1;
+  padding: 30px 20px;
   background: white;
 `;
-const SignupFormContainer = styled.View`
-  padding: 30px 20px;
-  flex: 1;
-`;
+const SignupFormContainer = styled.View``;
 const CloseIconContainer = styled.TouchableOpacity`
   width: 100%;
-  padding: 20px 20px 0;
+
   display: flex;
   align-items: flex-end;
 `;
@@ -113,20 +115,16 @@ const TitleContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom-width: 3px;
-  border-bottom-color: #f1f1f1;
-  border-bottom-style: solid;
   box-sizing: border-box;
 `;
 const TitleText = styled.Text`
-  font-size: 30px;
+  font-size: 25px;
   font-family: "Noto-Sans-Bold";
   margin-bottom: -5px;
 `;
 
 const ButtonContainer = styled.TouchableOpacity`
   background-color: #2c2b2b;
-
   padding: 15px 20px;
   width: 100%;
   border-radius: 3px;
@@ -137,4 +135,13 @@ const ButtonContainer = styled.TouchableOpacity`
 const ButtonField = styled.Text`
   font-size: 15px;
   color: white;
+`;
+const ErrorContainer = styled.View`
+  width: 100%;
+  text-align: center;
+`;
+const ErrorMessage = styled.Text`
+  margin-left: 10px;
+  font-size: 12px;
+  color: #c84040;
 `;
