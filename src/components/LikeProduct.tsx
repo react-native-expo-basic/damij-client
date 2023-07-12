@@ -12,7 +12,7 @@ import {
   selectedLikeButtonColor,
 } from "../style";
 
-interface LikeProductProps {
+export interface LikeProductProps {
   props: ProductItem;
   selectedItems: number[];
   isEditable: boolean;
@@ -25,13 +25,13 @@ export default function LikeProduct({
   toggleChecked,
   isEditable,
 }: LikeProductProps) {
-  const { product_name, image, product_price, discount_rate, id } = props;
+  const { name, img, price, discountRate, id } = props;
   const checkedItem = selectedItems.includes(id);
 
   return (
     <Wrapper activeOpacity={1} onPress={() => toggleChecked(id)}>
       <ImgContainer>
-        <Img source={{ uri: image }} resizeMode="cover" />
+        <Img source={{ uri: img }} resizeMode="cover" />
       </ImgContainer>
 
       {isEditable && (
@@ -48,14 +48,14 @@ export default function LikeProduct({
         </SelectButtonContainer>
       )}
       <ProductName numberOfLines={1} ellipsizeMode="tail">
-        {product_name}
+        {name}
       </ProductName>
       <PriceContainer>
-        {discount_rate > 0 ? (
-          <DiscountRate>{`${discount_rate}%`}</DiscountRate>
+        {discountRate > 0 ? (
+          <DiscountRate>{`${discountRate}%`}</DiscountRate>
         ) : null}
 
-        <ProductPrice>{product_price}</ProductPrice>
+        <ProductPrice>{price}</ProductPrice>
       </PriceContainer>
     </Wrapper>
   );
