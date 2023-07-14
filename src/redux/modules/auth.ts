@@ -70,7 +70,7 @@ function* loginSaga(action: Action<string>) {
     const decodedToken = jwtDecode<LoginPayload>(action.payload);
     const { nickname, email } = decodedToken; // 토큰에서 사용자 정보 분류
 
-    yield call(TokenService.set, action.payload); // AsyncStorage에 토큰 저장
+    yield call(TokenService.setToken, "user", action.payload); // AsyncStorage에 토큰 저장
     const payload: LoginPayload = {
       token: action.payload,
       nickname,
@@ -83,7 +83,7 @@ function* loginSaga(action: Action<string>) {
 }
 function* logoutSaga() {
   try {
-    yield call(TokenService.remove); // AsyncStorage에 토큰 삭제
+    yield call(TokenService.removeToken, "user"); // AsyncStorage에 토큰 삭제
     yield put(logoutSuccess()); // 리듀서에 유저 정보 초기화
   } catch (error: any) {
     yield put(fail(error));
