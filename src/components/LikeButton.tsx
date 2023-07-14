@@ -4,7 +4,6 @@ import { Octicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLike } from "../redux/modules/likes";
 import useModal from "../hooks/useModal";
-import TokenService from "../services/TokenSerivce";
 
 interface LikesBtnProps {
   isSelected: boolean;
