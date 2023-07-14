@@ -54,12 +54,6 @@ function* deleteProductSaga(action: DeleteFolderSaga) {
   try {
     yield put(pending());
     const { products } = yield select((state) => state.folder);
-    console.log(
-      products,
-      "기존상품들",
-      action.payload.productIdList,
-      "클릭된 상품리스트들"
-    );
     const filteredProducts = products.filter((product: ProductItem) => {
       return !action.payload.productIdList.includes(product.id); // 필터링된 상품들을 반환
     });
