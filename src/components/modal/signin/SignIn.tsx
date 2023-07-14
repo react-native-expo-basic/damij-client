@@ -5,7 +5,7 @@ import { signin } from "../../../redux/modules/auth";
 import { useDispatch } from "react-redux";
 import SignInForm from "./SignInForm";
 import { SigninReqType } from "../../../types/types";
-import { instance } from "../../../api/api";
+import { authInstance } from "../../../api/api";
 import useModal from "../../../hooks/useModal";
 
 export default function Login() {
@@ -24,7 +24,7 @@ export default function Login() {
 
   const handleSignin = async (data: SigninReqType) => {
     try {
-      const response = await instance.post("api/users/login", {
+      const response = await authInstance.post("api/users/login", {
         email: data.email,
         password: data.password,
       });
