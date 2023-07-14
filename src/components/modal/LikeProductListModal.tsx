@@ -6,10 +6,10 @@ import LikeProduct from "../../components/LikeProduct";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
-import { openFolder } from "../../redux/modules/folder";
-import { fetchLikeProductData } from "../../utils/productUtils";
+import { openFolder } from "../../redux/modules/folderActions";
+import { fetchLikeProductData } from "../../api/productApi";
 import { useSelector } from "react-redux";
-import { deleteProductList } from "../../redux/modules/folder";
+import { deleteProductList } from "../../redux/modules/folderActions";
 import {
   textEditFolderColor,
   textEditFolderFontSize,
@@ -100,6 +100,7 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
     openModal("handleFolder", {
       title: "폴더 선택",
       productsId: selectedItems,
+      originFolder: folderName,
     });
   };
   useEffect(() => {
@@ -160,7 +161,7 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
           />
         )}
       </ProductContainer>
-      {isEditable ? (
+      {isEditable && (
         <EditTabBar>
           <EditButtonContainer
             onPress={handleFolderButton}
@@ -185,8 +186,6 @@ export default function LikeProductListModal({ folderName }: LikeModalProps) {
             <EditSecionText isClickable={isClickable}>삭제</EditSecionText>
           </EditButtonContainer>
         </EditTabBar>
-      ) : (
-        ""
       )}
     </Modal>
   );
