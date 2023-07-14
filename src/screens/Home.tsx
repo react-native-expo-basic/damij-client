@@ -1,14 +1,13 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Main from "../components/home/main/Index";
-import { useSelector } from "react-redux";
-import { View, Text, useWindowDimensions } from "react-native";
-import { TabBar, TabView, SceneMap } from "react-native-tab-view";
-
+import TokenService from "../services/TokenSerivce";
+import { View, useWindowDimensions } from "react-native";
+import { fetchGuestToken } from "../api/userApi";
+import { TabBar, TabView } from "react-native-tab-view";
 import BestItems from "../components/home/best/Index";
 import NewItems from "../components/home/new/Index";
 import SaleItems from "../components/home/sale/Index";
 import styled from "styled-components/native";
-import { fetchProductData } from "../utils/productUtils";
 import { ProductType } from "../types/types";
 import { viewDisableColor } from "../style";
 
@@ -19,8 +18,21 @@ interface TabTextProps {
 export default function Home() {
   const layout = useWindowDimensions(); //TabView 컴포넌트에서 초기 레이아웃 설정을 위해서
   const [index, setIndex] = useState(0);
-  const [productInfo, setProductInfo] = useState<ProductType[]>([]);
+  useEffect(() => {
+    const initializeApp = async () => {
+      // 비회원 토큰이 이미 저장되어 있는지 확인
+      const token = await TokenService.get();
+      if (!token) {
+        // 비회원 토큰이 저장되어 있지 않으면 발급받고 AsyncStorage에 저장
+        const guestToken = await fetchGuestToken();
+        if (guestToken) {
+          await TokenService.set(guestToken);
+        }
+      }
+    };
 
+    initializeApp();
+  }, []);
   const [routes] = useState([
     { key: "home", title: "홈" },
     { key: "best", title: "BEST" },
@@ -30,7 +42,7 @@ export default function Home() {
 
   const HomeCategory = <Main />;
   const BestItemsCategory = <BestItems />;
-  const NewItemsCategory = <NewItems productInfo={productInfo} />;
+  const NewItemsCategory = <NewItems />;
   const SalesCategory = <SaleItems />;
 
   const renderScene = ({ route }: { route: { key: string } }) => {
