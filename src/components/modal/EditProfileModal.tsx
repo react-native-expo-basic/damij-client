@@ -11,7 +11,13 @@ import useModal from "../../hooks/useModal";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/modules/auth";
 
-export default function EditProfileModal(folderName: string) {
+interface EditProfileModalProps {
+  folderName: string;
+}
+
+export default function EditProfileModal({
+  folderName,
+}: EditProfileModalProps) {
   const { closeModal } = useModal();
   const handleCloseEvent = () => {
     closeModal("editProfile");
