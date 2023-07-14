@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
-import { deleteFolder } from "../../redux/modules/folder";
+import { deleteFolder } from "../../redux/modules/folderActions";
 import { useDispatch } from "react-redux";
 
 interface EditFavoritFolderModalProps {
