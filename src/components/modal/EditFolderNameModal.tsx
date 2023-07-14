@@ -12,7 +12,7 @@ import styled from "styled-components/native";
 import { AntDesign } from "@expo/vector-icons";
 import useModal from "../../hooks/useModal";
 import Input from "../Input";
-import { addFolder } from "../../redux/modules/folder";
+import { addFolder } from "../../redux/modules/folderActions";
 import { useDispatch, useSelector } from "react-redux";
 import { AddFolderState } from "../../types/types";
 
