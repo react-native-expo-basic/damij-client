@@ -4,22 +4,31 @@ import styled from "styled-components/native";
 import { LikesFolderType } from "../../../screens/Likes";
 import { borderFolderModalColor } from "../../../style";
 import { useDispatch } from "react-redux";
-import { changeFolder } from "../../../redux/modules/folder";
+import { changeFolder } from "../../../redux/modules/folderActions";
 import useModal from "../../../hooks/useModal";
 
 interface FolderPreviewProps {
   item: LikesFolderType;
-  productId: number[];
+  productIdList: number[];
+  isLastItem: boolean;
+  originName: string;
 }
 
-export default function FolderPreview({ item, productId }: FolderPreviewProps) {
+export default function FolderPreview({
+  item,
+  productIdList,
+  isLastItem,
+  originName,
+}: FolderPreviewProps) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const handleChangeFolder = (folderName: string) => {
+
+  const handleChangeFolder = (changeName: string) => {
     dispatch(
       changeFolder({
-        products: productId,
-        changeFolder: folderName,
+        productIdList,
+        changeName,
+        originName,
       })
     );
     closeModal("handleFolder");
@@ -28,24 +37,37 @@ export default function FolderPreview({ item, productId }: FolderPreviewProps) {
   return (
     <Wrapper
       activeOpacity={1}
-      onPress={() => handleChangeFolder(item.productInfo.folderName)}
+      onPress={() => handleChangeFolder(item.name)}
+      isLastItem={isLastItem}
     >
       <ImgContainer>
-        <Img source={{ uri: item.image[0] }} resizeMode="cover" />
+        {item.imgList[0] ? (
+          <Img source={{ uri: item.imgList[0] }} resizeMode="cover" />
+        ) : (
+          <Img
+            source={{
+              uri: "https://contents.lotteon.com/itemimage/_v180423/LO/15/98/39/13/69/_1/59/83/91/37/1/LO1598391369_1598391371_1.jpg/dims/optimize/dims/resizemc/400x400",
+            }}
+            resizeMode="cover"
+          />
+        )}
       </ImgContainer>
+
       <FolderInfo>
-        <FolderName>{item.productInfo.folderName}</FolderName>
+        <FolderName>{item.name}</FolderName>
       </FolderInfo>
     </Wrapper>
   );
 }
-const Wrapper = styled.TouchableOpacity`
+const Wrapper = styled.TouchableOpacity<{ isLastItem: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 10px 0;
-  border-color: ${borderFolderModalColor};
-  border-top-width: 1px;
+
+  border-color: ${(props) =>
+    props.isLastItem ? "transparent" : borderFolderModalColor};
+  border-bottom-width: 1px;
 `;
 const ImgContainer = styled.View`
   aspect-ratio: 1/1.2;
