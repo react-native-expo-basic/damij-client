@@ -24,9 +24,7 @@ export const closeModal = (modalType: string) => ({
   payload: { modalType, isOpen: false },
 });
 // 초기 상태 정의
-/*  modalType: "",
-  isOpen: false,
-  props: {}, */
+
 const initialState: ModalState = {
   modals: [],
 };
