@@ -1,6 +1,11 @@
 import axios from "axios";
 import { authInstance } from "./api";
 import useModal from "../hooks/useModal";
+import {
+  ChangeFoldersType,
+  DeleteProductType,
+} from "../redux/modules/folderTypes";
+
 export async function AddFolder(inputValue: string) {
   try {
     const response = await authInstance.post(
@@ -26,23 +31,32 @@ export const handleDeleteFolder = async (folderName: string) => {
   }
 };
 
-export const handleDeleteProducts = async (
-  choiceName: string,
-  productIdList: number[]
-) => {
+export const handleDeleteProducts = async ({
+  choiceName,
+  productIdList,
+}: DeleteProductType) => {
   try {
-    console.log(
-      {
-        choiceName,
-        productIdList,
-      },
-      "상품 삭제 함수"
-    );
     await authInstance.post(`/api/my/deletepick`, {
       choiceName,
       productIdList,
     });
   } catch (error) {
     console.log("폴더 상품들을 삭제하는 도중 오류가 발생했습니다.", error);
+  }
+};
+
+export const handleChangeProducts = async ({
+  originName,
+  changeName,
+  productIdList,
+}: ChangeFoldersType) => {
+  try {
+    const response = await authInstance.post("/api/my/editpick", {
+      originName,
+      changeName,
+      productIdList,
+    });
+  } catch (error) {
+    console.log("폴더 상품을 이동하는 도중 오류가 발생했습니다.", error);
   }
 };
