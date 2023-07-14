@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { LikesState } from "../../../types/types";
 import { filtetedProductData } from "../../../api/productApi";
 
-export default function Index({ productInfo }: MainProps) {
+export default function Index() {
   const [newItems, setNewItems] = useState<ProductType[]>([]);
   const likesState = useSelector((state: LikesState) => state.likes);
 
@@ -31,6 +31,10 @@ export default function Index({ productInfo }: MainProps) {
     } catch (error) {
       console.log(error);
     }
+  }, []);
+
+  useEffect(() => {
+    fetchItems();
   }, []);
 
   const renderItem = ({ item }: { item: ProductType }) => {
