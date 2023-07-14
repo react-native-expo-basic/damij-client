@@ -28,7 +28,6 @@ export default function FolderOptionsModal({
       useNativeDriver: true,
     }).start();
   };
-  console.log(folderName);
   useEffect(() => {
     fadeIn();
     return () => {
