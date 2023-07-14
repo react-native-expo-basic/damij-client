@@ -29,14 +29,6 @@ const LikeButton: React.FC<LikesBtnProps> = ({ isSelected, productId }) => {
   );
 
   const toggleProductLikedStatus = async () => {
-    const isToken = await TokenService.get();
-
-    if (isToken === null) {
-      openModal("alert", {
-        message: "좋아요 버튼은 로그인을 하셔야 사용가능합니다.",
-      });
-      return;
-    }
     dispatch(toggleLike({ productId, isLiked }));
     openModal("alarm", { isLiked, productId });
   };
