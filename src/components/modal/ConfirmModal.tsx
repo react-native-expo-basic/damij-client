@@ -22,8 +22,6 @@ export default function ConfirmModal({ message, handler }: ConrifmModalProps) {
   const handleDeleteEvent = () => {
     try {
       closeModal("confirm");
-
-      console.log("confirm 모달 ");
       handler();
     } catch (error) {
       console.log("상품을 삭제하는 도중에 알 수 없는 오류가 발생했습니다.");
