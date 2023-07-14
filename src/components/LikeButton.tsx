@@ -4,12 +4,7 @@ import { Octicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLike } from "../redux/modules/likes";
 import useModal from "../hooks/useModal";
-import { uploadProductLikeData } from "../utils/productUtils";
-import { ProductType } from "../types/types";
-import { LikesProductType } from "../types/types";
 import TokenService from "../services/TokenSerivce";
-import { MainLikesState } from "../types/types";
-import { ProductFolderState } from "../screens/Likes";
 
 interface LikesBtnProps {
   isSelected: boolean;
@@ -71,10 +66,10 @@ const LikeButton: React.FC<LikesBtnProps> = ({ isSelected, productId }) => {
 
 export default LikeButton;
 
-const LikesBtn = styled(Octicons)<{ isLiked: boolean }>`
+const LikesBtn = styled(Octicons)<{ isSelected: boolean }>`
   position: absolute;
   bottom: 8px;
   right: 8px;
   font-size: 18px;
-  color: ${(props) => (props.isLiked ? "#ff5a5a" : "white")};
+  color: ${(props) => (props.isSelected ? "#ff5a5a" : "white")};
 `;
