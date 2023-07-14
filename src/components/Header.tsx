@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 
 export default function Header() {
