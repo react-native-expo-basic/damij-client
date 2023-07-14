@@ -8,7 +8,7 @@ import { fetchLikeFolderData } from "../api/productApi";
 import { loadingSpinnerColor } from "../style";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useDispatch, useSelector } from "react-redux";
-import { addFolderList } from "../redux/modules/folder";
+import { addFolderList } from "../redux/modules/folderActions";
 import { ProductItem } from "../components/modal/LikeProductListModal";
 import { LikesState } from "../types/types";
 
@@ -21,7 +21,7 @@ export interface ProductFolderState {
   folder: {
     filteredProducts: ProductItem[];
     originFolder: LikesFolderType[];
-    products: ProductItem;
+    products: ProductItem[];
   };
 }
 
@@ -31,48 +31,35 @@ export default function Likes() {
   const dispatch = useDispatch();
   const originfolder = useSelector(
     (state: ProductFolderState) => state.folder.originFolder
-  );
+  ); // 새폴더 추가
   const products = useSelector(
     (state: ProductFolderState) => state.folder.products
   );
   const likesState = useSelector((state: LikesState) => state.likes.likes);
-  const fetchFolderData = async () => {
+
+  const fetchFolderData = useCallback(async () => {
     try {
       const response = await fetchLikeFolderData();
       setCartItems(response.MyPickList);
+      dispatch(addFolderList(response.MyPickList));
       setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const saveFolderList = useCallback(() => {
-    if (cartItems) {
-      dispatch(addFolderList(cartItems));
-    }
-  }, [cartItems]);
+  }, [products]);
 
   const handleFilteredFolder = useCallback(() => {
     setCartItems(originfolder);
   }, [originfolder]);
 
-  // 렌더링시 서버데이터 받아서 적용
   useEffect(() => {
     setIsLoading(true);
     fetchFolderData();
   }, [likesState, products]);
 
-  // 새폴더를 만들 었을 때 데이터 최신화 및 ui적용
   useEffect(() => {
     handleFilteredFolder();
   }, [originfolder]);
-
-  // 서버에서 데이터를 받아왔을 때 스토어에 상품 리스트를 상태로 저장
-  useEffect(() => {
-    if (cartItems.length > 0) {
-      saveFolderList();
-    }
-  }, [cartItems]);
 
   return (
     <PaddingView>
