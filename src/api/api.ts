@@ -7,8 +7,7 @@ export const authInstance = axios.create({
 authInstance.interceptors.request.use(async (config) => {
   let tokenType: "user" | "guest";
 
-  // 로직을 추가하여 토큰 타입을 결정
-  // 예: 비회원 토큰이 있는지 확인 후, 없으면 회원 토큰을 사용
+  // 회원의 토큰이 있는지 확인하고 없으면 게스트 토큰을 사용
   const userToken = await TokenService.getToken("user");
   if (userToken) {
     tokenType = "user";
