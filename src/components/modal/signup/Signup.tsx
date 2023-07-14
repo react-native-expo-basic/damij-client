@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert } from "react-native";
 import SignupForm from "./SignupForm";
 import { SignupReqType } from "../../../types/types";
-import instance from "../../../api/api";
+import { authInstance } from "../../../api/api";
 import useModal from "../../../hooks/useModal";
 
 export default function Signup() {
@@ -10,9 +10,7 @@ export default function Signup() {
   const { closeModal } = useModal();
   const handleSubmitSignup = async (data: SignupReqType) => {
     try {
-      (document.activeElement as HTMLElement)?.blur();
       await handleSignup(data);
-
       Alert.alert("회원가입이 완료 되었습니다.");
       closeModal("signUp");
     } catch (error) {
@@ -23,7 +21,7 @@ export default function Signup() {
 
   const handleSignup = async (data: SignupReqType) => {
     try {
-      const response = await instance.post("api/users/signUp", {
+      const response = await authInstance.post("api/users/signUp", {
         email: data.email,
         password: data.password,
       });
