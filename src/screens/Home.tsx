@@ -21,12 +21,14 @@ export default function Home() {
   useEffect(() => {
     const initializeApp = async () => {
       // 비회원 토큰이 이미 저장되어 있는지 확인
-      const token = await TokenService.get();
-      if (!token) {
-        // 비회원 토큰이 저장되어 있지 않으면 발급받고 AsyncStorage에 저장
+      const guestToken = await TokenService.getToken("guest");
+      const userToken = await TokenService.getToken("user");
+
+      if (!guestToken && !userToken) {
+        // 토큰이 저장되어 있지 않으면 비회원 토큰으로 발급받고 AsyncStorage에 저장
         const guestToken = await fetchGuestToken();
         if (guestToken) {
-          await TokenService.set(guestToken);
+          await TokenService.setToken("guest", guestToken);
         }
       }
     };
