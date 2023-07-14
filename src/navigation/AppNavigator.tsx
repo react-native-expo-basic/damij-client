@@ -7,7 +7,8 @@ import Home from "../screens/Home";
 import Category from "../screens/Category";
 import Likes from "../screens/Likes";
 import Mypage from "../screens/Mypage";
-import GlobalModal from "../components/modal/GlobalModal";
+import GlobalModal from "../components/modal/gloablmodal/GlobalModal";
+import { tabViewSelectColor } from "../style";
 
 const Tab = createBottomTabNavigator();
 
@@ -40,12 +41,12 @@ const Main = () => {
               iconName = focused ? "person-sharp" : "person-outline";
             }
 
-            const iconColor = focused ? "#ff5a5a" : "grey";
+            const iconColor = focused ? tabViewSelectColor : "grey";
 
             return <Ionicons name={iconName} size={size} color={iconColor} />;
           },
           tabBarLabel: ({ focused }) => {
-            const labelColor = focused ? "#ff5a5a" : "grey";
+            const labelColor = focused ? tabViewSelectColor : "grey";
 
             return (
               <Text style={{ color: labelColor, fontSize: 12 }}>
