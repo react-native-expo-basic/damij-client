@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TouchableWithoutFeedback, FlatList } from "react-native";
 import { Modal, View, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { fetchLikeFolderData } from "../../../utils/productUtils";
+import { fetchLikeFolderData } from "../../../api/productApi";
 import styled from "styled-components/native";
 import FolderPreview from "./FolderPreview";
 import { textEditFolderFontSize } from "../../../style";
@@ -10,28 +10,27 @@ import { LikesFolderType } from "../../../screens/Likes";
 import useModal from "../../../hooks/useModal";
 
 interface FolderItemsType {
-  image: string[];
-  productInfo: {
-    folderName: string;
-    length: number;
-  };
+  title: string;
+  productsId: number[];
+  originFolder: string;
+}
+interface FolderPreviewType {
+  item: LikesFolderType;
+  index: number;
 }
 
 export default function FolderSelectionModal({
   title,
   productsId,
-}: {
-  title: string;
-  productsId: number[];
-}) {
-  const [folderItems, setFolderItems] = useState<FolderItemsType[]>([]);
+  originFolder,
+}: FolderItemsType) {
+  const [folderItems, setFolderItems] = useState<LikesFolderType[]>([]);
   const { closeModal } = useModal();
-  console.log(folderItems);
+
   const fetchFolderData = async () => {
     try {
-      // api 수정 예정
       const response = await fetchLikeFolderData();
-      setFolderItems(response);
+      setFolderItems(response.MyPickList);
     } catch (error) {
       console.error(error);
     }
@@ -39,25 +38,28 @@ export default function FolderSelectionModal({
   const handleCloseModal = () => {
     closeModal("handleFolder");
   };
-  const handleContainerPress = (e: TouchEvent) => {
-    e.stopPropagation();
-  };
 
   useEffect(() => {
     fetchFolderData();
   }, []);
 
-  const renderItem = ({ item }: { item: LikesFolderType }) => {
-    return <FolderPreview item={item} productId={productsId} />;
+  const renderItem = ({ item, index }: FolderPreviewType) => {
+    const isLastItem = index === folderItems.length - 1; // 마지막 요소 여부 확인
+    return (
+      <FolderPreview
+        item={item}
+        productIdList={productsId}
+        isLastItem={isLastItem}
+        originName={originFolder}
+      />
+    );
   };
+
   return (
     <Modal transparent onRequestClose={handleCloseModal}>
       <TouchableWithoutFeedback onPress={handleCloseModal}>
         <ModalBackground>
-          <ModalContainer
-            onPress={() => handleContainerPress}
-            activeOpacity={1}
-          >
+          <ModalContainer activeOpacity={1}>
             <Header>
               <TitleField>{title}</TitleField>
               <Close name="close" size={20} color="black" />
@@ -65,7 +67,7 @@ export default function FolderSelectionModal({
             <Content>
               <FlatList
                 data={folderItems}
-                keyExtractor={(item) => item.productInfo.folderName}
+                keyExtractor={(item) => item.name}
                 renderItem={renderItem}
               />
             </Content>
@@ -75,6 +77,7 @@ export default function FolderSelectionModal({
     </Modal>
   );
 }
+
 const ModalContainer = styled.TouchableOpacity`
   flex: 0.5;
   background: white;
