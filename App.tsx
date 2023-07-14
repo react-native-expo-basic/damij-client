@@ -5,7 +5,7 @@ import * as Font from "expo-font";
 import Header from "./src/components/Header";
 import create from "./src/redux/modules/create";
 import { Provider } from "react-redux";
-import GlobalModal from "./src/components/modal/GlobalModal";
+import GlobalModal from "./src/components/modal/gloablmodal/GlobalModal";
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
