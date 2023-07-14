@@ -2,18 +2,23 @@ import { ProductItem } from "components/modal/LikeProductListModal";
 import { LikesFolderType } from "../../screens/Likes";
 
 export interface ChangeFoldersType {
-  productsId: number[];
-  changeFolder: string;
+  productIdList: number[];
+  changeName: string;
+  originName: string;
 }
 export interface DeleteProductType {
   choiceName: string;
-  productId: number[];
+  productIdList: number[];
 }
 export interface DeleteFolderSaga {
   type: string;
   payload: DeleteProductType;
 }
 export interface FolderSagaAction {
+  type: string;
+  payload: ChangeFoldersType;
+}
+export interface ChangeFoldersSaga {
   type: string;
   payload: ChangeFoldersType;
 }
