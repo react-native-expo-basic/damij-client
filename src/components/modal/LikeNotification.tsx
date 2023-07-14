@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text, Animated, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import useModal from "../../hooks/useModal";
+import { alertModalColor } from "../../style";
 
 interface LikeNotificationProps {
   isLiked: boolean;
@@ -69,7 +70,7 @@ const LikesView = styled(Animated.View)`
   border-radius: 10px;
   bottom: 0;
   transform: translateX(-50px);
-  background: rgba(28, 29, 51, 0.8);
+  background: ${alertModalColor};
   width: 80%;
 `;
 
