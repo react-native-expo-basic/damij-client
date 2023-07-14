@@ -3,7 +3,7 @@ import { KeyboardTypeOptions, TextInput } from "react-native";
 import styled from "styled-components/native";
 
 interface TextInputType {
-  value: string;
+  value?: string;
   placeholder: string;
   onChange: (text: string) => void;
   name?: string;
