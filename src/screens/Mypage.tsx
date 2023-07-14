@@ -36,8 +36,8 @@ export default function Mypage() {
   });
 
   const getToken = async () => {
-    const isToken = await TokenService.get();
-    console.log(isToken, "현재토큰");
+    const isToken = await TokenService.getToken("user");
+
     if (isToken === null) {
       setIsLoggedIn(false);
     } else {
