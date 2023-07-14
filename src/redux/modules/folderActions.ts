@@ -34,9 +34,12 @@ export const deleteFolder = (inputValue: string) => ({
   type: DELETE_FOLDER,
   payload: { inputValue },
 });
-export const deleteProductList = (choiceName: string, productId: number[]) => ({
+export const deleteProductList = (
+  choiceName: string,
+  productIdList: number[]
+) => ({
   type: DELETE_PRODUCTS,
-  payload: { choiceName, productId },
+  payload: { choiceName, productIdList },
 });
 export const openFolder = (products: ProductItem[]) => ({
   type: ADD_PRODUCT_LIST,
@@ -61,6 +64,7 @@ export const success_addFolder = (inputValue: string) => ({
   type: SUCCESS_ADD,
   payload: inputValue,
 });
+
 export const success_deleteFolder = (inputValue: string) => ({
   type: SUCCESS_DELETE_FOLDER,
   payload: inputValue,
