@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFolderList } from "../redux/modules/folderActions";
 import { ProductItem } from "../components/modal/LikeProductListModal";
 import { LikesState } from "../types/types";
+import { MainAuthState } from "../types/types";
 
 export interface LikesFolderType {
   folderCount: number;
@@ -31,10 +32,11 @@ export default function Likes() {
   const dispatch = useDispatch();
   const originfolder = useSelector(
     (state: ProductFolderState) => state.folder.originFolder
-  ); // 새폴더 추가
+  );
   const products = useSelector(
     (state: ProductFolderState) => state.folder.products
   );
+  const authState = useSelector((state: MainAuthState) => state.auth);
   const likesState = useSelector((state: LikesState) => state.likes.likes);
 
   const fetchFolderData = useCallback(async () => {
@@ -55,11 +57,11 @@ export default function Likes() {
   useEffect(() => {
     setIsLoading(true);
     fetchFolderData();
-  }, [likesState, products]);
+  }, [likesState, products, authState]); // 전체 폴더리스트 가지고 올 때 >> 내부 폴더 상품리스트, 토큰, 좋아요 상태 변화시 적용
 
   useEffect(() => {
     handleFilteredFolder();
-  }, [originfolder]);
+  }, [originfolder]); // 새폴더 추가했을 때 전체 폴더 리스트 가지고 옴
 
   return (
     <PaddingView>
