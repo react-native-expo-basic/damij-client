@@ -11,6 +11,7 @@ authInstance.interceptors.request.use(async (config) => {
   const userToken = await TokenService.getToken("user");
   if (userToken) {
     tokenType = "user";
+    await TokenService.checkTokenExpiration(userToken);
   } else {
     tokenType = "guest";
   }
