@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import useModal from "../hooks/useModal";
-
 import { AuthStateType } from "../types/types";
 import { useSelector } from "react-redux";
 import TokenService from "../services/TokenSerivce";
@@ -9,21 +8,14 @@ import styled from "styled-components/native";
 import { borderFolderModalColor } from "../style";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { textDisableColor } from "../style";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
-import { LoginPayload } from "../types/types";
-import { textCountListColor, viewDisableColor } from "../style";
+import { textCountListColor } from "../style";
+import { authType } from "../types/types";
 
 interface authState {
   auth: AuthStateType;
 }
-interface authType {
-  email: string;
-  error: string;
-  isLogin: boolean;
-  nickname: string;
-  token: string;
-}
+
 export default function Mypage() {
   const { openModal } = useModal();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,6 +34,7 @@ export default function Mypage() {
       setIsLoggedIn(false);
     } else {
       setIsLoggedIn(true);
+
       const decodedToken = jwtDecode<authType>(isToken);
       setUserInfo({
         email: decodedToken.email,
@@ -128,7 +121,7 @@ const LoginMessage = styled.View<{ isLogin: boolean }>`
   justify-content: center;
 `;
 const UserName = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
 `;
 const LoginMainText = styled.Text`
   font-size: 20px;
@@ -141,7 +134,7 @@ const LoginSubText = styled.Text`
   margin-top: 5px;
 `;
 const LoginBtn = styled.Text`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   text-align: center;
 `;
@@ -165,7 +158,7 @@ const CategoryTitle = styled.Text`
   margin-bottom: 10px;
 `;
 const Subtitle = styled.Text`
-  font-size: 20px;
+  font-size: 18px;
 `;
 const ImageList = styled.View`
   display: flex;
