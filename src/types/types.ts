@@ -52,7 +52,13 @@ export interface ButtonType<T = any> {
 export interface LikesState {
   likes: { likes: LikesProductType };
 }
-
+export interface authType {
+  email: string;
+  error: string;
+  isLogin: boolean;
+  nickname: string;
+  token: string;
+}
 export interface LoginPayload {
   token: string;
   nickname: string;
