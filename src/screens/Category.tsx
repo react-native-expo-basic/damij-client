@@ -1,62 +1,58 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import CategoryMenu from "../components/category/CategoryMenu";
+import React, { useState, useCallback, useEffect } from "react";
+import { FlatList } from "react-native";
 import styled from "styled-components/native";
-import SubCategory from "../components/category/SubCategory";
+import CategoryMenu from "../components/category/CategoryMenu";
+import { authInstance } from "../api/api";
+import CategoryList from "../components/category/CategoryList";
 
-const categoryList = [
-  { categoryTitle: "상의", categoryName: "topWear" },
-  { categoryTitle: "하의", categoryName: "bottomWear" },
-  { categoryTitle: "원피스", categoryName: "dress" },
-];
-
-export default function Category() {
-  const [subCategoryList, setSubCategoryList] = useState([]);
-  const [currentCategoryData, setCurrentCategoryData] = useState("");
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.categoryList}>
-          {categoryList.map((category) => (
-            <CategoryMenu
-              key={category.categoryName}
-              categoryTitle={category.categoryTitle}
-              categoryName={category.categoryName}
-              setSubCategoryList={setSubCategoryList}
-              setCurrentCategoryData={setCurrentCategoryData}
-              currentCategoryData={currentCategoryData}
-              isFocus={category.categoryTitle === currentCategoryData}
-            />
-          ))}
-        </View>
-
-        <View style={styles.subCategoryList}>
-          <FlatList
-            data={subCategoryList}
-            renderItem={({ item }) => <SubCategory subCategoryTitle={item} />}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={4}
-            contentContainerStyle={styles.subCategoryListContent}
-          />
-        </View>
-      </View>
-    </View>
-  );
+export interface fetchCategoryType {
+  [key: string]: {
+    [key: string]: string;
+  };
 }
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    paddingTop: 30,
-  },
-  categoryList: {},
-  subCategoryList: {
-    flexDirection: "row",
-  },
-  subCategoryListContent: {},
-});
+export default function Category() {
+  const [categoryList, setCateogryList] = useState<fetchCategoryType[]>([]);
+  const [offset, setOffset] = useState(0);
+
+  const filteredItems = useCallback(async () => {
+    try {
+      const response = await authInstance.get("/api/product/categorylist");
+      const data: fetchCategoryType = response.data;
+
+      // 데이터를 배열로 변환하여 setCategoryList에 저장
+      const categoryArray: fetchCategoryType[] = [];
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const categoryData = data[key];
+          categoryArray.push({ [key]: categoryData });
+        }
+      }
+      setCateogryList(categoryArray);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    filteredItems();
+  }, []);
+
+  return (
+    <Wrapper>
+      <CategoryMenu setOffset={setOffset} />
+      <FlatList
+        data={categoryList}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <CategoryList item={item} />}
+      />
+    </Wrapper>
+  );
+}
+const Wrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  background-color: #fdfdfd;
+  flex: 1;
+`;
