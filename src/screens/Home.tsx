@@ -8,7 +8,6 @@ import BestItems from "../components/home/best/Index";
 import NewItems from "../components/home/new/Index";
 import SaleItems from "../components/home/sale/Index";
 import styled from "styled-components/native";
-import { ProductType } from "../types/types";
 import { viewDisableColor } from "../style";
 
 interface TabTextProps {
@@ -18,23 +17,6 @@ interface TabTextProps {
 export default function Home() {
   const layout = useWindowDimensions(); //TabView 컴포넌트에서 초기 레이아웃 설정을 위해서
   const [index, setIndex] = useState(0);
-  useEffect(() => {
-    const initializeApp = async () => {
-      // 비회원 토큰이 이미 저장되어 있는지 확인
-      const guestToken = await TokenService.getToken("guest");
-      const userToken = await TokenService.getToken("user");
-
-      if (!guestToken && !userToken) {
-        // 토큰이 저장되어 있지 않으면 비회원 토큰으로 발급받고 AsyncStorage에 저장
-        const guestToken = await fetchGuestToken();
-        if (guestToken) {
-          await TokenService.setToken("guest", guestToken);
-        }
-      }
-    };
-
-    initializeApp();
-  }, []);
   const [routes] = useState([
     { key: "home", title: "홈" },
     { key: "best", title: "BEST" },
