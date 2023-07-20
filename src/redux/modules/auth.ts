@@ -48,7 +48,7 @@ const authState = (state = initialState, action: Action<AuthStateType>) => {
         ...state,
         isLogin: true,
         nickname: action.payload.nickname,
-        token: action.payload.token,
+        auth: action.payload.auth,
         email: action.payload.email,
       };
     case LOG_OUT_SUCCESS:
@@ -68,14 +68,15 @@ const authState = (state = initialState, action: Action<AuthStateType>) => {
 function* loginSaga(action: Action<string>) {
   try {
     const decodedToken = jwtDecode<LoginPayload>(action.payload);
-    const { nickname, email } = decodedToken; // 토큰에서 사용자 정보 분류
+    const { nickname, email, auth } = decodedToken; // 토큰에서 사용자 정보 분류
 
     yield call(TokenService.setToken, "user", action.payload); // AsyncStorage에 토큰 저장
     const payload: LoginPayload = {
-      token: action.payload,
+      auth: auth,
       nickname,
       email,
     };
+
     yield put(signinSuccess(payload)); // 리듀서에 유저 정보 저장
   } catch (error: any) {
     yield put(fail(error));
