@@ -17,9 +17,8 @@ export default function SubCategories({ category }: SubCategoryType) {
     jacekt: "자켓",
   };
   return (
-    <Wrapper>
+    <>
       {Object.entries(category).map(([category, image], idx) => {
-        console.log(image);
         return (
           <Container key={idx}>
             <CategoryImage source={{ uri: image.trim() }} />
@@ -27,22 +26,29 @@ export default function SubCategories({ category }: SubCategoryType) {
           </Container>
         );
       })}
-    </Wrapper>
+    </>
   );
 }
-const Wrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
+
 const Container = styled.View`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 5px;
+  width: 31%;
+  margin: 3% 1.5%;
+  border-radius: 50px;
+  aspect-ratio: 1/1;
+  background: white;
+  border-width: 1px;
+  padding: 3px;
+  border-color: #d9d9d92f;
 `;
 const CategoryImage = styled.Image`
-  width: 60px;
-  height: 60px;
+  width: 60%;
+  aspect-ratio: 1/1;
   border-radius: 50px;
+  margin-bottom: 7px;
 `;
 const CategoryText = styled.Text``;
