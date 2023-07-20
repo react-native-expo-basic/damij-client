@@ -31,6 +31,10 @@ const LikeButton: React.FC<LikesBtnProps> = ({ isSelected, productId }) => {
     dispatch(toggleLike({ productId, isLiked }));
     openModal("alarm", { isLiked, productId });
   };
+  // 로그인, 로그아웃 시 토큰 변환에 따른 데이터 최신화
+  useEffect(() => {
+    setIsLiked(isSelected);
+  }, [isSelected]);
 
   // 좋아요 버튼을 눌렀을 때 로컬 버튼 상태변경
   useEffect(() => {
