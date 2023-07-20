@@ -60,19 +60,23 @@ export interface authType {
   token: string;
 }
 export interface LoginPayload {
-  token: string;
+  auth: string;
   nickname: string;
   email: string;
 }
 export interface AuthStateType extends LoginPayload {
+  auth: string;
+  email: string;
+  nickname: string;
   isLogin: boolean;
 }
 export interface MainLikesState {
   likes: { likes: LikesProductType };
 }
 export interface MainAuthState {
-  auth: { auth: AuthStateType };
+  auth: AuthStateType;
 }
+
 export interface AddFolderState {
   folder: { originFolder: string };
 }
