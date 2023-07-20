@@ -31,11 +31,11 @@ export default function ProductList() {
     } catch (error) {
       console.log(error);
     }
-  }, [products]);
+  }, []);
 
   useEffect(() => {
     fetchItems();
-  }, [authState, products, fetchItems]);
+  }, [products, fetchItems, authState]);
 
   if (loading) {
     // 로딩 중일 때 표시할 내용
