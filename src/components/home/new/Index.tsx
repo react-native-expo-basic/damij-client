@@ -1,19 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Category from "../../Category";
+import CategoryComponent from "../../CategoryComponent";
 import { fetchProductData } from "../../../api/productApi";
-import { MainProps, ProductType } from "../../../types/types";
+import { ProductType } from "../../../types/types";
 import Product from "../../Product";
 import styled from "styled-components/native";
 import { FlatList, View } from "react-native";
-import { ProductFolderState } from "../../../screens/Likes";
+import { viewDisableColor } from "../../../style";
 import { useSelector } from "react-redux";
-import { LikesState } from "../../../types/types";
+import { MainAuthState } from "../../../types/types";
 import { filtetedProductData } from "../../../api/productApi";
 
 export default function Index() {
   const [newItems, setNewItems] = useState<ProductType[]>([]);
-  const likesState = useSelector((state: LikesState) => state.likes);
-
+  const authState = useSelector((state: MainAuthState) => state.auth);
   const fetchItems = useCallback(async () => {
     try {
       const NewProducts = await fetchProductData("NewProduct");
@@ -35,7 +34,7 @@ export default function Index() {
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [authState]);
 
   const renderItem = ({ item }: { item: ProductType }) => {
     return <Product products={[item]} />;
@@ -48,7 +47,13 @@ export default function Index() {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
-          <Category filteredItems={filteredItems} fetchItems={fetchItems} />
+          <CategoryContainer>
+            <CategoryComponent
+              filteredItems={filteredItems}
+              fetchItems={fetchItems}
+              background={viewDisableColor}
+            />
+          </CategoryContainer>
         }
         numColumns={2}
       />
@@ -60,4 +65,14 @@ const PaddingView = styled.View`
   padding: 7px 15px 0;
   box-sizing: border-box;
   position: relative;
+`;
+const CategoryContainer = styled.View`
+  height: 48px;
+  padding: 2px 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: ${viewDisableColor};
 `;
