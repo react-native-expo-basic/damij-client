@@ -62,7 +62,12 @@ export default function FolderSelectionModal({
           <ModalContainer activeOpacity={1}>
             <Header>
               <TitleField>{title}</TitleField>
-              <Close name="close" size={20} color="black" />
+              <Close
+                name="close"
+                size={20}
+                color="black"
+                onPress={handleCloseModal}
+              />
             </Header>
             <Content>
               <FlatList
