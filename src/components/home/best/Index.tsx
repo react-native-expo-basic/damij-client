@@ -1,23 +1,21 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Category from "../../Category";
 import { fetchProductData } from "../../../api/productApi";
-import { MainProps, ProductType } from "../../../types/types";
+import { ProductType } from "../../../types/types";
 import Product from "../../Product";
 import styled from "styled-components/native";
 import { FlatList, View } from "react-native";
-import { MainLikesState, MainAuthState } from "../../../types/types";
+import { MainAuthState } from "../../../types/types";
 import { useSelector } from "react-redux";
-import { LikesState } from "../../../types/types";
 import { filtetedProductData } from "../../../api/productApi";
+import CategoryComponent from "../../CategoryComponent";
 
 export default function Index() {
-  const data = [{ id: "category" }, { id: "product" }];
   const [bestItems, setBestItems] = useState<ProductType[]>([]);
-  const likesState = useSelector((state: MainLikesState) => state.likes);
   const authState = useSelector((state: MainAuthState) => state.auth);
   const fetchItems = useCallback(async () => {
     try {
       const popularProducts = await fetchProductData("BestProduct");
+
       setBestItems(popularProducts.BestProduct);
     } catch (error) {
       console.log(error);
@@ -48,7 +46,10 @@ export default function Index() {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
-          <Category filteredItems={filteredItems} fetchItems={fetchItems} />
+          <CategoryComponent
+            filteredItems={filteredItems}
+            fetchItems={fetchItems}
+          />
         }
         numColumns={2}
       />
