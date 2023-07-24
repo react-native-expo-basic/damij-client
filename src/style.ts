@@ -17,6 +17,7 @@ export const textEditFolderFontSize = "17px";
 export const textHeaderTitleSize = "21px";
 export const textLikeProductsSize = "16px";
 export const textConfirmContentSize = "16px";
+export const textCategoryTitleSize = "17px";
 export const tabViewSelectColor = MAIN_COLOR;
 export const editButtonColor = DISABLED_COLOR2;
 export const textProductColor = SECONDARY_TEXT_COLOR;
